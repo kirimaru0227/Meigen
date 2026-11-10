@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="{% if request.endpoint == 'timetable_page' %}width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no{% else %}width=device-width, initial-scale=1{% endif %}">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="{{ url_for('static', filename='icons/windows-tile-150.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+  <!-- サイト共通アイコン（ブラウザのタブ・ブックマーク） -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="{{ url_for('static', filename='site-icon.png') }}"
+  >
+
+  <!-- iPhone/iPadで「ホーム画面に追加」したときだけ別の画像を使用 -->
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="{{ url_for('static', filename='apple-touch-icon.png') }}"
+  >
+
+  <title>{% block title %}迷言{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20261108-settings-wrap-v3">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/static/sw.js').catch((error) => {
+          console.warn('Service Worker registration failed:', error);
+        });
+      });
+    }
+  </script>
+  <style>
+    /* テーマ切り替えアイコンをボタンの中央に配置 */
+    #themeToggle { display: inline-flex; align-items: center; justify-content: center; }
+    #themeToggle #themeIcon { display: block; flex: 0 0 auto; margin: 0 auto; object-fit: contain; }
+    .admin-login-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border: 1px solid rgba(34, 197, 94, .35);
+      border-radius: 999px;
+      background: rgba(34, 197, 94, .10);
+      color: #15803d;
+      font-size: .78rem;
+      font-weight: 700;
+      white-space: nowrap;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .admin-login-indicator:hover {
+      background: rgba(34, 197, 94, .18);
+      border-color: rgba(34, 197, 94, .55);
+    }
+    .admin-login-indicator::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      flex: 0 0 auto;
+    }
+    [data-theme="dark"] .admin-login-indicator {
+      color: #86efac;
+      border-color: rgba(134, 239, 172, .3);
+      background: rgba(34, 197, 94, .13);
+    }
+    @media (max-width: 520px) {
+      .admin-login-indicator { padding: 5px 7px; font-size: .68rem; gap: 4px; }
+      .brand.admin-logged-in-brand > span { display: none; }
+    }
+  </style>
+</head>
+
+<body
+  data-weather-place="{{ weather_place|default('sano') }}"
+  data-appearance="{{ appearance|default('system') }}"
+  data-analytics-page="{{ analytics_current_page|default('不明') }}"
+>
+  <header class="topbar">
+    <a class="brand{% if session.get('recording_admin_authenticated') %} admin-logged-in-brand{% endif %}" href="{{ url_for('home') }}">
+      <img
+        class="brand-mark custom-icon"
+        src="{{ url_for('static', filename='icons/home-top.png') }}"
+        alt=""
+      >
+      <span>迷言</span>
+    </a>
+
+    <div class="top-actions">
+      {% if session.get('recording_admin_authenticated') %}
+        <a class="admin-login-indicator" href="{{ url_for('admin_dashboard') }}" aria-label="管理者ページを開く" title="管理者ページを開く">ログイン中</a>
+      {% endif %}
+      <a
+        class="operation-top-link"
+        id="operationTopLink"
+        href="{{ url_for('operation_page') }}"
+        aria-label="運行情報"
+      >
+        <img
+          class="operation-top-icon custom-icon"
+          src="{{ url_for('static', filename='icons/operation.png') }}"
+          alt=""
+        >
+        <span class="operation-top-label">
+          {{ railway_label|default('運行情報') }}
+        </span>
+        <span id="operationStatusText" class="operation-status-text">
+          取得中…
+        </span>
+      </a>
+<a
+        class="settings-top-link"
+        href="{{ url_for('settings') }}"
+        aria-label="設定"
+        title="設定"
+      >
+        <img
+          class="custom-icon header-settings-icon"
+          src="{{ url_for('static', filename='icons/settings.png') }}"
+          alt=""
+        >
+      </a>
+
+      <button
+        class="icon-button"
+        id="themeToggle"
+        aria-label="テーマ切り替え"
+        title="ライト・ダーク切り替え"
+      >
+        <img
+          id="themeIcon"
+          class="theme-icon"
+          src="{{ url_for('static', filename='icons/theme-dark.png') }}"
+          alt=""
+        >
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <section aria-live="polite" style="margin:0 0 12px;">
+          {% for category, message in messages %}
+            <div style="padding:10px 12px;margin:6px 0;border-radius:10px;background:rgba(127,127,127,.14);">{{ message }}</div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <nav class="bottom-nav" aria-label="メインメニュー">
+    <a
+      class="nav-item"
+      data-nav-key="home"
+      href="{{ url_for('home') }}"
+    >
+      <img class="nav-icon custom-icon" src="" alt="">
+      <span>ホーム</span>
+    </a>
+
+    <a
+      class="nav-item"
+      data-nav-key="operation"
+      href="{{ url_for('operation_page') }}"
+    >
+      <img class="nav-icon custom-icon" src="" alt="">
+      <span>時刻表</span>
+    </a>
+
+    <a
+      class="nav-item"
+      data-nav-key="calendar"
+      href="{{ url_for('calendar_page') }}"
+    >
+      <img class="nav-icon custom-icon" src="" alt="">
+      <span>カレンダー</span>
+    </a>
+
+    <a
+      class="nav-item"
+      data-nav-key="schedule"
+      href="{{ url_for('schedule') }}"
+    >
+      <img class="nav-icon custom-icon" src="" alt="">
+      <span>時間割</span>
+    </a>
+
+    <a
+      class="nav-item"
+      data-nav-key="more"
+      href="{{ url_for('more_page') }}"
+    >
+      <img class="nav-icon custom-icon" src="" alt="">
+      <span>その他</span>
+    </a>
+  </nav>
+
+  <script>
+    /* ホーム画面に追加したiPhoneアプリとして開いている場合だけ識別 */
+    (function () {
+      const isStandalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.navigator.standalone === true;
+
+      if (isStandalone) {
+        document.body.classList.add('app-standalone');
+      }
+    })();
+  </script>
+  <!-- 運行情報ページ読み込み中のオーバーレイ -->
+  <div id="operationLoadingOverlay" class="operation-loading-overlay" aria-hidden="true" role="status" aria-live="polite">
+    <div class="operation-loading-content">
+      <span class="operation-loading-spinner" aria-hidden="true"></span>
+      <p class="operation-loading-title">運行情報を読み込んでいます</p>
+      <p class="operation-loading-caption">しばらくお待ちください…</p>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const overlay = document.getElementById('operationLoadingOverlay');
+      if (!overlay) return;
+
+      const operationPath = new URL("{{ url_for('operation_page') }}", location.href).pathname;
+      let showing = false;
+
+      function showOperationLoading() {
+        if (showing) return;
+        showing = true;
+        overlay.classList.add('is-visible');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('operation-loading-active');
+      }
+
+      document.addEventListener('click', (event) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const link = event.target.closest('a[href]');
+        if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+        let destination;
+        try { destination = new URL(link.href, location.href); } catch (_) { return; }
+        if (destination.origin !== location.origin || destination.pathname !== operationPath) return;
+        showOperationLoading();
+      }, true);
+
+      // ブラウザの戻る操作でページが復元された場合に表示を解除
+      window.addEventListener('pageshow', () => {
+        showing = false;
+        overlay.classList.remove('is-visible');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('operation-loading-active');
+      });
+    })();
+  </script>
+  <script>
+    /* ボタン操作の集計（管理者ログイン中はサーバー側でも除外） */
+    (() => {
+      const page = document.body.dataset.analyticsPage || '不明';
+      document.addEventListener('click', (event) => {
+        const target = event.target instanceof Element ? event.target : event.target.parentElement;
+        const control = target && target.closest('button, input[type="button"], input[type="submit"], [role="button"]');
+        if (!control || control.disabled || control.dataset.analyticsIgnore === 'true') return;
+        const label = (
+          control.getAttribute('aria-label') ||
+          control.getAttribute('title') ||
+          control.innerText ||
+          control.value ||
+          control.textContent ||
+          '名称未設定'
+        ).replace(/\s+/g, ' ').trim().slice(0, 120);
+        fetch('/api/analytics/click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page, button: label || '名称未設定' }),
+          keepalive: true
+        }).catch(() => {});
+      }, true);
+    })();
+  </script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

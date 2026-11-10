@@ -1,0 +1,647 @@
+
+{% extends "base.html" %}
+{% block title %}迷言｜電卓{% endblock %}
+
+{% block content %}
+<script>document.documentElement.classList.add("calculator-page-mode");</script>
+
+<style>
+.calculator-page-mode .calculator-shell,
+.calculator-page-mode .calculator-keys,
+.calculator-page-mode .calc-key {
+  touch-action: manipulation;
+}
+
+.calculator-page-mode .calc-key {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.calc-key svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  vertical-align: middle;
+}
+
+/* タイトル行 */
+.calculator-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calculator-heading > div:first-child {
+  min-width: 0;
+}
+
+.calculator-history-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.calculator-history-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* スマートフォンでは「電卓」タイトルと履歴ボタンを左右に配置 */
+@media (max-width: 600px) {
+  html.calculator-page-mode body .page:has(.calculator-heading) .calculator-heading {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    text-align: left !important;
+  }
+
+  html.calculator-page-mode body .page:has(.calculator-heading) .calculator-heading > div:first-child {
+    width: auto !important;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  html.calculator-page-mode body .page:has(.calculator-heading) .calculator-heading h1 {
+    width: auto !important;
+  }
+
+  html.calculator-page-mode .calculator-history-button {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+}
+
+/* 履歴一覧ページ */
+.calculator-history-page {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.calculator-history-page .calculator-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calculator-history-item {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.calculator-history-item:active {
+  opacity: 0.7;
+}
+
+.calculator-history-date {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.calculator-history-expression {
+  display: block;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.calculator-history-result {
+  display: block;
+  margin-top: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.calculator-history-empty {
+  padding: 24px 8px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 14px;
+}
+
+.calculator-history-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.calculator-history-actions a,
+.calculator-history-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.calculator-history-clear {
+  color: #d9534f;
+}
+
+@media (max-width: 480px) {
+  .calculator-history-page {
+    padding: 12px;
+  }
+}
+
+body.dark .calculator-history-button,
+body.dark .calculator-history-page,
+body.dark .calculator-history-clear {
+  border-color: var(--border);
+  background-color: var(--surface);
+  color: var(--text);
+}
+body.dark .calculator-history-item {
+  border-color: var(--border);
+  background-color: var(--surface-2);
+  color: var(--text);
+}
+body.dark .calculator-history-date,
+body.dark .calculator-history-empty {
+  color: var(--muted);
+}
+body.dark .calculator-history-clear {
+  color: #ff8580;
+}
+</style>
+
+<section class="welcome-row calculator-heading">
+  <div>
+    <h1>電卓</h1>
+    <p class="calculator-subtitle">シンプルな計算電卓</p>
+  </div>
+
+  <a
+    class="calculator-history-button"
+    href="{{ url_for('calculator_history_page') }}"
+  >
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/>
+      <path d="M3 3v5h5"/>
+      <path d="M12 7v5l3 2"/>
+    </svg>
+    履歴
+  </a>
+</section>
+
+<section class="calculator-shell" aria-label="電卓">
+  <div class="calculator-display" aria-live="polite">
+    <div id="calculatorExpression" class="calculator-expression"></div>
+    <output id="calculatorResult" class="calculator-result">0</output>
+  </div>
+
+  <div class="calculator-keys" id="calculatorKeys">
+
+    <button type="button" class="calc-key calc-function"
+            data-action="clear">AC</button>
+
+    <button type="button" class="calc-key calc-function"
+            data-action="backspace" aria-label="1文字削除">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 4H20V20H9L2 12L9 4Z"/>
+        <path d="M12 9L17 15M17 9L12 15"/>
+      </svg>
+    </button>
+
+    <button type="button" class="calc-key calc-function"
+            data-value="%">%</button>
+    <button type="button" class="calc-key calc-operator"
+            data-value="÷">÷</button>
+
+    <button type="button" class="calc-key" data-value="7">7</button>
+    <button type="button" class="calc-key" data-value="8">8</button>
+    <button type="button" class="calc-key" data-value="9">9</button>
+    <button type="button" class="calc-key calc-operator"
+            data-value="×">×</button>
+
+    <button type="button" class="calc-key" data-value="4">4</button>
+    <button type="button" class="calc-key" data-value="5">5</button>
+    <button type="button" class="calc-key" data-value="6">6</button>
+    <button type="button" class="calc-key calc-operator"
+            data-value="−">−</button>
+
+    <button type="button" class="calc-key" data-value="1">1</button>
+    <button type="button" class="calc-key" data-value="2">2</button>
+    <button type="button" class="calc-key" data-value="3">3</button>
+    <button type="button" class="calc-key calc-operator"
+            data-value="+">+</button>
+
+    <button type="button" class="calc-key calc-function"
+            data-action="sign">+/−</button>
+    <button type="button" class="calc-key" data-value="0">0</button>
+    <button type="button" class="calc-key" data-value=".">.</button>
+    <button type="button" class="calc-key calc-equals"
+            data-action="equals">=</button>
+  </div>
+</section>
+
+<a class="unit-converter-fab"
+   href="{{ url_for('unit_converter_page') }}"
+   aria-label="単位変換へ">
+  <img id="unitConverterIcon"
+       src="{{ url_for('static', filename='icons/light/unit-converter.png') }}"
+       alt="">
+  <span>単位変換</span>
+</a>
+
+<script>
+(() => {
+  const expressionEl = document.getElementById('calculatorExpression');
+  const resultEl = document.getElementById('calculatorResult');
+  const keys = document.getElementById('calculatorKeys');
+
+  const HISTORY_KEY = 'myHomeCalculatorHistory';
+  const MAX_HISTORY = 100;
+
+  let expression = '';
+  let justCalculated = false;
+
+  // -------------------------
+  // 履歴の読み込み・保存
+  // -------------------------
+
+  function loadHistory() {
+    try {
+      const data = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      return Array.isArray(data) ? data : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function saveHistory(history) {
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    } catch (error) {
+      console.error('履歴を保存できませんでした', error);
+    }
+  }
+
+  // 日付を YYYY/MM/DD HH:mm 形式にする
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}/${month}/${day} ${hour}:${minute}`;
+  }
+
+  // 履歴に追加
+  function addHistory(originalExpression, value) {
+    const history = loadHistory();
+
+    history.unshift({
+      expression: originalExpression,
+      result: String(Number(value.toPrecision(12))),
+      date: Date.now()
+    });
+
+    saveHistory(history.slice(0, MAX_HISTORY));
+  }
+
+  // -------------------------
+  // 計算処理
+  // -------------------------
+
+  function tokenize(source) {
+    const normalized = source
+      .replace(/×/g, '*')
+      .replace(/÷/g, '/')
+      .replace(/−/g, '-');
+
+    const tokens = normalized.match(/(?:\d+\.?\d*|\.\d+)|[+\-*/()%]/g) || [];
+
+    if (tokens.join('') !== normalized.replace(/\s/g, '')) {
+      throw new Error('invalid');
+    }
+
+    return tokens;
+  }
+
+  function calculate(source) {
+    const tokens = tokenize(source);
+    let pos = 0;
+
+    function primary() {
+      const token = tokens[pos++];
+
+      if (token === '+' || token === '-') {
+        const value = primary();
+        return token === '-' ? -value : value;
+      }
+
+      if (token === '(') {
+        const value = addSub();
+
+        if (tokens[pos++] !== ')') {
+          throw new Error('括弧');
+        }
+
+        return value;
+      }
+
+      if (token === undefined || !/^\d*\.?\d+$/.test(token)) {
+        throw new Error('数値');
+      }
+
+      return Number(token);
+    }
+
+    function percent() {
+      let value = primary();
+
+      while (tokens[pos] === '%') {
+        pos++;
+        value /= 100;
+      }
+
+      return value;
+    }
+
+    function mulDiv() {
+      let value = percent();
+
+      while (tokens[pos] === '*' || tokens[pos] === '/') {
+        const op = tokens[pos++];
+        const right = percent();
+
+        value = op === '*' ? value * right : value / right;
+      }
+
+      return value;
+    }
+
+    function addSub() {
+      let value = mulDiv();
+
+      while (tokens[pos] === '+' || tokens[pos] === '-') {
+        const op = tokens[pos++];
+        const right = mulDiv();
+
+        value = op === '+' ? value + right : value - right;
+      }
+
+      return value;
+    }
+
+    if (!tokens.length) return 0;
+
+    const value = addSub();
+
+    if (pos !== tokens.length || !Number.isFinite(value)) {
+      throw new Error('計算できません');
+    }
+
+    return value;
+  }
+
+  function format(value) {
+    if (!Number.isFinite(value)) return 'エラー';
+
+    return Number(value.toPrecision(12)).toLocaleString('ja-JP', {
+      maximumFractionDigits: 10
+    });
+  }
+
+  // 計算中は数式だけを表示
+  function update() {
+    expressionEl.textContent = expression;
+
+    if (!expression) {
+      resultEl.textContent = '0';
+      return;
+    }
+
+    resultEl.textContent = ' ';
+  }
+
+  function append(value) {
+    if (justCalculated && /[0-9.]/.test(value)) {
+      expression = '';
+    }
+
+    justCalculated = false;
+
+    if (/[+−×÷]/.test(value) && /[+−×÷]$/.test(expression)) {
+      expression = expression.slice(0, -1);
+    }
+
+    expression += value;
+    update();
+  }
+
+  // -------------------------
+  // イコール
+  // -------------------------
+
+  function equals() {
+    if (!expression || justCalculated) return;
+
+    try {
+      const originalExpression = expression;
+      const value = calculate(expression);
+
+      expressionEl.textContent = originalExpression + ' =';
+      resultEl.textContent = format(value);
+
+      // 履歴に保存
+      addHistory(originalExpression, value);
+
+      // 次の計算に使えるようにする
+      expression = String(Number(value.toPrecision(12)));
+      justCalculated = true;
+
+    } catch (_) {
+      resultEl.textContent = 'エラー';
+    }
+  }
+
+  // -------------------------
+  // 電卓ボタン
+  // -------------------------
+
+  keys.addEventListener('click', (event) => {
+    const button = event.target.closest('button');
+    if (!button) return;
+
+    const action = button.dataset.action;
+
+    if (action === 'clear') {
+      expression = '';
+      justCalculated = false;
+      update();
+    }
+
+    else if (action === 'backspace') {
+      if (justCalculated) {
+        justCalculated = false;
+      }
+
+      expression = expression.slice(0, -1);
+      update();
+    }
+
+    else if (action === 'sign') {
+      if (!expression) {
+        expression = '-';
+      }
+
+      else if (/\d+(?:\.\d*)?$/.test(expression)) {
+        const match = expression.match(/\d+(?:\.\d*)?$/)[0];
+        const start = expression.length - match.length;
+
+        expression =
+          expression.slice(0, start) +
+          (
+            expression[start - 1] === '-' &&
+            (start === 1 || /[+−×÷(]/.test(expression[start - 2]))
+              ? match
+              : '-' + match
+          );
+      }
+
+      justCalculated = false;
+      update();
+    }
+
+    else if (action === 'equals') {
+      equals();
+    }
+
+    else if (button.dataset.value) {
+      append(button.dataset.value);
+    }
+  });
+
+  // -------------------------
+  // キーボード操作
+  // -------------------------
+
+  document.addEventListener('keydown', (event) => {
+    if (/^[0-9.]$/.test(event.key)) {
+      append(event.key);
+    }
+
+    else if (event.key === '+') {
+      append('+');
+    }
+
+    else if (event.key === '-') {
+      append('−');
+    }
+
+    else if (event.key === '*') {
+      append('×');
+    }
+
+    else if (event.key === '/') {
+      event.preventDefault();
+      append('÷');
+    }
+
+    else if (event.key === 'Enter' || event.key === '=') {
+      event.preventDefault();
+      equals();
+    }
+
+    else if (event.key === 'Backspace') {
+      expression = expression.slice(0, -1);
+      justCalculated = false;
+      update();
+    }
+
+    else if (event.key === 'Escape') {
+      expression = '';
+      justCalculated = false;
+      update();
+    }
+
+    else if (event.key === '%') {
+      append('%');
+    }
+  });
+
+  // -------------------------
+  // ダークモード対応
+  // -------------------------
+
+  const icon = document.getElementById('unitConverterIcon');
+
+  function syncIcon() {
+    icon.src = document.body.classList.contains('dark')
+      ? "{{ url_for('static', filename='icons/dark/unit-converter.png') }}"
+      : "{{ url_for('static', filename='icons/light/unit-converter.png') }}";
+  }
+
+  syncIcon();
+
+  new MutationObserver(syncIcon).observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+
+  // 履歴ページから戻ってきた場合、選択した計算結果を電卓に再入力
+  try {
+    const restored = localStorage.getItem('myHomeCalculatorRestore');
+    if (restored !== null) {
+      localStorage.removeItem('myHomeCalculatorRestore');
+      expression = restored;
+      justCalculated = false;
+      update();
+    }
+  } catch (_) {
+    // localStorage が利用できない場合は通常どおり起動
+  }
+
+})();
+</script>
+{% endblock %}

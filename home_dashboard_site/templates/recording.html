@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}迷言｜録音{% endblock %}
+
+{% block content %}
+<section class="welcome-row recording-welcome">
+  <div class="recording-welcome-copy">
+    <h1>録音</h1>
+    <p>迷言の録音を検索･再生できます。</p>
+  </div>
+  <button class="recording-search-toggle" type="button" id="recording-search-toggle"
+          aria-expanded="false" aria-controls="recording-search-panel"
+          aria-label="検索欄を開く／閉じる" title="検索">
+    <img class="recording-search-icon recording-search-light" src="{{ url_for('static', filename='icons/light/search.png') }}" alt="">
+    <img class="recording-search-icon recording-search-dark" src="{{ url_for('static', filename='icons/dark/search.png') }}" alt="">
+  </button>
+</section>
+
+<section class="recording-search-section" aria-label="録音を検索">
+
+  <div class="recording-search-panel" id="recording-search-panel" hidden>
+    <form class="recording-search-form" method="get" action="{{ url_for('recording_page') }}">
+      <input type="search" name="q" value="{{ query }}" placeholder="検索したい言葉を入力" aria-label="録音を検索" id="recording-search-input">
+      <input type="hidden" name="scope" value="all">
+      <input type="hidden" name="sort" value="{{ sort_by }}">
+      <button type="submit" class="recording-search-submit">検索</button>
+      <a class="recording-search-reset" href="{{ url_for('recording_page', sort=sort_by) }}">リセット</a>
+    </form>
+    {% if person_options %}
+      <div class="recording-tag-choices" aria-label="人名から検索"><span class="recording-tag-choices-label">人名から検索</span><div class="recording-tag-choice-list">
+      {% for person in person_options %}<a class="recording-tag-choice{% if query == person and search_scope == 'people' %} is-active{% endif %}" href="{{ url_for('recording_page', q=person, scope='people', sort=sort_by) }}">{{ person }}</a>{% endfor %}
+      </div></div>
+    {% endif %}
+    {% if tag_options %}
+      <div class="recording-tag-choices" aria-label="タグから検索"><span class="recording-tag-choices-label">タグから検索</span><div class="recording-tag-choice-list">
+      {% for tag in tag_options %}<a class="recording-tag-choice{% if query == tag and search_scope == 'tags' %} is-active{% endif %}" href="{{ url_for('recording_page', q=tag, scope='tags', sort=sort_by) }}">{{ tag }}</a>{% endfor %}
+      </div></div>
+    {% else %}<p class="recording-tag-choices-empty">録音情報にタグを登録すると、ここに検索候補が表示されます。</p>{% endif %}
+  </div>
+</section>
+
+
+<style>
+@media (max-width: 600px) {
+  .recording-list-section .section-heading {
+    align-items: flex-start;
+  }
+
+  .recording-list-section .section-heading > div:first-child {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .recording-list-section .section-heading h2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .recording-list-section .recording-count {
+    display: inline-block;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .recording-list-section .recording-search-status {
+    display: block;
+    margin: 6px 0 0;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+}
+</style>
+
+<section class="recording-list-section">
+  <div class="section-heading">
+    <div>
+      <h2>{% if query %}検索結果{% else %}録音一覧{% endif %} <span class="recording-count">{{ recordings|length }}件</span></h2>
+      {% if query %}<p class="recording-search-status">検索中: {{ query }}</p>{% endif %}
+    </div>
+    <div class="recording-list-actions">
+      {% if not query %}
+      <a class="recording-download-all" href="{{ url_for('download_all_recordings') }}">全てダウンロード</a>
+      {% endif %}
+      <div class="recording-sort-wrap">
+        <button type="button" class="recording-sort-button" id="recording-sort-toggle" aria-expanded="false" aria-controls="recording-sort-options" onclick="toggleRecordingSortOptions()">並び替え <span aria-hidden="true">▾</span></button>
+        <div class="recording-sort-options" id="recording-sort-options" hidden>
+          <a href="{{ url_for('recording_page', q=query, scope=search_scope, sort='date') }}"{% if sort_by == 'date' %} aria-current="true"{% endif %}>日付順（新しい順）{% if sort_by == 'date' %} ✓{% endif %}</a>
+          <a href="{{ url_for('recording_page', q=query, scope=search_scope, sort='people') }}"{% if sort_by == 'people' %} aria-current="true"{% endif %}>人名順{% if sort_by == 'people' %} ✓{% endif %}</a>
+          <a href="{{ url_for('recording_page', q=query, scope=search_scope, sort='tags') }}"{% if sort_by == 'tags' %} aria-current="true"{% endif %}>タグ順{% if sort_by == 'tags' %} ✓{% endif %}</a>
+        </div>
+      </div>
+      <script>
+        function toggleRecordingSortOptions() {
+          const button = document.getElementById('recording-sort-toggle');
+          const options = document.getElementById('recording-sort-options');
+          const isOpening = options.hidden;
+          options.hidden = !isOpening;
+          button.setAttribute('aria-expanded', String(isOpening));
+        }
+        document.addEventListener('click', function(event) {
+          const wrap = document.querySelector('.recording-sort-wrap');
+          if (wrap && !wrap.contains(event.target)) {
+            const options = document.getElementById('recording-sort-options');
+            const button = document.getElementById('recording-sort-toggle');
+            options.hidden = true;
+            button.setAttribute('aria-expanded', 'false');
+          }
+        });
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'Escape') {
+            const options = document.getElementById('recording-sort-options');
+            const button = document.getElementById('recording-sort-toggle');
+            options.hidden = true;
+            button.setAttribute('aria-expanded', 'false');
+          }
+        });
+      </script>
+    </div>
+  </div>
+
+  {% if recordings %}
+    <div class="recording-list">
+      {% for item in recordings %}
+        <article class="card recording-card">
+          <div class="recording-card-heading">
+            <div class="recording-title-wrap">
+              <h3><a class="recording-title-download" href="{{ url_for('download_recording', filename=item['filename']) }}">{{ item['title'] or item['filename'] }}</a></h3>
+              <p class="recording-meta">
+                {% if item['people'] %}<span>{{ item['people'] }}</span>{% endif %}
+                {% if item['recorded_at'] %}<span>{{ item['recorded_at'] }}</span>{% endif %}
+              </p>
+            </div>
+          </div>
+          <div class="recording-player" data-recording-player>
+            <audio class="recording-audio-source" preload="metadata" src="{{ url_for('static', filename='recording/' ~ item['filename']) }}">
+              お使いのブラウザは音声再生に対応していません。
+            </audio>
+            <button class="recording-play-button" type="button" data-play data-recording-title="{{ item['title'] or item['filename'] }}" aria-label="{{ (item['title'] or item['filename']) ~ 'を再生' }}" aria-pressed="false">
+              <svg class="recording-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" fill="currentColor"/></svg>
+              <svg class="recording-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
+            </button>
+            <div class="recording-player-main">
+              <div class="recording-waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <input class="recording-progress" data-progress type="range" min="0" max="1000" value="0" step="1" aria-label="再生位置">
+              <div class="recording-player-times"><span data-current-time>0:00</span><span data-duration>--:--</span></div>
+            </div>
+          </div>
+          {% if item['tags'] %}
+            <div class="recording-tags">
+              {% for tag in item['tags'].replace('、', ',').split(',') %}
+                {% if tag.strip() %}<a class="recording-tag" href="{{ url_for('recording_page', q=tag.strip(), scope='tags', sort=sort_by) }}">{{ tag.strip() }}</a>{% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card recording-empty">
+      <h3>{% if query %}該当する録音がありません{% else %}録音ファイルはまだありません{% endif %}</h3>
+      {% if query %}
+        <p>別の人物名・日時・タグで検索してみてね。</p>
+        <a class="text-link" href="{{ url_for('recording_page') }}">検索をクリア</a>
+      {% else %}
+        <p><code>static/recording/</code> にMP3ファイルを入れると、ここに表示されます。</p>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+<script>
+  (function () {
+    // ボイスメモ風のカスタム再生コントロール
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds) || seconds < 0) return '--:--';
+      var mins = Math.floor(seconds / 60);
+      var secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return mins + ':' + secs;
+    }
+    document.querySelectorAll('[data-recording-player]').forEach(function (player) {
+      var audio = player.querySelector('.recording-audio-source');
+      var play = player.querySelector('[data-play]');
+      var progress = player.querySelector('[data-progress]');
+      var current = player.querySelector('[data-current-time]');
+      var duration = player.querySelector('[data-duration]');
+      var recordingTitle = play ? (play.dataset.recordingTitle || '録音') : '録音';
+      if (!audio || !play || !progress) return;
+      function sync() {
+        var ratio = audio.duration ? audio.currentTime / audio.duration : 0;
+        progress.value = String(Math.round(ratio * 1000));
+        progress.style.setProperty('--progress', (ratio * 100) + '%');
+        current.textContent = formatTime(audio.currentTime);
+        duration.textContent = formatTime(audio.duration);
+        player.classList.toggle('is-playing', !audio.paused && !audio.ended);
+        play.setAttribute('aria-label', recordingTitle + (audio.paused ? 'を再生' : 'を一時停止'));
+        play.setAttribute('aria-pressed', String(!audio.paused));
+      }
+      play.addEventListener('click', function () {
+        if (audio.paused) {
+          document.querySelectorAll('.recording-audio-source').forEach(function (other) {
+            if (other !== audio) other.pause();
+          });
+          var result = audio.play();
+          if (result && result.catch) result.catch(function () {});
+        } else audio.pause();
+      });
+      progress.addEventListener('input', function () {
+        if (audio.duration) audio.currentTime = (Number(progress.value) / 1000) * audio.duration;
+        sync();
+      });
+      ['loadedmetadata', 'timeupdate', 'play', 'pause', 'ended', 'durationchange'].forEach(function (eventName) {
+        audio.addEventListener(eventName, sync);
+      });
+      sync();
+    });
+
+    var toggle = document.getElementById('recording-search-toggle');
+    var panel = document.getElementById('recording-search-panel');
+    var input = document.getElementById('recording-search-input');
+  var searchForm = panel ? panel.querySelector('form') : null;
+  if (searchForm) searchForm.addEventListener('submit', function () { panel.hidden = true; if (toggle) toggle.setAttribute('aria-expanded', 'false'); });
+    function updateSearchIcon() {
+      var dark = document.body.classList.contains('dark');
+      document.querySelectorAll('.recording-search-light').forEach(function (img) { img.style.display = dark ? 'none' : 'block'; });
+      document.querySelectorAll('.recording-search-dark').forEach(function (img) { img.style.display = dark ? 'block' : 'none'; });
+    }
+    toggle.addEventListener('click', function () {
+      var opening = panel.hidden;
+      panel.hidden = !opening;
+      toggle.setAttribute('aria-expanded', String(opening));
+    });
+    updateSearchIcon();
+    var observer = new MutationObserver(updateSearchIcon);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  })();
+</script>
+{% endblock %}

@@ -1,0 +1,1095 @@
+{% extends "base.html" %}
+{% block title %}迷言｜時刻表{% endblock %}
+
+
+
+{% block content %}
+<div class="page-container operation-page">
+
+    <header class="page-header">
+        <h1>時刻表</h1>
+    </header>
+
+    <!-- 駅選択 -->
+    <section class="station-selector">
+        <div class="station-grid station-grid-large" role="radiogroup" aria-label="駅を選択">
+            <label class="station-button" data-station="小山"><span class="station-name">小山</span></label>
+            <label class="station-button" data-station="思川"><span class="station-name">思川</span></label>
+            <label class="station-button" data-station="栃木"><span class="station-name">栃木</span></label>
+            <label class="station-button" data-station="大平下"><span class="station-name">大平下</span></label>
+            <label class="station-button" data-station="岩舟"><span class="station-name">岩舟</span></label>
+            <label class="station-button" data-station="佐野"><span class="station-name">佐野</span></label>
+            <label class="station-button" data-station="富田"><span class="station-name">富田</span></label>
+            <label class="station-button" data-station="あしかがフラワーパーク"><span class="station-name">あしかが<br>フラワーパーク</span></label>
+            <label class="station-button" data-station="足利"><span class="station-name">足利</span></label>
+            <label class="station-button" data-station="山前"><span class="station-name">山前</span></label>
+            <label class="station-button" data-station="小俣"><span class="station-name">小俣</span></label>
+        </div>
+    </section>
+
+    <!-- 運行情報 -->
+    <section class="operation-alert-section">
+        <div class="operation-section-heading">
+            <div>
+                <h2>運行情報</h2>
+            </div>
+        </div>
+
+
+    {% if operation_alerts %}
+        {% set ns = namespace(cross=[], triangle=[], other=[]) %}
+
+        {% for alert in operation_alerts %}
+            {% if '×' in alert.status %}
+                {% set _ = ns.cross.append(alert) %}
+            {% elif '△' in alert.status %}
+                {% set _ = ns.triangle.append(alert) %}
+            {% else %}
+                {% set _ = ns.other.append(alert) %}
+            {% endif %}
+        {% endfor %}
+
+    <div class="operation-alert-list">
+        {% for alert in ns.cross + ns.triangle + ns.other %}
+
+
+            <article class="card operation-alert-card">
+                <div class="operation-alert-icon">
+                    <img
+                        src="{{ url_for('static', filename='icons/operation/' ~ alert.icon) }}"
+                        alt="{{ alert.status }}"
+                        loading="lazy"
+                    >
+                </div>
+
+                <div class="operation-alert-content">
+                    <div class="operation-alert-heading">
+                        <div class="operation-alert-title-row">
+                            <h3 class="operation-alert-route">{{ alert.route }}</h3>
+                            <p class="operation-alert-status">{{ alert.status }}</p>
+                        </div>
+
+                        {% if alert.updated_at %}
+                        <p class="operation-alert-updated">
+                            更新時刻：{{ alert.updated_at }}
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    {% if alert.detail %}
+                    <p class="operation-alert-detail">{{ alert.detail }}</p>
+                    {% endif %}
+                </div>
+
+                {% if alert.source_url %}
+                <a
+                    class="route-settings-button operation-alert-source"
+                    href="{{ alert.source_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="{{ alert.route }}の詳細情報を開く"
+                    title="詳細情報を開く"
+                >
+                    詳細
+                </a>
+                {% endif %}
+
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <section class="card operation-no-alert">
+            <p>概ね平常通りです</p>
+        </section>
+        {% endif %}
+    </section>
+
+    <!-- 路線の設定 -->
+    <section class="route-settings-section">
+        <div class="operation-section-heading">
+            <div>
+                <h2>路線の設定</h2>
+            </div>
+        </div>
+        <div class="card route-settings-card">
+            <div class="route-settings-content">
+                <div class="route-settings-text">
+                    <p>設定した路線を変更できます。<br>現在のMy路線: {{ railway_label }}</p>
+                </div>
+                <a class="route-settings-button" href="{{ url_for('settings') }}">
+                    路線を変更
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- My駅ボタン -->
+<button
+    type="button"
+    class="my-station-button"
+    id="myStationButton"
+    data-station-id="{{ my_station }}"
+    data-station-name="{{ my_station_name }}"
+    aria-label="My駅を開く"
+    title="My駅を開く"
+>
+    <img
+        id="my-station-icon"
+        src="{{ url_for('static', filename='icons/light/heart.png') }}"
+        alt=""
+    >
+</button>
+
+<!-- 現在地から最寄り駅を探すボタン -->
+<button
+    type="button"
+    class="nearest-station-button"
+    id="nearestStationButton"
+    aria-label="現在地から最寄り駅を探す"
+    title="現在地から最寄り駅を探す"
+>
+    <img
+        id="nearest-station-icon"
+        src="{{ url_for('static', filename='icons/light/arrow.png') }}"
+        alt=""
+    >
+</button>
+
+<!-- ページ更新ボタン（アイコンは icons/light/refresh.png と icons/dark/refresh.png） -->
+<button
+    type="button"
+    class="page-refresh-button"
+    id="pageRefreshButton"
+    aria-label="ページを更新"
+    title="ページを更新"
+>
+    <img
+        id="page-refresh-icon"
+        src="{{ url_for('static', filename='icons/light/refresh.png') }}"
+        alt=""
+    >
+</button>
+
+<div id="noticeBackdrop" class="notice-backdrop" aria-hidden="true"></div>
+<div
+    id="nearestStationMessage"
+    class="nearest-station-message"
+    aria-live="polite"
+>
+    <span id="nearestStationMessageText"></span>
+    <a id="noticeSettingsLink" class="notice-settings-link" href="{{ url_for('settings') }}" hidden>設定画面を開く</a>
+    <button type="button" id="closeNoticeButton" class="notice-close-button" aria-label="通知を閉じる" title="閉じる">×</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("nearestStationButton");
+    const message = document.getElementById("nearestStationMessage");
+    const messageText = document.getElementById("nearestStationMessageText");
+    const noticeBackdrop = document.getElementById("noticeBackdrop");
+    const closeNoticeButton = document.getElementById("closeNoticeButton");
+    const noticeSettingsLink = document.getElementById("noticeSettingsLink");
+    const icon = document.getElementById("nearest-station-icon");
+    const myStationButton = document.getElementById("myStationButton");
+    const myStationIcon = document.getElementById("my-station-icon");
+    const refreshButton = document.getElementById("pageRefreshButton");
+    const refreshIcon = document.getElementById("page-refresh-icon");
+
+    if (!button || !message) return;
+
+    function showCenteredNotice(text, includeSettingsLink = false) {
+        messageText.textContent = text;
+        noticeSettingsLink.hidden = !includeSettingsLink;
+        message.classList.add("is-visible");
+        noticeBackdrop.classList.add("is-visible");
+        document.body.classList.add("notice-open");
+        message.setAttribute("role", "alert");
+        closeNoticeButton.focus({ preventScroll: true });
+    }
+
+    function hideNotice() {
+        messageText.textContent = "";
+        noticeSettingsLink.hidden = true;
+        message.classList.remove("is-visible");
+        noticeBackdrop.classList.remove("is-visible");
+        document.body.classList.remove("notice-open");
+        message.removeAttribute("role");
+    }
+
+    closeNoticeButton.addEventListener("click", hideNotice);
+    // 通知表示中は、×以外の操作やキーボード操作を受け付けない
+    document.addEventListener("click", event => {
+        if (document.body.classList.contains("notice-open") &&
+            !closeNoticeButton.contains(event.target) &&
+            !(noticeSettingsLink && !noticeSettingsLink.hidden && noticeSettingsLink.contains(event.target))) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
+    document.addEventListener("keydown", event => {
+        if (!document.body.classList.contains("notice-open")) return;
+        if (event.key === "Escape") {
+            event.preventDefault();
+            hideNotice();
+            return;
+        }
+        const onCloseButton = event.target === closeNoticeButton;
+        const onSettingsLink = noticeSettingsLink && !noticeSettingsLink.hidden && event.target === noticeSettingsLink;
+        if (event.key === "Tab" && noticeSettingsLink && !noticeSettingsLink.hidden) {
+            event.preventDefault();
+            if (event.shiftKey) {
+                (onSettingsLink ? closeNoticeButton : noticeSettingsLink).focus({ preventScroll: true });
+            } else {
+                (onCloseButton ? noticeSettingsLink : closeNoticeButton).focus({ preventScroll: true });
+            }
+            return;
+        }
+        if (!(event.key === "Enter" || event.key === " ") || (!onCloseButton && !onSettingsLink)) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
+
+    function updateThemeIcons() {
+        const isDark = document.body.classList.contains("dark");
+        if (icon) {
+            icon.src = isDark
+                ? "{{ url_for('static', filename='icons/dark/arrow.png') }}"
+                : "{{ url_for('static', filename='icons/light/arrow.png') }}";
+        }
+        if (myStationIcon) {
+            myStationIcon.src = isDark
+                ? "{{ url_for('static', filename='icons/dark/heart.png') }}"
+                : "{{ url_for('static', filename='icons/light/heart.png') }}";
+        }
+        if (refreshIcon) {
+            refreshIcon.src = isDark
+                ? "{{ url_for('static', filename='icons/dark/refresh.png') }}"
+                : "{{ url_for('static', filename='icons/light/refresh.png') }}";
+        }
+    }
+
+    updateThemeIcons();
+
+    if (refreshButton) {
+        refreshButton.addEventListener("click", () => {
+            window.location.reload();
+        });
+    }
+
+    const observer = new MutationObserver(updateThemeIcons);
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ["class"]
+    });
+
+    // 設定画面で保存したMy駅を開く
+if (myStationButton) {
+    myStationButton.addEventListener("click", () => {
+        const stationNames = {
+            oyama: "小山",
+            omoigawa: "思川",
+            tochigi: "栃木",
+            ohirashita: "大平下",
+            iwafune: "岩舟",
+            sano: "佐野",
+            tomita: "富田",
+            ashikaga_flower_park: "あしかがフラワーパーク",
+            ashikaga: "足利",
+            yamamae: "山前",
+            omata: "小俣"
+        };
+
+        const myStationId = myStationButton.dataset.stationId;
+        const myStationName = myStationButton.dataset.stationName;
+
+        // 駅ID・日本語の駅名のどちらで保存されていても対応
+        const stationName =
+            stationNames[myStationId] ||
+            stationNames[myStationName] ||
+            (
+                Object.values(stationNames).includes(myStationId)
+                    ? myStationId
+                    : null
+            ) ||
+            (
+                Object.values(stationNames).includes(myStationName)
+                    ? myStationName
+                    : null
+            );
+
+        if (!stationName) {
+            showCenteredNotice(
+                "My駅が設定されていません。設定画面でMy駅を選択してください。",
+                true
+            );
+            return;
+        }
+
+        window.location.href =
+            `/timetable?station=${encodeURIComponent(stationName)}`;
+    });
+}
+
+    const stations = [
+        {id: "oyama", name: "小山駅", lat: 36.3133125, lon: 139.806244},
+        {id: "omoigawa", name: "思川駅", lat: 36.3509591, lon: 139.7812992},
+        {id: "tochigi", name: "栃木駅", lat: 36.3717697, lon: 139.7310371},
+        {id: "ohirashita", name: "大平下駅", lat: 36.3442649, lon: 139.6976464},
+        {id: "iwafune", name: "岩舟駅", lat: 36.3267471, lon: 139.6576754},
+        {id: "sano", name: "佐野駅", lat: 36.3166649, lon: 139.5790162},
+        {id: "tomita", name: "富田駅", lat: 36.3160876, lon: 139.5287887},
+        {id: "ashikaga_flower_park", name: "あしかがフラワーパーク駅", lat: 36.3150302, lon: 139.5185374},
+        {id: "ashikaga", name: "足利駅", lat: 36.332124, lon: 139.4561643},
+        {id: "yamamae", name: "山前駅", lat: 36.3473089, lon: 139.4111619},
+        {id: "omata", name: "小俣駅", lat: 36.3751624, lon: 139.3741515}
+    ];
+
+    function distanceInKm(lat1, lon1, lat2, lon2) {
+        const earthRadius = 6371;
+        const toRadians = degrees => degrees * Math.PI / 180;
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRadians(lat1)) *
+            Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+
+        return earthRadius * 2 * Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        );
+    }
+
+    button.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+            showCenteredNotice("このブラウザでは位置情報を利用できません。");
+            return;
+        }
+
+        button.disabled = true;
+        hideNotice();
+
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const userLat = position.coords.latitude;
+                const userLon = position.coords.longitude;
+
+                let nearest = null;
+                let nearestDistance = Infinity;
+
+                for (const station of stations) {
+                    const distance = distanceInKm(
+                        userLat, userLon, station.lat, station.lon
+                    );
+
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearest = station;
+                    }
+                }
+
+                if (!nearest) {
+                    showCenteredNotice("最寄り駅を特定できませんでした。");
+                    button.disabled = false;
+                    return;
+                }
+
+                hideNotice();
+                window.location.href = `/timetable?station=${encodeURIComponent(nearest.name.replace(/駅$/, ""))}`;
+            },
+            error => {
+                const messages = {
+                    1: "位置情報の利用が許可されていません。",
+                    2: "現在地を取得できませんでした。",
+                    3: "位置情報の取得がタイムアウトしました。"
+                };
+
+                showCenteredNotice(
+                    messages[error.code] ||
+                    "位置情報を取得できませんでした。"
+                );
+
+                button.disabled = false;
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 60000
+            }
+        );
+    });
+});
+</script>
+
+<style>
+/* 時刻表ページのタイトル：他ページと揃った余白・サイズ */
+.operation-page > .page-header {
+    width: 100%;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+}
+
+/* スマホ版：時刻表タイトルと駅選択肢の間隔を縮小 */
+@media (max-width: 600px) {
+    .operation-page > .page-header {
+        margin-bottom: 6px !important;
+    }
+}
+
+.operation-page > .page-header h1 {
+    margin: 0 !important;
+    font-size: clamp(28px, 3vw, 36px) !important;
+    line-height: 1.3 !important;
+}
+
+/* 駅ボタン：全駅を同じグリッド・同じサイズに */
+.operation-page .station-selector {
+    width: 100%;
+}
+
+.operation-page .station-grid.station-grid-large {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 56px !important;
+    gap: 6px 6px !important;
+    row-gap: 6px !important;
+    grid-row-gap: 6px !important;
+    align-content: start !important;
+    align-items: stretch !important;
+}
+
+.operation-page .station-grid.station-grid-large .station-button {
+    box-sizing: border-box !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+}
+
+.operation-page .station-grid.station-grid-large .station-name {
+    display: block;
+    line-height: 1.35;
+}
+
+/* 長い駅名は2行にして、駅ボタンのサイズを統一 */
+.operation-page .station-grid.station-grid-large .station-name-flower-park {
+    font-size: 13px;
+    line-height: 1.1;
+    overflow-wrap: normal;
+    word-break: keep-all;
+}
+
+.operation-page .station-grid.station-grid-large .station-button-flower-park .station-name-en {
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.operation-page .station-grid.station-grid-large .station-name-en {
+    display: block;
+    margin-top: 1px;
+    font-size: 12px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+/* 運行情報：詳細文は省略せず左揃えで全文表示 */
+.operation-alert-card {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    align-items: start !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.operation-alert-content {
+    min-width: 0 !important;
+    width: 100% !important;
+    justify-self: stretch !important;
+    text-align: left !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.operation-alert-route,
+.operation-alert-status,
+.operation-alert-detail,
+.operation-alert-updated {
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.operation-alert-detail {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    -webkit-line-clamp: unset !important;
+    -webkit-box-orient: initial !important;
+    line-height: 1.7 !important;
+    padding: 0 !important;
+}
+
+/* 路線名・運行状況・更新時刻 */
+.operation-alert-heading {
+    display: flex !important;
+    align-items: baseline !important;
+    flex-wrap: wrap !important;
+    gap: 4px 8px !important;
+    min-width: 0 !important;
+}
+
+.operation-alert-heading .operation-alert-route,
+.operation-alert-heading .operation-alert-status {
+    display: inline !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.3 !important;
+}
+
+.operation-alert-heading .operation-alert-updated {
+    display: inline !important;
+    font-size: 12px !important;
+    font-weight: normal !important;
+    color: #888888 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.25 !important;
+}
+
+/* 運行情報の「詳細」ボタン */
+.operation-alert-source {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    gap: 7px !important;
+    min-width: 100px !important;
+    min-height: 42px !important;
+    padding: 10px 18px !important;
+    border: 1px solid #077AE3 !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: #077AE3 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    align-self: center !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
+}
+
+.operation-alert-source:hover {
+    background: #077AE3 !important;
+    border-color: #077AE3 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.operation-alert-source span {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    color: inherit !important;
+}
+
+[data-theme="dark"] .operation-alert-source {
+    border-color: #58aaff !important;
+    color: #58aaff !important;
+}
+
+[data-theme="dark"] .operation-alert-source:hover {
+    background: #58aaff !important;
+    border-color: #58aaff !important;
+    color: #ffffff !important;
+}
+
+/* 路線設定：説明文の右側にボタンを配置 */
+.route-settings-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+}
+
+.route-settings-text {
+    min-width: 0;
+}
+
+.route-settings-text p {
+    margin-bottom: 0;
+}
+
+.route-settings-content > .route-settings-button {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+}
+
+
+@media (max-width: 768px) {
+    .operation-page > .page-header {
+        margin-bottom: 6px !important;
+    }
+
+    /* 駅ボタン：3列、縦横6pxの隙間 */
+    .operation-page .station-grid.station-grid-large {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        grid-auto-flow: row !important;
+        grid-auto-rows: 56px !important;
+        gap: 6px !important;
+        row-gap: 6px !important;
+        column-gap: 6px !important;
+        align-content: start !important;
+        align-items: stretch !important;
+        height: auto !important;
+    }
+
+    .operation-page .station-grid.station-grid-large .station-button {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        height: 56px !important;
+        min-height: 56px !important;
+        margin: 0 !important;
+        padding: 4px 6px !important;
+        background: #FFFDE7 !important;
+        border: 1px solid #FCD800 !important;
+        gap: 0 !important;
+        text-align: center !important;
+        overflow: hidden !important;
+    }
+
+    .operation-page .station-grid.station-grid-large .station-name {
+        display: block !important;
+        max-width: 100% !important;
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .operation-page .station-grid.station-grid-large .station-name-en {
+        display: block !important;
+        max-width: 100% !important;
+        margin-top: 2px !important;
+        font-size: 9px !important;
+        line-height: 1.1 !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .operation-page .station-grid.station-grid-large .station-name-flower-park {
+        font-size: 11px !important;
+        line-height: 1.1 !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .operation-page .station-grid.station-grid-large
+    .station-button-flower-park .station-name-en {
+        font-size: 8px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* 運行情報 */
+    .operation-alert-card {
+        grid-template-columns: 36px minmax(0, 1fr) auto !important;
+        gap: 9px !important;
+    }
+
+    .operation-alert-heading {
+        gap: 2px 6px !important;
+        line-height: 1.2 !important;
+    }
+
+    .operation-alert-heading .operation-alert-route,
+    .operation-alert-heading .operation-alert-status {
+        font-size: 16px !important;
+        line-height: 1.25 !important;
+    }
+
+    .operation-alert-heading .operation-alert-updated {
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+    }
+
+    .operation-alert-detail {
+        font-size: 12px !important;
+    }
+
+    /* 路線設定 */
+    .route-settings-content {
+        gap: 10px !important;
+    }
+
+    .route-settings-content h2 {
+        font-size: 18px;
+    }
+
+    .route-settings-section .operation-section-heading {
+        margin-bottom: 12px !important;
+    }
+
+    .route-settings-text p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .route-settings-content > .route-settings-button,
+    .operation-alert-source {
+        box-sizing: border-box !important;
+        width: 100px !important;
+        min-width: 100px !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 8px !important;
+    }
+
+    .route-settings-content > .route-settings-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .operation-alert-card {
+        grid-template-columns: 30px minmax(0, 1fr) !important;
+    }
+
+    .operation-alert-source {
+        grid-column: 2;
+        justify-self: start;
+        width: 100px !important;
+        min-width: 100px !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 8px !important;
+    }
+
+    .route-settings-content {
+        align-items: flex-start !important;
+    }
+
+    .route-settings-content > .route-settings-button {
+        width: 100px !important;
+        min-width: 100px !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 8px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* 駅選択ボタンの間隔を強制的に確保 */
+.operation-page .station-selector .station-grid.station-grid-large {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    column-gap: 8px !important;
+    row-gap: 8px !important;
+    gap: 8px !important;
+    grid-auto-rows: 56px !important;
+    height: auto !important;
+}
+
+.operation-page .station-selector .station-grid.station-grid-large > .station-button {
+    width: auto !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+
+
+/* 駅選択：背景は塗りつぶさず、黄色い丸の右に駅名を表示。2列固定 */
+.operation-page .station-selector .station-grid.station-grid-large {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    gap: 10px 14px !important;
+    align-items: center !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 6px 2px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    text-align: left !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.operation-page .station-selector input.station-radio {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    position: relative !important;
+    display: inline-block !important;
+    flex: 0 0 19px !important;
+    width: 19px !important;
+    height: 19px !important;
+    min-width: 19px !important;
+    min-height: 19px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    border: 2px solid #888 !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    cursor: pointer !important;
+}
+.operation-page .station-selector input.station-radio:checked {
+    border-color: #888 !important;
+    background: transparent !important;
+}
+.operation-page .station-selector .station-button {
+    cursor: pointer !important;
+}
+.operation-page .station-selector .station-name {
+    display: block !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    overflow-wrap: anywhere !important;
+}
+.operation-page .station-selector .station-name-en { display: none !important; }
+@media (max-width: 600px) {
+    .operation-page .station-selector .station-grid.station-grid-large {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px 10px !important;
+    }
+    .operation-page .station-selector .station-grid.station-grid-large > .station-button {
+        min-height: 40px !important;
+        gap: 7px !important;
+        padding: 5px 0 !important;
+    }
+    .operation-page .station-selector .station-radio {
+        flex-basis: 17px !important;
+        width: 17px !important;
+        height: 17px !important;
+    }
+    .operation-page .station-selector .station-name { font-size: 14px !important; }
+}
+
+/* 駅選択肢：丸を隠し、駅名を中央揃え。全項目を同じ高さに統一 */
+.operation-page .station-selector .station-grid.station-grid-large {
+    grid-auto-rows: 68px !important;
+    align-items: stretch !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 68px !important;
+    min-height: 68px !important;
+    padding: 8px 10px !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+}
+.operation-page .station-selector input.station-radio {
+    display: none !important;
+}
+.operation-page .station-selector .station-name {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+
+
+/* 駅選択肢の高さ：全行・全ボタンを同じ高さに固定 */
+.operation-page .station-selector .station-grid.station-grid-large {
+    --station-choice-height: 60px;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: var(--station-choice-height) !important;
+    grid-auto-flow: row !important;
+    align-items: stretch !important;
+    align-content: start !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button {
+    display: flex !important;
+    width: 100% !important;
+    height: var(--station-choice-height) !important;
+    min-height: var(--station-choice-height) !important;
+    max-height: var(--station-choice-height) !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    align-self: stretch !important;
+    justify-self: stretch !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    padding: 8px 10px !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button .station-name {
+    display: block !important;
+    width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    overflow: hidden !important;
+}
+
+/* 角の丸さと押下時の色 */
+.operation-page .station-selector .station-grid.station-grid-large {
+    --station-choice-radius: 8px; /* 角の丸さはこの数値で調整 */
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button {
+    border-radius: var(--station-choice-radius) !important;
+    transition: background-color .12s ease, border-color .12s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button:active {
+    background: #facc15 !important;
+    border-color: #eab308 !important;
+    color: #292524 !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button:active .station-name {
+    color: #292524 !important;
+}
+
+/* 押下中・クリック直後は選択肢全体を黄色で塗りつぶす */
+.operation-page .station-selector .station-grid.station-grid-large > .station-button:active,
+.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected {
+    background: #facc15 !important;
+    background-color: #facc15 !important;
+    border: 1px solid #eab308 !important;
+    color: #292524 !important;
+    box-shadow: none !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large > .station-button:active .station-name,
+.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected .station-name {
+    color: #292524 !important;
+}
+</style>
+
+
+<script>
+(() => {
+  const selector = document.querySelector('.operation-page .station-selector');
+  if (!selector || selector.dataset.directNavigationReady === 'true') return;
+  selector.dataset.directNavigationReady = 'true';
+
+  // 戻る操作などでこのページが復元されたら、選択状態を必ず解除
+  const resetSelection = () => {
+    selector.querySelectorAll('.station-button.is-selected').forEach(button => {
+      button.classList.remove('is-selected');
+      button.removeAttribute('aria-pressed');
+    });
+  };
+  window.addEventListener('pageshow', resetSelection);
+  resetSelection();
+
+  selector.addEventListener('click', event => {
+    const button = event.target.closest('.station-button[data-station]');
+    if (!button || !selector.contains(button)) return;
+    event.preventDefault();
+    const station = button.dataset.station;
+    if (!station || button.dataset.navigating === 'true') return;
+
+    resetSelection();
+    button.dataset.navigating = 'true';
+    button.classList.add('is-selected');
+    button.setAttribute('aria-pressed', 'true');
+    // 黄色が描画される時間を確保してから遷移
+    window.setTimeout(() => {
+      window.location.assign('/timetable?station=' + encodeURIComponent(station));
+    }, 220);
+  });
+})();
+</script>
+
+{% endblock %}
+
+<style>
+.operation-page .station-selector input.station-radio:focus-visible {
+  outline: 3px solid #1685e8 !important;
+  outline-offset: 3px !important;
+}
+.operation-page .station-selector .station-button {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+@media (prefers-color-scheme: dark) {
+  .operation-page .station-selector .station-name { color: #fff !important; }
+}
+</style>
+
+<style>
+/* 駅選択肢：グレーの枠線付き四角形。選択時は黄色で塗りつぶす */
+.operation-page .station-selector .station-grid.station-grid-large > .station-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    min-height: 48px !important;
+    height: auto !important;
+    padding: 8px 10px !important;
+    border: 1px solid #999 !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
+/* ラジオの丸印は表示せず、選択状態は四角形全体で表現 */
+.operation-page .station-selector input.station-radio {
+    display: none !important;
+}
+
+.operation-page .station-selector .station-button.is-selected {
+    border-color: #eab308 !important;
+    background: #facc15 !important;
+    color: #292524 !important;
+}
+
+.operation-page .station-selector .station-button.is-selected .station-name {
+    color: #292524 !important;
+}
+
+.operation-page .station-selector .station-button:focus-visible {
+    outline: 3px solid #1685e8 !important;
+    outline-offset: 2px !important;
+}
+</style>
