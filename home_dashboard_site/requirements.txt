@@ -3,3 +3,4 @@ requests>=2.31,<3.0
 beautifulsoup4>=4.12,<5.0
 gunicorn
 jpholiday
+psycopg2-binary>=2.9.9,<3.0

@@ -28,46 +28,60 @@ app.permanent_session_lifetime = timedelta(days=3650)
 
 
 # ==================================================
-# アクセス解析
+# アクセス解析（Neon PostgreSQL）
 # ==================================================
 
-ANALYTICS_DB = Path(__file__).resolve().parent / "analytics.sqlite3"
+import os
+from contextlib import contextmanager
+import psycopg2
+from psycopg2.extras import DictCursor
 
 PAGE_ANALYTICS_LABELS = {
-    "home": "ホーム",
-    "special_timetable": "特別時間割",
-    "schedule": "時間割",
-    "timetable_page": "駅時刻表",
-    "train_detail": "列車時刻表",
-    "settings": "設定",
-    "operation_page": "時刻表",
-    "calendar_page": "カレンダー",
-    "more_page": "その他",
-    "map_page": "地図",
-    "range_page": "範囲表",
-    "line_page": "路線",
-    "roster_page": "名簿",
-    "recording_page": "録音",
-    "quiz_page": "クイズ",
-    "stamp_page": "スタンプ",
-    "video_page": "動画",
-    "calculator_page": "電卓",
-    "calculator_history_page": "電卓履歴",
-    "unit_converter_page": "単位変換",
-    "admin_dashboard": "管理者用ページ",
-    "form_page": "アンケート",
+    "home": "ホーム", "special_timetable": "特別時間割", "schedule": "時間割",
+    "timetable_page": "駅時刻表", "train_detail": "列車時刻表", "settings": "設定",
+    "operation_page": "時刻表", "calendar_page": "カレンダー", "more_page": "その他",
+    "map_page": "地図", "range_page": "範囲表", "line_page": "路線",
+    "roster_page": "名簿", "recording_page": "録音", "quiz_page": "クイズ",
+    "stamp_page": "スタンプ", "video_page": "動画", "calculator_page": "電卓",
+    "calculator_history_page": "電卓履歴", "unit_converter_page": "単位変換",
+    "admin_dashboard": "管理者用ページ", "form_page": "アンケート",
 }
 
+
+class AnalyticsConnection:
+    """psycopg2接続をSQLiteに近い execute / fetch 形式で扱う。"""
+    def __init__(self, connection):
+        self.connection = connection
+
+    def execute(self, query, params=None):
+        cursor = self.connection.cursor()
+        cursor.execute(query, params or ())
+        return cursor
+
+
+@contextmanager
 def analytics_connect():
-    conn = sqlite3.connect(ANALYTICS_DB, timeout=10)
-    conn.row_factory = sqlite3.Row
-    return conn
+    database_url = os.environ.get("DATABASE_URL", "").strip()
+    if not database_url:
+        raise RuntimeError("Renderの環境変数 DATABASE_URL が設定されていません。")
+    raw_connection = psycopg2.connect(
+        database_url, connect_timeout=10, cursor_factory=DictCursor
+    )
+    try:
+        yield AnalyticsConnection(raw_connection)
+        raw_connection.commit()
+    except Exception:
+        raw_connection.rollback()
+        raise
+    finally:
+        raw_connection.close()
+
 
 def init_analytics_db():
     with analytics_connect() as conn:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS page_views (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id BIGSERIAL PRIMARY KEY,
                 page TEXT NOT NULL,
                 visited_at TEXT NOT NULL,
                 visitor_id TEXT
@@ -75,24 +89,31 @@ def init_analytics_db():
         """)
         conn.execute("""
             CREATE TABLE IF NOT EXISTS button_clicks (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id BIGSERIAL PRIMARY KEY,
                 page TEXT NOT NULL,
                 button TEXT NOT NULL,
                 clicked_at TEXT NOT NULL,
                 visitor_id TEXT
             )
         """)
-        # 既存データベースにも利用者ID列を追加（過去データは不明のまま保持）
+        # 既存テーブルにも利用者ID列を追加（既存データは保持）
         for table in ("page_views", "button_clicks"):
-            columns = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
+            columns = {
+                row["column_name"]
+                for row in conn.execute(
+                    """SELECT column_name FROM information_schema.columns
+                       WHERE table_schema = current_schema() AND table_name = %s""",
+                    (table,),
+                ).fetchall()
+            }
             if "visitor_id" not in columns:
                 conn.execute(f"ALTER TABLE {table} ADD COLUMN visitor_id TEXT")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_page_views_visitor ON page_views(visitor_id)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_page_views_page ON page_views(page)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_button_clicks_visitor ON button_clicks(visitor_id)")
 
+
 def analytics_page_name(endpoint):
-    # URLの選択内容も記録し、解析画面でページを判別しやすくする。
     if endpoint == "timetable_page":
         station = request.args.get("station", "").strip()
         if station and station in TIMETABLE_STATIONS:
@@ -107,24 +128,27 @@ def analytics_page_name(endpoint):
         return PAGE_ANALYTICS_LABELS[endpoint]
     return (endpoint or "不明").replace("_", " ")
 
+
 @app.context_processor
 def inject_analytics_page_name():
     return {"analytics_current_page": analytics_page_name(request.endpoint)}
 
+
 def analytics_owner_excluded():
-    # 管理者ログイン中の閲覧・操作はサイト所有者本人として集計しない
     return bool(session.get("recording_admin_authenticated"))
+
 
 def analytics_now():
     return datetime.now(JST).strftime("%Y-%m-%d %H:%M:%S")
 
+
 def analytics_get_visitor_id():
-    """Cookieで匿名の利用者を識別。氏名など個人を特定する情報は取得しない。"""
     value = request.cookies.get("myHomeAnalyticsVisitor", "")
     try:
         return str(uuid.UUID(value))
     except (ValueError, TypeError, AttributeError):
         return str(uuid.uuid4())
+
 
 def analytics_set_visitor_cookie(response, visitor_id):
     response.set_cookie(
@@ -134,7 +158,9 @@ def analytics_set_visitor_cookie(response, visitor_id):
     )
     return response
 
+
 init_analytics_db()
+
 
 @app.after_request
 def record_analytics_page_view(response):
@@ -153,13 +179,14 @@ def record_analytics_page_view(response):
         try:
             with analytics_connect() as conn:
                 conn.execute(
-                    "INSERT INTO page_views (page, visited_at, visitor_id) VALUES (?, ?, ?)",
+                    "INSERT INTO page_views (page, visited_at, visitor_id) VALUES (%s, %s, %s)",
                     (analytics_page_name(endpoint), analytics_now(), visitor_id),
                 )
         except Exception:
             app.logger.exception("アクセス解析（ページ）の記録に失敗しました")
         analytics_set_visitor_cookie(response, visitor_id)
     return response
+
 
 @app.route("/api/analytics/click", methods=["POST"])
 def analytics_record_click():
@@ -174,7 +201,7 @@ def analytics_record_click():
     try:
         with analytics_connect() as conn:
             conn.execute(
-                "INSERT INTO button_clicks (page, button, clicked_at, visitor_id) VALUES (?, ?, ?, ?)",
+                "INSERT INTO button_clicks (page, button, clicked_at, visitor_id) VALUES (%s, %s, %s, %s)",
                 (page, button, analytics_now(), visitor_id),
             )
         response = jsonify({"ok": True})
@@ -182,6 +209,7 @@ def analytics_record_click():
     except Exception:
         app.logger.exception("アクセス解析（クリック）の記録に失敗しました")
         return jsonify({"ok": False}), 500
+
 
 @app.route("/admin/analytics", methods=["GET", "POST"])
 def analytics_page():
@@ -191,14 +219,13 @@ def analytics_page():
         action = request.form.get("action", "")
         if action == "delete_visitor":
             visitor_id = request.form.get("visitor_id", "").strip()
-            # DB内に存在する匿名IDのみを対象に、閲覧履歴とクリック履歴をまとめて削除
             if visitor_id:
                 with analytics_connect() as conn:
                     page_result = conn.execute(
-                        "DELETE FROM page_views WHERE visitor_id = ?", (visitor_id,)
+                        "DELETE FROM page_views WHERE visitor_id = %s", (visitor_id,)
                     )
                     click_result = conn.execute(
-                        "DELETE FROM button_clicks WHERE visitor_id = ?", (visitor_id,)
+                        "DELETE FROM button_clicks WHERE visitor_id = %s", (visitor_id,)
                     )
                 deleted_total = page_result.rowcount + click_result.rowcount
                 flash(
@@ -217,13 +244,12 @@ def analytics_page():
             flash("アクセス解析データをリセットしました。")
             return redirect(url_for("analytics_page"))
 
-    # 「今日」は日本時間（JST）の0:00以降を対象にする。
     period = request.args.get("period", "all")
     if period not in {"all", "today"}:
         period = "all"
     today_start = datetime.now(JST).strftime("%Y-%m-%d") + " 00:00:00"
-    page_where = "WHERE visited_at >= ?" if period == "today" else ""
-    click_where = "WHERE clicked_at >= ?" if period == "today" else ""
+    page_where = "WHERE visited_at >= %s" if period == "today" else ""
+    click_where = "WHERE clicked_at >= %s" if period == "today" else ""
     page_params = (today_start,) if period == "today" else ()
     click_params = (today_start,) if period == "today" else ()
 
@@ -249,14 +275,11 @@ def analytics_page():
             ORDER BY count DESC, page, button
         """, click_params).fetchall()
         visitor_click_rows = conn.execute(f"""
-            SELECT visitor_id,
-                   COUNT(*) AS clicks,
-                   MAX(clicked_at) AS last_clicked,
-                   GROUP_CONCAT(DISTINCT page || '：' || button) AS buttons
+            SELECT visitor_id, COUNT(*) AS clicks, MAX(clicked_at) AS last_clicked,
+                   STRING_AGG(DISTINCT page || '：' || button, ',') AS buttons
             FROM button_clicks {click_where}
             {"AND" if click_where else "WHERE"} visitor_id IS NOT NULL
-            GROUP BY visitor_id
-            ORDER BY last_clicked DESC
+            GROUP BY visitor_id ORDER BY last_clicked DESC
         """, click_params).fetchall()
         recent_rows = conn.execute(f"""
             SELECT page, visited_at, visitor_id FROM page_views {page_where}
@@ -271,13 +294,12 @@ def analytics_page():
                    COUNT(DISTINCT pv.id) AS visits,
                    COUNT(DISTINCT bc.id) AS clicks,
                    MAX(pv.visited_at) AS last_seen,
-                   GROUP_CONCAT(DISTINCT pv.page) AS pages
+                   STRING_AGG(DISTINCT pv.page, ',') AS pages
             FROM page_views pv
             LEFT JOIN button_clicks bc ON bc.visitor_id = pv.visitor_id
-                {"AND bc.clicked_at >= ?" if period == "today" else ""}
-            {"WHERE pv.visited_at >= ? AND pv.visitor_id IS NOT NULL" if period == "today" else "WHERE pv.visitor_id IS NOT NULL"}
-            GROUP BY pv.visitor_id
-            ORDER BY last_seen DESC
+                {"AND bc.clicked_at >= %s" if period == "today" else ""}
+            {"WHERE pv.visited_at >= %s AND pv.visitor_id IS NOT NULL" if period == "today" else "WHERE pv.visitor_id IS NOT NULL"}
+            GROUP BY pv.visitor_id ORDER BY last_seen DESC
         """, ((today_start, today_start) if period == "today" else ())).fetchall()
     return render_template(
         "analytics.html",
