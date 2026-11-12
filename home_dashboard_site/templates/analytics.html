@@ -45,7 +45,7 @@
       <table style="width:100%;border-collapse:collapse;">
         <thead><tr><th style="text-align:left;padding:9px;">ページ</th><th style="text-align:right;padding:9px;">アクセス数</th><th style="text-align:right;padding:9px;">利用者数</th></tr></thead>
         <tbody>{% for row in page_rows %}
-          <tr><td style="padding:9px;border-top:1px solid var(--border);">{{ page_label_map.get(row.page, row.page)|replace('MM 列車時刻表', 'M 列車時刻表') }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.count) }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.visitors) }}</td></tr>
+          <tr><td style="padding:9px;border-top:1px solid var(--border);">{{ page_label_map.get(row.page, row.page)|replace('MM 列車時刻表', 'M 列車時刻表') }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row["count"]) }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.visitors) }}</td></tr>
         {% endfor %}</tbody>
       </table>
     </div>
@@ -61,7 +61,7 @@
       <table style="width:100%;border-collapse:collapse;">
         <thead><tr><th style="text-align:left;padding:9px;">ページ</th><th style="text-align:left;padding:9px;">ボタン</th><th style="text-align:right;padding:9px;">クリック数</th><th style="text-align:right;padding:9px;">利用者数</th></tr></thead>
         <tbody>{% for row in click_rows %}
-          <tr><td style="padding:9px;border-top:1px solid var(--border);">{{ page_label_map.get(row.page, row.page)|replace('MM 列車時刻表', 'M 列車時刻表') }}</td><td style="padding:9px;border-top:1px solid var(--border);">{{ button_label_map.get(row.button|lower|trim, button_label_map.get(row.button, row.button)) }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.count) }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.visitors) }}</td></tr>
+          <tr><td style="padding:9px;border-top:1px solid var(--border);">{{ page_label_map.get(row.page, row.page)|replace('MM 列車時刻表', 'M 列車時刻表') }}</td><td style="padding:9px;border-top:1px solid var(--border);">{{ button_label_map.get(row.button|lower|trim, button_label_map.get(row.button, row.button)) }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row["count"]) }}</td><td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.visitors) }}</td></tr>
         {% endfor %}</tbody>
       </table>
     </div>
