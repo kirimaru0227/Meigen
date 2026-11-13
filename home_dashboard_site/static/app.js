@@ -564,87 +564,110 @@ async function loadWeather() {
     location.textContent = place.label;
   }
 
-  // API応答が返ってこない場合に読み込み中のままにならないよう、
-  // 12秒で通信を中断する
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 12000);
+  const MAX_ATTEMPTS = 3;
+  const TIMEOUT_MS = 12000;
+  let data = null;
+  let lastError = null;
 
-  try {
-    const response = await fetch(url, {
-      cache: "no-store",
-      signal: controller.signal
-    });
+  // 一時的な通信不良に備え、最大3回まで取得を試みる
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
-    if (!response.ok) {
-      throw new Error(`weather request failed: HTTP ${response.status}`);
+    try {
+      const response = await fetch(url, {
+        cache: "no-store",
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        throw new Error(`weather request failed: HTTP ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      // APIから必要なデータが返っていることを確認
+      if (
+        !responseData.current ||
+        typeof responseData.current.temperature_2m !== "number" ||
+        typeof responseData.current.weather_code !== "number" ||
+        !responseData.daily ||
+        !Array.isArray(responseData.daily.temperature_2m_max) ||
+        typeof responseData.daily.temperature_2m_max[0] !== "number" ||
+        !Array.isArray(responseData.daily.temperature_2m_min) ||
+        typeof responseData.daily.temperature_2m_min[0] !== "number"
+      ) {
+        throw new Error("weather response data is incomplete");
+      }
+
+      data = responseData;
+      break;
+    } catch (error) {
+      lastError = error;
+
+      if (error.name === "AbortError") {
+        console.error(
+          `天気情報の取得がタイムアウトしました（${TIMEOUT_MS / 1000}秒・${attempt}/${MAX_ATTEMPTS}回目）`
+        );
+      } else {
+        console.error(
+          `天気情報の取得に失敗しました（${attempt}/${MAX_ATTEMPTS}回目）:`,
+          error
+        );
+      }
+    } finally {
+      clearTimeout(timeoutId);
     }
 
-    const data = await response.json();
-
-    // APIから必要なデータが返っていることを確認
-    if (
-      !data.current ||
-      typeof data.current.temperature_2m !== "number" ||
-      typeof data.current.weather_code !== "number" ||
-      !data.daily ||
-      !Array.isArray(data.daily.temperature_2m_max) ||
-      !Array.isArray(data.daily.temperature_2m_min)
-    ) {
-      throw new Error("weather response data is incomplete");
+    // 最後の試行でなければ、少し待ってから再試行
+    if (attempt < MAX_ATTEMPTS) {
+      await new Promise(resolve => setTimeout(resolve, attempt * 1000));
     }
+  }
 
-    const current = data.current;
-    const daily = data.daily;
-
-    const weather = describeWeather(current.weather_code);
-
-    currentWeather = weather;
-
-    const temperature = document.getElementById("weatherTemp");
-    const description = document.getElementById("weatherDesc");
-    const maximum = document.getElementById("weatherMax");
-    const minimum = document.getElementById("weatherMin");
-    const rain = document.getElementById("weatherRain");
-
-    if (temperature) {
-      temperature.textContent =
-        `${Math.round(current.temperature_2m)}°`;
-    }
-
-    if (description) {
-      description.textContent = weather.label;
-    }
-
-    updateWeatherIcon(weather);
-
-    if (maximum) {
-      maximum.textContent =
-        `${Math.round(daily.temperature_2m_max[0])}°`;
-    }
-
-    if (minimum) {
-      minimum.textContent =
-        `${Math.round(daily.temperature_2m_min[0])}°`;
-    }
-
-    if (rain) {
-      rain.textContent =
-        `${daily.precipitation_probability_max?.[0] ?? "--"}%`;
-    }
-  } catch (error) {
-    if (error.name === "AbortError") {
-      console.error("天気情報の取得がタイムアウトしました（12秒）");
-    } else {
-      console.error("天気情報の取得に失敗しました:", error);
-    }
+  if (!data) {
+    console.error("天気情報を3回取得できませんでした:", lastError);
 
     const description = document.getElementById("weatherDesc");
-
     if (description) {
       description.textContent = "天気情報を取得できません";
     }
-  } finally {
-    clearTimeout(timeoutId);
+    return;
+  }
+
+  const current = data.current;
+  const daily = data.daily;
+  const weather = describeWeather(current.weather_code);
+
+  currentWeather = weather;
+
+  const temperature = document.getElementById("weatherTemp");
+  const description = document.getElementById("weatherDesc");
+  const maximum = document.getElementById("weatherMax");
+  const minimum = document.getElementById("weatherMin");
+  const rain = document.getElementById("weatherRain");
+
+  if (temperature) {
+    temperature.textContent = `${Math.round(current.temperature_2m)}°`;
+  }
+
+  if (description) {
+    description.textContent = weather.label;
+  }
+
+  updateWeatherIcon(weather);
+
+  if (maximum) {
+    maximum.textContent = `${Math.round(daily.temperature_2m_max[0])}°`;
+  }
+
+  if (minimum) {
+    minimum.textContent = `${Math.round(daily.temperature_2m_min[0])}°`;
+  }
+
+  if (rain) {
+    rain.textContent =
+      `${daily.precipitation_probability_max?.[0] ?? "--"}%`;
   }
 }
 
