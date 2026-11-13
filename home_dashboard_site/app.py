@@ -780,6 +780,14 @@ def special_schedule():
         lessons=lessons, mode=mode, message=entry.get("__message__", "") if isinstance(entry, dict) else "",
         is_weekday=is_weekday, saved=request.args.get("saved") == "1", reset=request.args.get("reset") == "1")
 
+@app.route("/clock")
+def clock_page():
+    return render_template(
+        "clock.html",
+        weather_place=selected_weather_place(),
+        railway_label=ROUTE_OPTIONS[selected_route()],
+    )
+
 
 # 週間時間割
 # ==================================================
@@ -1062,6 +1070,7 @@ def settings():
         my_route = request.form.get("my_route", "ryomo")
         weather_place = request.form.get("weather_place", "sano")
         appearance = request.form.get("appearance", "system")
+        calendar_layout = request.form.get("calendar_layout", "scroll")
         my_station = request.form.get("my_station", "").strip()
 
         if class_name not in CLASS_SCHEDULES:
@@ -1072,6 +1081,8 @@ def settings():
             weather_place = "sano"
         if appearance not in ("light", "dark", "system"):
             appearance = "system"
+        if calendar_layout not in ("scroll", "compact"):
+            calendar_layout = "scroll"
         if my_station not in MY_STATION_OPTIONS:
             my_station = ""
 
@@ -1090,6 +1101,7 @@ def settings():
         response.set_cookie("myHomeRoute", my_route, **cookie_options)
         response.set_cookie("myHomeWeather", weather_place, **cookie_options)
         response.set_cookie("myHomeAppearance", appearance, **cookie_options)
+        response.set_cookie("myHomeCalendarLayout", calendar_layout, **cookie_options)
         if my_station:
             response.set_cookie("myHomeStation", my_station, **cookie_options)
         else:
@@ -1107,6 +1119,10 @@ def settings():
         weather_options=WEATHER_OPTIONS,
         my_station=request.cookies.get("myHomeStation", "") if request.cookies.get("myHomeStation", "") in MY_STATION_OPTIONS else "",
         station_options=MY_STATION_OPTIONS,
+        appearance=selected_appearance(),
+        calendar_layout=request.cookies.get("myHomeCalendarLayout", "scroll")
+            if request.cookies.get("myHomeCalendarLayout", "scroll") in ("scroll", "compact")
+            else "scroll",
     )
 
 
@@ -1647,6 +1663,9 @@ def fetch_operation_alerts():
         detail = _normalise_text(
             operation.get("detail", "")
         )
+
+        # 詳細欄の先頭に付く状態ラベル「運転見合わせ 」を除去
+        detail = re.sub(r"^運転見合わせ[ \\t　]+", "", detail).strip()
 
         source_url = operation.get(
             "source_url",
