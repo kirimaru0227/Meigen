@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}迷言｜時計{% endblock %}
+{% block content %}
+<style>
+  /* 共通ヘッダー・下部メニューを残して、時計を中央に大きく表示 */
+  .clock-page {
+    width: 100%;
+    max-width: none;
+    min-height: calc(100dvh - 76px - 90px);
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .clock-page-content {
+    width: 100%;
+    min-width: 0;
+    transform: translateY(-8px);
+  }
+
+  /* ホーム画面の時計と同じフォント・太さ・数字設定 */
+  .clock-page-time {
+    margin: 0;
+    color: var(--text);
+    font-family: inherit;
+    font-size: clamp(3.5rem, 13vw, 10rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -.055em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .clock-page-date {
+    margin-top: clamp(12px, 2.5vh, 26px);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: clamp(1.1rem, 3.5vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 520px) {
+    .clock-page {
+      min-height: calc(100dvh - 76px - 76px);
+      padding: 0 10px;
+    }
+    .clock-page-time {
+      font-size: clamp(2.8rem, 14vw, 5rem);
+      letter-spacing: -.06em;
+    }
+    .clock-page-date {
+      font-size: clamp(1rem, 4.2vw, 1.35rem);
+    }
+  }
+
+  @media (max-height: 520px) {
+    .clock-page {
+      min-height: calc(100dvh - 76px - 64px);
+    }
+    .clock-page-time {
+      font-size: clamp(2.8rem, 12vh, 6rem);
+    }
+    .clock-page-date {
+      margin-top: 8px;
+      font-size: clamp(.95rem, 3.5vh, 1.4rem);
+    }
+  }
+</style>
+
+<section class="clock-page" aria-label="全画面時計">
+  <div class="clock-page-content">
+    <div class="clock-page-time" id="clock">--:--:--</div>
+    <div class="clock-page-date" id="clockDate">----</div>
+  </div>
+</section>
+{% endblock %}

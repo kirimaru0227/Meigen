@@ -1087,6 +1087,111 @@
     }
   }
 
+
+  /* 画面幅に合わせる7列カレンダー */
+  .calendar-card.calendar-layout-compact {
+    min-width: 0;
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    overflow: hidden;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-scroll {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: auto;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-scroll .calendar-grid {
+    width: 100%;
+    min-width: 0 !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    table-layout: fixed;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-weekday,
+  .calendar-card.calendar-layout-compact .calendar-day {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-day {
+    min-height: clamp(66px, 11vw, 112px);
+    padding: 4px 2px;
+    gap: 3px;
+    overflow: hidden;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-weekday {
+    min-height: 30px;
+    padding: 4px 0;
+    font-size: 11px;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-day-number {
+    width: 23px;
+    height: 23px;
+    font-size: 11px;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-event {
+    min-width: 0;
+    padding: 2px 2px;
+    border-radius: 3px;
+    font-size: clamp(7px, 1.8vw, 10px);
+    line-height: 1.25;
+    overflow: hidden;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-event-title,
+  .calendar-card.calendar-layout-compact .calendar-event-detail {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .calendar-card.calendar-layout-compact .calendar-more-events {
+    font-size: 8px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 600px) {
+    .calendar-card.calendar-layout-compact {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .calendar-card.calendar-layout-compact .calendar-day {
+      min-height: 64px;
+      padding: 3px 1px;
+      gap: 2px;
+    }
+
+    .calendar-card.calendar-layout-compact .calendar-day-number {
+      width: 21px;
+      height: 21px;
+      font-size: 10px;
+    }
+
+    .calendar-card.calendar-layout-compact .calendar-event {
+      padding: 2px 1px;
+      font-size: 7px;
+      line-height: 1.2;
+    }
+
+    .calendar-card.calendar-layout-compact .calendar-more-events {
+      font-size: 7px;
+    }
+  }
+
 </style>
 
 <!-- 予定追加 -->
@@ -1150,14 +1255,14 @@
 </div>
 
 <!-- カレンダー本体 -->
-<section class="card calendar-card">
+<section class="card calendar-card{% if request.cookies.get('myHomeCalendarLayout', 'scroll') == 'compact' %} calendar-layout-compact{% endif %}">
   <div class="calendar-navigation">
     <a href="{{ url_for('calendar_page', year=previous_year, month=previous_month) }}">‹ 前月</a>
     <h2>{{ year }}年{{ month }}月</h2>
     <a href="{{ url_for('calendar_page', year=next_year, month=next_month) }}">翌月 ›</a>
   </div>
 
-  <div class="calendar-scroll" aria-label="カレンダー。左右にスクロールできます">
+  <div class="calendar-scroll" aria-label="{% if request.cookies.get('myHomeCalendarLayout', 'scroll') == 'compact' %}カレンダー{% else %}カレンダー。左右にスクロールできます{% endif %}">
     <div class="calendar-grid">
       {% for weekday in ["日", "月", "火", "水", "木", "金", "土"] %}
         <div class="calendar-weekday">{{ weekday }}</div>

@@ -55,6 +55,18 @@
 
   <details class="card settings-card setting-accordion">
     <summary>
+      <span class="setting-heading">カレンダーの表示方法</span>
+      <span class="setting-description">カレンダーの横幅と表示形式を選択できます。</span>
+      <span class="setting-toggle-icon" aria-hidden="true"></span>
+    </summary>
+    <div class="setting-options setting-choice-list" role="radiogroup" aria-label="カレンダーの表示方法">
+      <label class="choice-option"><input type="radio" name="calendar_layout" value="scroll" {% if calendar_layout == 'scroll' %}checked{% endif %}><span>従来のスタイル（横スクロール）</span></label>
+      <label class="choice-option"><input type="radio" name="calendar_layout" value="compact" {% if calendar_layout == 'compact' %}checked{% endif %}><span>画面幅に合わせる（7列表示・横スクロールなし）</span></label>
+    </div>
+  </details>
+
+  <details class="card settings-card setting-accordion">
+    <summary>
       <span class="setting-heading">外観</span>
       <span class="setting-description">画面全体の配色を変更できます。デバイスの設定に合わせることもできます。</span>
       <span class="setting-toggle-icon" aria-hidden="true"></span>
