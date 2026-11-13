@@ -564,14 +564,34 @@ async function loadWeather() {
     location.textContent = place.label;
   }
 
+  // API応答が返ってこない場合に読み込み中のままにならないよう、
+  // 12秒で通信を中断する
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 12000);
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal
+    });
 
     if (!response.ok) {
-      throw new Error("weather request failed");
+      throw new Error(`weather request failed: HTTP ${response.status}`);
     }
 
     const data = await response.json();
+
+    // APIから必要なデータが返っていることを確認
+    if (
+      !data.current ||
+      typeof data.current.temperature_2m !== "number" ||
+      typeof data.current.weather_code !== "number" ||
+      !data.daily ||
+      !Array.isArray(data.daily.temperature_2m_max) ||
+      !Array.isArray(data.daily.temperature_2m_min)
+    ) {
+      throw new Error("weather response data is incomplete");
+    }
 
     const current = data.current;
     const daily = data.daily;
@@ -612,13 +632,19 @@ async function loadWeather() {
         `${daily.precipitation_probability_max?.[0] ?? "--"}%`;
     }
   } catch (error) {
-    console.error("天気情報の取得に失敗しました:", error);
+    if (error.name === "AbortError") {
+      console.error("天気情報の取得がタイムアウトしました（12秒）");
+    } else {
+      console.error("天気情報の取得に失敗しました:", error);
+    }
 
     const description = document.getElementById("weatherDesc");
 
     if (description) {
       description.textContent = "天気情報を取得できません";
     }
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
