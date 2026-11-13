@@ -3,6 +3,18 @@
 {% block content %}
 
 <style>
+.clock-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.clock-card-link:focus-visible {
+  outline: 3px solid var(--accent, #3b82f6);
+  outline-offset: 3px;
+}
+
 /* ホーム画面のスマートフォン表示 */
 @media (max-width: 600px) {
   .hero-grid,
@@ -30,6 +42,13 @@
   .clock-card,
   .weather-card {
     padding: 10px !important;
+  }
+
+  .clock-card-link {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .card-heading {
@@ -475,7 +494,7 @@
 </style>
 
 <section class="hero-grid">
-  <article class="card clock-card">
+  <a class="card clock-card clock-card-link" href="{{ url_for('clock_page') }}" aria-label="全画面時計を表示">
     <div class="card-heading">
       <img
         class="heading-icon-image custom-icon"
@@ -490,7 +509,7 @@
     <div class="clock-bottom">
       <span id="clockDate">{{ clock_date_label }}</span>
     </div>
-  </article>
+  </a>
 
   <article class="card weather-card" id="weather" tabindex="0" role="button" aria-label="今日の天気。タップすると最高気温、最低気温、降水確率を表示します" aria-expanded="false">
     <div class="card-heading">
