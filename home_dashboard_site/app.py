@@ -44,7 +44,7 @@ PAGE_ANALYTICS_LABELS = {
     "roster_page": "名簿", "recording_page": "録音", "quiz_page": "クイズ",
     "stamp_page": "スタンプ", "video_page": "動画", "calculator_page": "電卓",
     "calculator_history_page": "電卓履歴", "unit_converter_page": "単位変換",
-    "admin_dashboard": "管理者用ページ", "form_page": "アンケート",
+    "admin_dashboard": "管理者用ページ", "form_page": "アンケート", "clock page": "時計", "database page": "データベース"
 }
 
 
