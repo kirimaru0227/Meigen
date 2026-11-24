@@ -11,13 +11,6 @@
     </div>
   </header>
 
-  <nav class="tt-line-selector" aria-label="路線を選択">
-    {% for item in available_lines %}
-      <a href="{{ url_for('timetable_page', line=item.id) }}"
-         class="tt-line-option{% if item.id == line_id %} is-active{% endif %}"
-         {% if item.id == line_id %}aria-current="page"{% endif %}>{{ item.name }}</a>
-    {% endfor %}
-  </nav>
 
   <section class="tt-station-picker" aria-label="駅を選択">
     <h2>駅を選択</h2>
@@ -133,16 +126,12 @@
 }
 
 
-.tt-line-selector{display:flex;gap:8px;overflow-x:auto;padding:2px 1px 10px;margin:-8px 0 18px;scrollbar-width:thin}
-.tt-line-option{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 17px;border:1px solid var(--border-color,#d7dce5);border-radius:12px;color:var(--text-color,#1f2937);text-decoration:none;font-weight:800;background:var(--card-bg,#fff);white-space:nowrap}
-.tt-line-option.is-active{border-color:#1684e8;background:rgba(22,132,232,.10);color:#1684e8}
 .tt-station-picker{margin:0 0 22px}
 .tt-station-picker h2{font-size:1rem;margin:0 0 10px}
 .tt-station-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}
 .tt-station-option{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:9px 12px;border:1px solid var(--border-color,#d7dce5);border-radius:11px;color:var(--text-color,#1f2937);text-decoration:none;background:var(--card-bg,rgba(128,128,128,.035));font-weight:700;box-sizing:border-box}
 .tt-station-option.is-active{border-color:#1684e8;background:rgba(22,132,232,.09);color:#1684e8}
 .tt-station-arrow{font-size:1.35rem;line-height:1;opacity:.55}
-@media(max-width:540px){.tt-line-selector{gap:6px;margin-bottom:14px}.tt-line-option{min-height:40px;padding:0 13px;font-size:.9rem}.tt-station-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.tt-station-option{min-height:43px;padding:8px 10px;font-size:.9rem}}
 
 .tt-header {
   display: flex;

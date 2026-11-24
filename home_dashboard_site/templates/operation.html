@@ -3,27 +3,47 @@
 
 
 
+
+<style>
+.operation-timetable-lines { margin: 0 0 18px; }
+.operation-timetable-lines h2, .operation-station-heading { margin: 0 0 10px; font-size: 1rem; font-weight: 700; }
+.operation-timetable-line-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 9px; }
+.operation-timetable-line { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 12px; color: inherit; text-decoration: none; font-weight: 650; text-align: center; background: var(--card-bg, #fff); }
+.operation-timetable-line.is-active { border: 2px solid var(--primary-color, #1684e8); color: var(--primary-color, #1684e8); background: color-mix(in srgb, var(--primary-color, #1684e8) 8%, transparent); }
+.operation-timetable-line:focus-visible { outline: 3px solid var(--primary-color, #1684e8); outline-offset: 2px; }
+.operation-page .station-selector { margin-top: 14px; }
+.operation-page .station-name { white-space: pre-line; }
+@media (max-width: 540px) { .operation-timetable-line-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; } .operation-timetable-line { min-height: 42px; padding: 8px 6px; font-size: 13px; } }
+</style>
+
 {% block content %}
-<div class="page-container operation-page">
+<div class="page-container operation-page" data-timetable-line="{{ timetable_line_id }}">
 
     <header class="page-header">
         <h1>時刻表</h1>
     </header>
 
+    <!-- 時刻表の路線選択 -->
+    <section class="operation-timetable-lines" aria-label="時刻表の路線を選択">
+        <h2>路線を選択</h2>
+        <div class="operation-timetable-line-grid">
+            {% for item in timetable_lines %}
+            <a href="{{ url_for('operation_page', timetable_line=item.id) }}"
+               class="operation-timetable-line{% if item.id == timetable_line_id %} is-active{% endif %}"
+               {% if item.id == timetable_line_id %}aria-current="page"{% endif %}>{{ item.name }}</a>
+            {% endfor %}
+        </div>
+    </section>
+
     <!-- 駅選択 -->
     <section class="station-selector">
+        <h2 class="operation-station-heading">駅を選択</h2>
         <div class="station-grid station-grid-large" role="radiogroup" aria-label="駅を選択">
-            <label class="station-button" data-station="小山"><span class="station-name">小山</span></label>
-            <label class="station-button" data-station="思川"><span class="station-name">思川</span></label>
-            <label class="station-button" data-station="栃木"><span class="station-name">栃木</span></label>
-            <label class="station-button" data-station="大平下"><span class="station-name">大平下</span></label>
-            <label class="station-button" data-station="岩舟"><span class="station-name">岩舟</span></label>
-            <label class="station-button" data-station="佐野"><span class="station-name">佐野</span></label>
-            <label class="station-button" data-station="富田"><span class="station-name">富田</span></label>
-            <label class="station-button" data-station="あしかがフラワーパーク"><span class="station-name">あしかが<br>フラワーパーク</span></label>
-            <label class="station-button" data-station="足利"><span class="station-name">足利</span></label>
-            <label class="station-button" data-station="山前"><span class="station-name">山前</span></label>
-            <label class="station-button" data-station="小俣"><span class="station-name">小俣</span></label>
+            {% for station_name in timetable_station_names %}
+            <label class="station-button" data-station="{{ station_name }}">
+                <span class="station-name">{{ station_name|replace('あしかがフラワーパーク', 'あしかが\nフラワーパーク')|replace('さいたま新都心', 'さいたま\n新都心') }}</span>
+            </label>
+            {% endfor %}
         </div>
     </section>
 
@@ -327,8 +347,9 @@ if (myStationButton) {
             return;
         }
 
+        const lineId = document.querySelector('.operation-page')?.dataset.timetableLine || 'ryomo';
         window.location.href =
-            `/timetable?station=${encodeURIComponent(stationName)}`;
+            `/timetable?line=${encodeURIComponent(lineId)}&station=${encodeURIComponent(stationName)}`;
     });
 }
 
@@ -399,7 +420,8 @@ if (myStationButton) {
                 }
 
                 hideNotice();
-                window.location.href = `/timetable?station=${encodeURIComponent(nearest.name.replace(/駅$/, ""))}`;
+                const lineId = document.querySelector('.operation-page')?.dataset.timetableLine || 'ryomo';
+                window.location.href = `/timetable?line=${encodeURIComponent(lineId)}&station=${encodeURIComponent(nearest.name.replace(/駅$/, ""))}`;
             },
             error => {
                 const messages = {
@@ -1030,7 +1052,8 @@ if (myStationButton) {
     button.setAttribute('aria-pressed', 'true');
     // 黄色が描画される時間を確保してから遷移
     window.setTimeout(() => {
-      window.location.assign('/timetable?station=' + encodeURIComponent(station));
+      const lineId = document.querySelector('.operation-page')?.dataset.timetableLine || 'ryomo';
+      window.location.assign('/timetable?line=' + encodeURIComponent(lineId) + '&station=' + encodeURIComponent(station));
     }, 220);
   });
 })();
