@@ -2,20 +2,30 @@
 {% block title %}迷言｜時刻表{% endblock %}
 {% block content %}
 <style>
-/* 乗り換えボタン：運行情報ページの更新ボタンと同じ右下位置に固定 */
+/* 乗り換えボタン：下部メニューの上に配置し、読み込み画面より背面にする */
 html body .tt-page .tt-transfer-button {
   position: fixed !important;
   right: 18px !important;
-  bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+  bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
   left: auto !important;
   top: auto !important;
   width: 54px !important;
   height: 54px !important;
-  z-index: 1000 !important;
+  z-index: 9999 !important;
 }
-/* 乗り換えパネルも読み込み画面より前面に出ない重なり順にする */
 html body .tt-page .tt-transfer-panel {
-  z-index: 1001 !important;
+  z-index: 9999 !important;
+}
+@media (max-width: 600px) {
+  html body .tt-page .tt-transfer-button {
+    right: 14px !important;
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+  html body .tt-page .tt-transfer-panel {
+    bottom: calc(136px + env(safe-area-inset-bottom, 0px)) !important;
+  }
 }
 </style>
 <section class="tt-page">
