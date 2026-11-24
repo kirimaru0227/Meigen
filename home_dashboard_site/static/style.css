@@ -6589,10 +6589,8 @@ html body main.page form.settings-form > details.setting-accordion > summary > .
 }
 
 
-/* 時刻表：駅選択の見出しを押して駅一覧を開閉 */
-.operation-page .station-selector > .operation-station-toggle {
-    appearance: none !important;
-    -webkit-appearance: none !important;
+/* 時刻表：駅選択の見出し（常時表示・開閉なし） */
+.operation-page .station-selector > .operation-station-heading {
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
@@ -6601,17 +6599,14 @@ html body main.page form.settings-form > details.setting-accordion > summary > .
     margin: 12px 0 8px !important;
     padding: 0 !important;
     border: 0 !important;
-    border-radius: 0 !important;
-    outline-offset: 4px !important;
     background: transparent !important;
     box-shadow: none !important;
     color: var(--text) !important;
-    font: inherit !important;
     text-align: left !important;
-    cursor: pointer !important;
+    cursor: default !important;
 }
 
-.operation-page .station-selector > .operation-station-toggle h2 {
+.operation-page .station-selector > .operation-station-heading h2 {
     margin: 0 !important;
     font-family: inherit !important;
     font-size: 20px !important;
@@ -6620,22 +6615,8 @@ html body main.page form.settings-form > details.setting-accordion > summary > .
     color: inherit !important;
 }
 
-.operation-page .station-selector > .operation-station-toggle:focus-visible {
-    outline: 2px solid var(--purple) !important;
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-.operation-page #timetableStationChoices[hidden] {
-    display: none !important;
-}
-
-.operation-page #timetableStationChoices:not([hidden]) {
-    display: grid !important;
-}
-
 @media (max-width: 768px) {
-    .operation-page .station-selector > .operation-station-toggle {
+    .operation-page .station-selector > .operation-station-heading {
         margin-top: 10px !important;
         margin-bottom: 8px !important;
     }
