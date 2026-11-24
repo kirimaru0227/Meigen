@@ -6,23 +6,10 @@
     <div>
       <h1>{% if station %}{{ line_name }}{{ station }}駅時刻表{% else %}{{ line_name }}時刻表{% endif %}</h1>
       {% if station and station_info.en %}
-        <p class="tt-subtitle">{{ line_name }} {{ station_info.en }} Station Timetable</p>
+        <p class="tt-subtitle">Ryomo Line {{ station_info.en }} Station Timetable</p>
       {% endif %}
     </div>
   </header>
-
-
-  <section class="tt-station-picker" aria-label="駅を選択">
-    <h2>駅を選択</h2>
-    <div class="tt-station-grid">
-      {% for station_name in station_names %}
-        <a class="tt-station-option{% if station_name == station %} is-active{% endif %}"
-           href="{{ url_for('timetable_page', line=line_id, station=station_name) }}">
-          <span>{{ station_name }}</span><span class="tt-station-arrow" aria-hidden="true">›</span>
-        </a>
-      {% endfor %}
-    </div>
-  </section>
 
   {% if station %}
     {% if departures_by_direction %}
@@ -43,7 +30,7 @@
               <div class="tt-train-list">
                 {% for train in section.trains %}
                   <a
-                    href="{{ url_for('train_detail', line_id=line_id, train_number=train.train_number, station=station) }}"
+                    href="{{ url_for('train_detail', train_number=train.train_number, station=station) }}"
                     class="tt-train-link"
                     aria-label="{{ train.train_number }} {{ train.type }} {{ train.destination }}行きの停車駅時刻表を見る"
                   >
@@ -76,9 +63,6 @@
 
                         {% if train.note %}
                           <p class="tt-note">{{ train.note }}</p>
-                        {% endif %}
-                        {% if train.operating_days and '毎日' not in train.operating_days and '全日' not in train.operating_days %}
-                          <p class="tt-note">運転日：{{ '・'.join(train.operating_days) }}</p>
                         {% endif %}
 
                         <p class="tt-countdown" data-countdown>
@@ -124,14 +108,6 @@
   color: var(--text-color, #1f2937);
   box-sizing: border-box;
 }
-
-
-.tt-station-picker{margin:0 0 22px}
-.tt-station-picker h2{font-size:1rem;margin:0 0 10px}
-.tt-station-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}
-.tt-station-option{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:9px 12px;border:1px solid var(--border-color,#d7dce5);border-radius:11px;color:var(--text-color,#1f2937);text-decoration:none;background:var(--card-bg,rgba(128,128,128,.035));font-weight:700;box-sizing:border-box}
-.tt-station-option.is-active{border-color:#1684e8;background:rgba(22,132,232,.09);color:#1684e8}
-.tt-station-arrow{font-size:1.35rem;line-height:1;opacity:.55}
 
 .tt-header {
   display: flex;
