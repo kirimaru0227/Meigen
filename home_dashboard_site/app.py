@@ -974,12 +974,23 @@ def _make_route_stations(names):
         result[names[-1]].pop("下り", None)
     return result
 
-UTL_STATIONS = list(UTSUNOMIYA_TIMETABLE_STATIONS.keys())
+# 上野東京ライン用は東京→宇都宮の順で保持し、路線表示時に反転して宇都宮→熱海にする。
+UTL_STATIONS = list(reversed(list(UTSUNOMIYA_TIMETABLE_STATIONS.keys())))
 UTL_STATIONS_REVERSED = list(reversed(UTL_STATIONS))
+# JR宇都宮線：駅選択では宇都宮→東京の順に表示する。
+UTSUNOMIYA_TIMETABLE_STATIONS = dict(reversed(list(UTSUNOMIYA_TIMETABLE_STATIONS.items())))
+
 # 上野東京ライン：宇都宮～東京～熱海（東海道線内の各駅）
 UTL_TOKAIDO = ["東京", "新橋", "品川", "川崎", "横浜", "戸塚", "大船", "藤沢", "辻堂", "茅ケ崎", "平塚", "大磯", "二宮", "国府津", "鴨宮", "小田原", "早川", "根府川", "真鶴", "湯河原", "熱海"]
-# 湘南新宿ライン：宇都宮～大宮～新宿～逗子（停車駅）
-SHONAN_STATIONS = ["宇都宮", "雀宮", "石橋", "自治医大", "小金井", "小山", "間々田", "野木", "古河", "栗橋", "東鷲宮", "久喜", "新白岡", "白岡", "蓮田", "東大宮", "土呂", "大宮", "浦和", "赤羽", "池袋", "新宿", "渋谷", "恵比寿", "大崎", "武蔵小杉", "横浜", "戸塚", "大船", "鎌倉", "逗子"]
+# 湘南新宿ライン：宇都宮～逗子（普通列車の停車駅を路線順に掲載）
+SHONAN_STATIONS = [
+    "宇都宮", "雀宮", "石橋", "自治医大", "小金井", "小山",
+    "間々田", "野木", "古河", "栗橋", "東鷲宮", "久喜",
+    "新白岡", "白岡", "蓮田", "東大宮", "土呂", "大宮",
+    "浦和", "赤羽", "池袋", "新宿", "渋谷", "恵比寿", "大崎",
+    "西大井", "武蔵小杉", "新川崎", "横浜", "保土ヶ谷",
+    "東戸塚", "戸塚", "大船", "北鎌倉", "鎌倉", "逗子",
+]
 SKYTREE_STATIONS = ["東武動物公園", "姫宮", "北春日部", "春日部", "一ノ割", "武里", "せんげん台", "大袋", "北越谷", "越谷", "新越谷", "蒲生", "新田", "獨協大学前", "草加", "谷塚", "竹ノ塚", "西新井", "梅島", "五反野", "小菅", "北千住", "牛田", "堀切", "鐘ケ淵", "東向島", "曳舟", "押上", "とうきょうスカイツリー", "浅草"]
 NIKKO_STATIONS = ["東武動物公園", "杉戸高野台", "幸手", "南栗橋", "栗橋", "新古河", "柳生", "板倉東洋大前", "藤岡", "静和", "新大平下", "栃木", "新栃木", "合戦場", "家中", "東武金崎", "楡木", "樅山", "新鹿沼", "北鹿沼", "板荷", "下小代", "明神", "下今市", "上今市", "東武日光"]
 UTSUNOMIYA_TOHBU_STATIONS = ["栃木", "新栃木", "野州平川", "野州大塚", "壬生", "国谷", "おもちゃのまち", "安塚", "西川田", "江曽島", "南宇都宮", "東武宇都宮"]
@@ -988,12 +999,12 @@ SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", 
 
 TIMETABLE_LINE_CONFIG = {
     "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS, "color": "#FACC15", "text_color": "#292524"},
-    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F"},
+    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F", "text_color": "#292524"},
     "ueno_tokyo": {"name": "上野東京ライン", "stations": _make_route_stations(UTL_STATIONS_REVERSED + UTL_TOKAIDO[1:]), "color": "#90268E"},
     "shonan_shinjuku": {"name": "湘南新宿ライン", "stations": _make_route_stations(SHONAN_STATIONS), "color": "#E31E27"},
     "tobu_skytree": {"name": "東武スカイツリーライン", "stations": _make_route_stations(SKYTREE_STATIONS), "color": "#0071BB"},
-    "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220"},
-    "tobu_utsunomiya": {"name": "東武宇都宮線", "stations": _make_route_stations(UTSUNOMIYA_TOHBU_STATIONS), "color": "#D0A248"},
+    "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220", "text_color": "#292524"},
+    "tobu_utsunomiya": {"name": "東武宇都宮線", "stations": _make_route_stations(UTSUNOMIYA_TOHBU_STATIONS), "color": "#D0A248", "text_color": "#292524"},
     "tobu_isesaki": {"name": "東武伊勢崎線", "stations": _make_route_stations(ISESAKI_STATIONS), "color": "#B00339"},
     "tobu_sano": {"name": "東武佐野線", "stations": _make_route_stations(SANO_STATIONS), "color": "#A065AA"},
 }
