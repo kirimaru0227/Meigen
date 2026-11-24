@@ -1243,6 +1243,22 @@ def timetable_page():
             if target_line_id == "ueno_tokyo" and station != "東京":
                 continue
 
+            # 上野東京ライン東京駅では、宇都宮線を乗り換え候補にしない。
+            if (
+                line_id == "ueno_tokyo"
+                and station == "東京"
+                and target_line_id == "utsunomiya"
+            ):
+                continue
+
+            # 東武日光線・東武宇都宮線の栃木駅は同一駅として扱い、
+            # お互いを乗り換え候補として表示しない。
+            if (
+                station == "栃木"
+                and {line_id, target_line_id} == {"tobu_nikko", "tobu_utsunomiya"}
+            ):
+                continue
+
             # 湘南新宿ラインと宇都宮線の共用区間は乗り換え扱いにしない。
             if (
                 target_line_id == "shonan_shinjuku"
