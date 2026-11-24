@@ -1000,7 +1000,7 @@ SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", 
 TIMETABLE_LINE_CONFIG = {
     "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS, "color": "#FACC15", "text_color": "#292524"},
     "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F", "text_color": "#292524"},
-    "ueno_tokyo": {"name": "上野東京ライン", "stations": _make_route_stations(UTL_STATIONS_REVERSED + UTL_TOKAIDO[1:]), "color": "#90268E"},
+    "ueno_tokyo": {"name": "上野東京ライン", "stations": _make_route_stations(list(UTSUNOMIYA_TIMETABLE_STATIONS.keys()) + UTL_TOKAIDO[1:]), "color": "#90268E"},
     "shonan_shinjuku": {"name": "湘南新宿ライン", "stations": _make_route_stations(SHONAN_STATIONS), "color": "#E31E27"},
     "tobu_skytree": {"name": "東武スカイツリーライン", "stations": _make_route_stations(SKYTREE_STATIONS), "color": "#0071BB"},
     "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220", "text_color": "#292524"},
