@@ -960,12 +960,52 @@ UTSUNOMIYA_TIMETABLE_STATIONS = {
     "宇都宮": {"en": "Utsunomiya", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}},
 }
 
+# 路線選択で使う全駅の英語表記。
+STATION_ENGLISH_NAMES = {
+    "宇都宮": "Utsunomiya", "雀宮": "Suzumenomiya", "石橋": "Ishibashi", "自治医大": "Jichi Medical University",
+    "小金井": "Koganei", "小山": "Oyama", "間々田": "Mamada", "野木": "Nogi", "古河": "Koga",
+    "栗橋": "Kurihashi", "東鷲宮": "Higashi-Washinomiya", "久喜": "Kuki", "新白岡": "Shin-Shiraoka",
+    "白岡": "Shiraoka", "蓮田": "Hasuda", "東大宮": "Higashi-Omiya", "土呂": "Toro", "大宮": "Omiya",
+    "浦和": "Urawa", "赤羽": "Akabane", "池袋": "Ikebukuro", "新宿": "Shinjuku", "渋谷": "Shibuya",
+    "恵比寿": "Ebisu", "大崎": "Osaki", "西大井": "Nishi-Oi", "武蔵小杉": "Musashi-Kosugi",
+    "新川崎": "Shin-Kawasaki", "横浜": "Yokohama", "保土ヶ谷": "Hodogaya", "東戸塚": "Higashi-Totsuka",
+    "戸塚": "Totsuka", "大船": "Ofuna", "北鎌倉": "Kita-Kamakura", "鎌倉": "Kamakura", "逗子": "Zushi",
+    "東京": "Tokyo", "上野": "Ueno", "尾久": "Oku", "さいたま新都心": "Saitama-Shintoshin",
+    "新橋": "Shimbashi", "品川": "Shinagawa", "川崎": "Kawasaki", "藤沢": "Fujisawa", "辻堂": "Tsujido",
+    "茅ケ崎": "Chigasaki", "平塚": "Hiratsuka", "大磯": "Oiso", "二宮": "Ninomiya", "国府津": "Kozu",
+    "鴨宮": "Kamonomiya", "小田原": "Odawara", "早川": "Hayakawa", "根府川": "Nebukawa", "真鶴": "Manazuru",
+    "湯河原": "Yugawara", "熱海": "Atami", "東武動物公園": "Tobu-Dobutsu-Koen", "姫宮": "Himemiya",
+    "北春日部": "Kita-Kasukabe", "春日部": "Kasukabe", "一ノ割": "Ichinowari", "武里": "Takesato",
+    "せんげん台": "Sengendai", "大袋": "Obukuro", "北越谷": "Kita-Koshigaya", "越谷": "Koshigaya",
+    "新越谷": "Shin-Koshigaya", "蒲生": "Gamo", "新田": "Shinden", "獨協大学前": "Dokkyo-Daigaku-mae",
+    "草加": "Soka", "谷塚": "Yatsuka", "竹ノ塚": "Takenotsuka", "西新井": "Nishiarai", "梅島": "Umejima",
+    "五反野": "Gotanno", "小菅": "Kosuge", "北千住": "Kita-Senju", "牛田": "Ushida", "堀切": "Horikiri",
+    "鐘ケ淵": "Kane-ga-fuchi", "東向島": "Higashi-Mukojima", "曳舟": "Hikifune", "押上": "Oshiage",
+    "とうきょうスカイツリー": "Tokyo Skytree", "浅草": "Asakusa", "杉戸高野台": "Sugito-Takanodai",
+    "幸手": "Satte", "南栗橋": "Minami-Kurihashi", "新古河": "Shin-Koga", "柳生": "Yagyu",
+    "板倉東洋大前": "Itakura-Toyodai-mae", "藤岡": "Fujioka", "静和": "Shizuwa", "新大平下": "Shin-Ohirashita",
+    "栃木": "Tochigi", "新栃木": "Shin-Tochigi", "合戦場": "Kassemba", "家中": "Ienaka",
+    "東武金崎": "Tobu-Kanasaki", "楡木": "Niregi", "樅山": "Momiyama", "新鹿沼": "Shin-Kanuma",
+    "北鹿沼": "Kita-Kanuma", "板荷": "Itaga", "下小代": "Shimo-Goshiro", "明神": "Myojin",
+    "下今市": "Shimo-Imaichi", "上今市": "Kami-Imaichi", "東武日光": "Tobu-Nikko", "野州平川": "Yashu-Hirakawa",
+    "野州大塚": "Yashu-Otsuka", "壬生": "Mibu", "国谷": "Kuniya", "おもちゃのまち": "Omocha-no-Machi",
+    "安塚": "Yasuzuka", "西川田": "Nishikawada", "江曽島": "Esojima", "南宇都宮": "Minami-Utsunomiya",
+    "東武宇都宮": "Tobu-Utsunomiya", "和戸": "Wado", "鷲宮": "Washinomiya", "花崎": "Hanasaki",
+    "加須": "Kazo", "南羽生": "Minami-Hanyu", "羽生": "Hanyu", "川俣": "Kawamata",
+    "茂林寺前": "Morinji-mae", "館林": "Tatebayashi", "多々良": "Tatara", "県": "Agata",
+    "福居": "Fukui", "東武和泉": "Tobu-Izumi", "足利市": "Ashikagashi", "野州山辺": "Yashu-Yamabe",
+    "韮川": "Nigawa", "太田": "Ota", "渡瀬": "Watase", "田島": "Tajima", "佐野市": "Sanoshi",
+    "佐野": "Sano", "堀米": "Horigome", "吉水": "Yoshimizu", "田沼": "Tanuma", "多田": "Tada", "葛生": "Kuzuu",
+    "思川": "Omoigawa", "大平下": "Ohirashita", "岩舟": "Iwafune", "富田": "Tomita",
+    "あしかがフラワーパーク": "Ashikaga Flower Park", "足利": "Ashikaga", "山前": "Yamamae", "小俣": "Omata",
+}
+
 # 運行情報ページの時刻表路線選択。駅は指定区間内を路線順に掲載。
 def _make_route_stations(names):
     result = {}
     for index, name in enumerate(names):
         result[name] = {
-            "en": name,
+            "en": STATION_ENGLISH_NAMES.get(name, name),
             "上り": {"direction_label": names[max(0, index - 1)] + "方面", "platform": ""},
             "下り": {"direction_label": names[min(len(names) - 1, index + 1)] + "方面", "platform": ""},
         }
@@ -1102,7 +1142,7 @@ def timetable_page():
         source_config = TIMETABLE_LINE_CONFIG.get(source_line_id, {})
         source_stations = source_config.get("stations", {})
         source_info = source_stations.get(source_station, {}).get(direction)
-        if not source_info and line_id in {"tobu_nikko", "tobu_isesaki"} and source_line_id == "tobu_skytree" and source_station == "東武動物公園" and direction == "上り":
+        if not source_info and source_line_id == "tobu_skytree" and source_station == "東武動物公園" and direction == "上り":
             source_info = {"direction_label": "北千住・曳舟・浅草方面", "platform": ""}
         if not source_info:
             return None
@@ -1149,13 +1189,12 @@ def timetable_page():
         # 東武動物公園では、支線側の上りにスカイツリーライン上りを表示。
         if station == "東武動物公園" and line_id in {"tobu_nikko", "tobu_isesaki"}:
             direction_sources["上り"] = [("tobu_skytree", station)]
+        # スカイツリーライン東武動物公園は上り・下りの両方向を表示。
+        if station == "東武動物公園" and line_id == "tobu_skytree":
+            direction_sources["上り"] = [("tobu_skytree", station)]
         # スカイツリーライン東武動物公園の下りは日光線・伊勢崎線を統合。
         if station == "東武動物公園" and line_id == "tobu_skytree":
             direction_sources["下り"] = [("tobu_nikko", station), ("tobu_isesaki", station)]
-        # 新栃木の東武宇都宮線下りは日光線側の時刻表を共用。
-        if station == "新栃木" and line_id == "tobu_utsunomiya":
-            direction_sources["下り"] = [("tobu_nikko", station)]
-
         for direction, sources in direction_sources.items():
             sections = [collect_direction(src_line, src_station, direction) for src_line, src_station in sources]
             sections = [section for section in sections if section]
@@ -1190,6 +1229,7 @@ def timetable_page():
         "timetable.html", station=station, stations=stations, station_names=station_names,
         station_info=stations.get(station, {}), departures_by_direction=departures_by_direction,
         line_name=line_data.get("name", "時刻表"), line_id=line_id, line_en_name=line_en_names.get(line_id, line_data.get("name", "Timetable")),
+        timetable_transfers=TIMETABLE_TRANSFER_MAP.get(line_id, {}),
         now_label=now.strftime("%Y/%m/%d %H:%M"),
         operating_day_label="土休日" if now.weekday() >= 5 or jpholiday.is_holiday(now.date()) else "平日",
     )
