@@ -6536,3 +6536,54 @@ html body main.page form.settings-form > details.setting-accordion > summary > .
     outline-offset: 2px;
 }
 
+
+
+/* 時刻表ページ：路線選択見出しを「駅を選択」と位置・サイズ統一 */
+.operation-page .operation-timetable-lines {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    padding: 0 22px !important;
+    margin: 0 !important;
+}
+
+.operation-page .operation-timetable-toggle {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--text) !important;
+    text-align: left !important;
+    line-height: 1.3 !important;
+}
+
+.operation-page .operation-timetable-toggle h2 {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: inherit !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+    letter-spacing: normal !important;
+}
+
+/* 閉じているときに、駅選択まで余分な空白を作らない */
+.operation-page .operation-timetable-line-grid {
+    margin-top: 8px !important;
+}
+
+.operation-page .station-selector {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 620px) {
+    .operation-page .operation-timetable-lines {
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+}
