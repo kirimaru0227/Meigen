@@ -6717,7 +6717,11 @@ html body .page-container.operation-page .station-selector .station-grid.station
 .timetable-transfer-group { padding:9px 0; border-top:1px solid var(--border); }
 .timetable-transfer-group h3 { margin:0 0 7px; font-size:13px; }
 .timetable-transfer-links { display:flex; flex-wrap:wrap; gap:6px; }
-.timetable-transfer-links a { display:inline-flex; align-items:center; min-height:32px; padding:6px 9px; border:1px solid var(--border); border-radius:9px; background:var(--surface-2); color:var(--text); text-decoration:none; font-size:11px; font-weight:650; }
+.timetable-transfer-links a { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; width:100%; min-height:48px; padding:8px 11px; border:1px solid var(--border); border-radius:10px; background:var(--surface-2); color:var(--text); text-decoration:none; font-size:12px; font-weight:650; }
+.timetable-transfer-links a:active { transform:scale(.99); }
+.tt-transfer-route-name { color:var(--text); font-size:13px; font-weight:750; line-height:1.25; }
+.tt-transfer-station-name { color:var(--muted); font-size:11px; font-weight:500; line-height:1.2; }
+.timetable-transfer-panel-heading small { display:block; margin-top:3px; color:var(--muted); font-size:11px; font-weight:500; }
 @media (max-width:600px) {
     .timetable-transfer-button { right:70px; bottom:calc(78px + env(safe-area-inset-bottom, 0px)); width:48px; height:48px; font-size:24px; }
     .timetable-transfer-panel { bottom:calc(136px + env(safe-area-inset-bottom, 0px)); }
