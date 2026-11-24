@@ -960,9 +960,42 @@ UTSUNOMIYA_TIMETABLE_STATIONS = {
     "宇都宮": {"en": "Utsunomiya", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}},
 }
 
+# 運行情報ページの時刻表路線選択。駅は指定区間内を路線順に掲載。
+def _make_route_stations(names):
+    result = {}
+    for index, name in enumerate(names):
+        result[name] = {
+            "en": name,
+            "上り": {"direction_label": names[max(0, index - 1)] + "方面", "platform": ""},
+            "下り": {"direction_label": names[min(len(names) - 1, index + 1)] + "方面", "platform": ""},
+        }
+    if names:
+        result[names[0]].pop("上り", None)
+        result[names[-1]].pop("下り", None)
+    return result
+
+UTL_STATIONS = list(UTSUNOMIYA_TIMETABLE_STATIONS.keys())
+UTL_STATIONS_REVERSED = list(reversed(UTL_STATIONS))
+# 上野東京ライン：宇都宮～東京～熱海（東海道線内の各駅）
+UTL_TOKAIDO = ["東京", "新橋", "品川", "川崎", "横浜", "戸塚", "大船", "藤沢", "辻堂", "茅ケ崎", "平塚", "大磯", "二宮", "国府津", "鴨宮", "小田原", "早川", "根府川", "真鶴", "湯河原", "熱海"]
+# 湘南新宿ライン：宇都宮～大宮～新宿～逗子（停車駅）
+SHONAN_STATIONS = ["宇都宮", "雀宮", "石橋", "自治医大", "小金井", "小山", "間々田", "野木", "古河", "栗橋", "東鷲宮", "久喜", "新白岡", "白岡", "蓮田", "東大宮", "土呂", "大宮", "浦和", "赤羽", "池袋", "新宿", "渋谷", "恵比寿", "大崎", "武蔵小杉", "横浜", "戸塚", "大船", "鎌倉", "逗子"]
+SKYTREE_STATIONS = ["東武動物公園", "姫宮", "北春日部", "春日部", "一ノ割", "武里", "せんげん台", "大袋", "北越谷", "越谷", "新越谷", "蒲生", "新田", "獨協大学前", "草加", "谷塚", "竹ノ塚", "西新井", "梅島", "五反野", "小菅", "北千住", "牛田", "堀切", "鐘ケ淵", "東向島", "曳舟", "押上", "とうきょうスカイツリー", "浅草"]
+NIKKO_STATIONS = ["東武動物公園", "杉戸高野台", "幸手", "南栗橋", "栗橋", "新古河", "柳生", "板倉東洋大前", "藤岡", "静和", "新大平下", "栃木", "新栃木", "合戦場", "家中", "東武金崎", "楡木", "樅山", "新鹿沼", "北鹿沼", "板荷", "下小代", "明神", "下今市", "上今市", "東武日光"]
+UTSUNOMIYA_TOHBU_STATIONS = ["栃木", "新栃木", "野州平川", "野州大塚", "壬生", "国谷", "おもちゃのまち", "安塚", "西川田", "江曽島", "南宇都宮", "東武宇都宮"]
+ISESAKI_STATIONS = ["東武動物公園", "和戸", "久喜", "鷲宮", "花崎", "加須", "南羽生", "羽生", "川俣", "茂林寺前", "館林", "多々良", "県", "福居", "東武和泉", "足利市", "野州山辺", "韮川", "太田"]
+SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", "吉水", "田沼", "多田", "葛生"]
+
 TIMETABLE_LINE_CONFIG = {
-    "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS},
-    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS},
+    "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS, "color": "#FACC15", "text_color": "#292524"},
+    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F"},
+    "ueno_tokyo": {"name": "上野東京ライン", "stations": _make_route_stations(UTL_STATIONS_REVERSED + UTL_TOKAIDO[1:]), "color": "#90268E"},
+    "shonan_shinjuku": {"name": "湘南新宿ライン", "stations": _make_route_stations(SHONAN_STATIONS), "color": "#E31E27"},
+    "tobu_skytree": {"name": "東武スカイツリーライン", "stations": _make_route_stations(SKYTREE_STATIONS), "color": "#0071BB"},
+    "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220"},
+    "tobu_utsunomiya": {"name": "東武宇都宮線", "stations": _make_route_stations(UTSUNOMIYA_TOHBU_STATIONS), "color": "#D0A248"},
+    "tobu_isesaki": {"name": "東武伊勢崎線", "stations": _make_route_stations(ISESAKI_STATIONS), "color": "#B00339"},
+    "tobu_sano": {"name": "東武佐野線", "stations": _make_route_stations(SANO_STATIONS), "color": "#A065AA"},
 }
 
 # 設定画面のMy駅選択肢（両毛線：小山～小俣）
@@ -1021,9 +1054,8 @@ def train_operates_on_date(train, target_date):
 def timetable_page():
     data = load_timetable_data()
     available_lines = [
-        {"id": line_id, "name": config["name"]}
+        {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650")}
         for line_id, config in TIMETABLE_LINE_CONFIG.items()
-        if any(item.get("id") == line_id for item in data.get("lines", []))
     ]
     supported_ids = {item["id"] for item in available_lines}
     requested_line = request.args.get("line", "").strip()
@@ -1823,7 +1855,7 @@ def operation_page():
 
     # 時刻表の路線選択は運行情報ページに配置する。
     timetable_lines = [
-        {"id": line_id, "name": config["name"]}
+        {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650")}
         for line_id, config in TIMETABLE_LINE_CONFIG.items()
     ]
     timetable_line_id = request.args.get("timetable_line", "").strip()
@@ -1840,6 +1872,9 @@ def operation_page():
     if my_station not in MY_STATION_OPTIONS:
         my_station = ""
 
+    timetable_line_color = TIMETABLE_LINE_CONFIG[timetable_line_id].get("color", "#FACC15")
+    timetable_line_text_color = TIMETABLE_LINE_CONFIG[timetable_line_id].get("text_color", "#FFFFFF")
+
     return render_template(
         "operation.html",
         operation=operation,
@@ -1850,6 +1885,8 @@ def operation_page():
         my_station_name=my_station,
         timetable_lines=timetable_lines,
         timetable_line_id=timetable_line_id,
+        timetable_line_color=timetable_line_color,
+        timetable_line_text_color=timetable_line_text_color,
         timetable_station_names=timetable_station_names,
     )
 
