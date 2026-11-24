@@ -116,9 +116,11 @@ def init_analytics_db():
 def analytics_page_name(endpoint):
     if endpoint == "timetable_page":
         station = request.args.get("station", "").strip()
-        if station and station in TIMETABLE_STATIONS:
-            return f"{station}駅時刻表"
-        return "時刻表（駅未選択）"
+        line_id = request.args.get("line", "") or selected_route()
+        line_name = TIMETABLE_LINE_CONFIG.get(line_id, {}).get("name", "時刻表")
+        if station:
+            return f"{line_name} {station}駅時刻表"
+        return f"時刻表（{line_name}・駅未選択）"
     if endpoint == "train_detail":
         train_number = (request.view_args or {}).get("train_number", "")
         if train_number:
@@ -930,132 +932,197 @@ TIMETABLE_STATIONS = {
     },
 }
 
+# JR宇都宮線（東京～小山～宇都宮）の駅情報
+UTSUNOMIYA_TIMETABLE_STATIONS = {
+    "東京": {"en": "Tokyo", "下り": {"direction_label": "上野･大宮･小山･宇都宮方面", "platform": ""}},
+    "上野": {"en": "Ueno", "上り": {"direction_label": "東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
+    "尾久": {"en": "Oku", "上り": {"direction_label": "上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
+    "赤羽": {"en": "Akabane", "上り": {"direction_label": "上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
+    "浦和": {"en": "Urawa", "上り": {"direction_label": "赤羽･上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
+    "さいたま新都心": {"en": "Saitama-Shintoshin", "上り": {"direction_label": "浦和･上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
+    "大宮": {"en": "Omiya", "上り": {"direction_label": "浦和･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "土呂": {"en": "Toro", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "東大宮": {"en": "Higashi-Omiya", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "蓮田": {"en": "Hasuda", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "白岡": {"en": "Shiraoka", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "新白岡": {"en": "Shin-Shiraoka", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "久喜": {"en": "Kuki", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "東鷲宮": {"en": "Higashi-Washinomiya", "上り": {"direction_label": "久喜･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "古河･小山･宇都宮方面", "platform": ""}},
+    "栗橋": {"en": "Kurihashi", "上り": {"direction_label": "久喜･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "古河･小山･宇都宮方面", "platform": ""}},
+    "古河": {"en": "Koga", "上り": {"direction_label": "久喜･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "野木･小山･宇都宮方面", "platform": ""}},
+    "野木": {"en": "Nogi", "上り": {"direction_label": "古河･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "間々田": {"en": "Mamada", "上り": {"direction_label": "古河･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "小山": {"en": "Oyama", "上り": {"direction_label": "古河･大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小金井･宇都宮方面", "platform": ""}},
+    "小金井": {"en": "Koganei", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "自治医大･宇都宮方面", "platform": ""}},
+    "自治医大": {"en": "Jichi Medical University", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "石橋･宇都宮方面", "platform": ""}},
+    "石橋": {"en": "Ishibashi", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "雀宮･宇都宮方面", "platform": ""}},
+    "雀宮": {"en": "Suzumenomiya", "上り": {"direction_label": "石橋･小山･東京方面", "platform": ""}, "下り": {"direction_label": "宇都宮方面", "platform": ""}},
+    "宇都宮": {"en": "Utsunomiya", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}},
+}
+
+TIMETABLE_LINE_CONFIG = {
+    "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS},
+    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS},
+}
+
 # 設定画面のMy駅選択肢（両毛線：小山～小俣）
 MY_STATION_OPTIONS = [
     "小山", "思川", "栃木", "大平下", "岩舟", "佐野",
     "富田", "あしかがフラワーパーク", "足利", "山前", "小俣",
 ]
 
+def load_timetable_data():
+    """複数路線形式の時刻表JSONを読み込む。旧形式も後方互換で扱う。"""
+    timetable_path = Path(__file__).resolve().parent / "timetable.json"
+    try:
+        with timetable_path.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return {"lines": []}
+
+    if isinstance(data, dict) and isinstance(data.get("lines"), list):
+        return data
+    # 旧形式 {line, trains} を両毛線として読み替える。
+    if isinstance(data, dict) and isinstance(data.get("trains"), list):
+        for train in data["trains"]:
+            train.setdefault("operating_days", ["毎日"])
+        return {"version": 2, "lines": [{
+            "id": "ryomo", "name": data.get("line", "両毛線"),
+            "stations": list(TIMETABLE_STATIONS.keys()), "trains": data["trains"]
+        }]}
+    return {"lines": []}
+
+
+def timetable_line_data(line_id):
+    data = load_timetable_data()
+    return next((line for line in data.get("lines", []) if line.get("id") == line_id), None)
+
+
+def train_operates_on_date(train, target_date):
+    """運行日指定を判定。未指定の旧データは毎日運転として扱う。"""
+    date_text = target_date.strftime("%Y-%m-%d")
+    if date_text in train.get("excluded_dates", []):
+        return False
+    operating_days = train.get("operating_days") or ["毎日"]
+    operating_dates = train.get("operating_dates", [])
+    if "特定日" in operating_days and date_text in operating_dates:
+        return True
+    if "毎日" in operating_days or "全日" in operating_days:
+        return True
+    is_holiday = target_date.weekday() >= 5 or jpholiday.is_holiday(target_date)
+    if "土休日" in operating_days and is_holiday:
+        return True
+    if "平日" in operating_days and not is_holiday:
+        return True
+    return False
+
+
 @app.route("/timetable", methods=["GET"])
 def timetable_page():
+    data = load_timetable_data()
+    available_lines = [
+        {"id": line_id, "name": config["name"]}
+        for line_id, config in TIMETABLE_LINE_CONFIG.items()
+        if any(item.get("id") == line_id for item in data.get("lines", []))
+    ]
+    supported_ids = {item["id"] for item in available_lines}
+    requested_line = request.args.get("line", "").strip()
+    if requested_line not in supported_ids:
+        preferred = selected_route()
+        requested_line = preferred if preferred in supported_ids else (available_lines[0]["id"] if available_lines else "ryomo")
+    line_id = requested_line
+    line_data = timetable_line_data(line_id) or {"id": line_id, "name": TIMETABLE_LINE_CONFIG.get(line_id, {}).get("name", "時刻表"), "trains": []}
+    stations = TIMETABLE_LINE_CONFIG.get(line_id, {}).get("stations", {})
+    station_names = line_data.get("stations") or list(stations.keys())
+    # 路線データにある駅だけを駅一覧として表示する。
+    station_names = [name for name in station_names if name in stations]
     station = request.args.get("station", "").strip()
-    if station not in TIMETABLE_STATIONS:
+    # 駅一覧に常時表示しない駅でも、列車詳細ページから遷移できるようにする。
+    if station not in stations:
         station = ""
 
     now = datetime.now(JST)
     departures_by_direction = {}
     if station:
-        timetable_path = Path(__file__).resolve().parent / "timetable.json"
-        try:
-            with timetable_path.open("r", encoding="utf-8") as f:
-                timetable_data = json.load(f)
-        except (OSError, json.JSONDecodeError):
-            timetable_data = {"line": "両毛線", "trains": []}
-
-        def station_datetime(value):
-            if not value:
-                return None
-            try:
-                hour, minute = (int(part) for part in value.split(":"))
-                return now.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            except (TypeError, ValueError):
-                return None
-
         for direction in ("上り", "下り"):
-            direction_info = TIMETABLE_STATIONS[station].get(direction)
+            direction_info = stations[station].get(direction)
             if not direction_info:
                 continue
             trains = []
-            for train in timetable_data.get("trains", []):
-                if train.get("direction") != direction:
+            for train in line_data.get("trains", []):
+                if train.get("direction") != direction or not train_operates_on_date(train, now.date()):
                     continue
                 stop = train.get("stops", {}).get(station, {})
                 arrival = stop.get("arrival")
                 departure = stop.get("departure")
-                # 到着時刻がある駅では到着を基準に表示。始発駅など到着時刻がない場合のみ発車時刻を使う。
                 event_time = arrival or departure
-                event_dt = station_datetime(event_time)
-                if not event_time or event_dt is None:
+                if not event_time:
                     continue
-                arrival_dt = station_datetime(arrival)
-                departure_dt = station_datetime(departure)
-                # 到着から発車までの間は「停車中」。到着のみで発車時刻がない終着駅は到着後「到着済」。
+                try:
+                    hour, minute = (int(part) for part in event_time.split(":"))
+                    event_dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+                    arrival_dt = now.replace(hour=int(arrival.split(":")[0]), minute=int(arrival.split(":")[1]), second=0, microsecond=0) if arrival else None
+                    departure_dt = now.replace(hour=int(departure.split(":")[0]), minute=int(departure.split(":")[1]), second=0, microsecond=0) if departure else None
+                except (TypeError, ValueError, IndexError):
+                    continue
+                # 深夜帯の24時超えを含むデータは翌日扱いに補正する。
+                if event_dt < now - timedelta(hours=12):
+                    event_dt += timedelta(days=1)
+                    if arrival_dt: arrival_dt += timedelta(days=1)
+                    if departure_dt: departure_dt += timedelta(days=1)
                 is_stopped = bool(arrival_dt and departure_dt and arrival_dt <= now < departure_dt)
                 is_past = bool((departure_dt and departure_dt <= now) or (arrival_dt and not departure_dt and arrival_dt <= now))
                 minutes_until = int((event_dt - now).total_seconds() // 60)
-                # 左側の時刻は発車時刻を優先し、発車時刻がない終着駅などは到着時刻を表示。
                 display_time = departure or arrival
                 display_dt = departure_dt or arrival_dt or event_dt
                 trains.append({
-                    "time": display_time,
-                    "time_minutes": display_dt.hour * 60 + display_dt.minute,
-                    "train_number": train.get("train_number", ""),
-                    "type": train.get("type", "普通"),
-                    "cars": train.get("cars", ""),
-                    "destination": train.get("destination", ""),
-                    "origin": train.get("origin", ""),
-                    "note": train.get("note", ""),
-                    "minutes_until": minutes_until,
-                    "is_past": is_past,
-                    "is_stopped": is_stopped,
-                    "sort_dt": event_dt,
-                    "arrival_iso": arrival_dt.isoformat() if arrival_dt else "",
+                    "time": display_time, "time_minutes": display_dt.hour * 60 + display_dt.minute,
+                    "train_number": train.get("train_number", ""), "type": train.get("type", "普通"),
+                    "cars": train.get("cars", ""), "destination": train.get("destination", ""),
+                    "origin": train.get("origin", ""), "note": train.get("note", ""),
+                    "operating_days": train.get("operating_days", ["毎日"]),
+                    "minutes_until": minutes_until, "is_past": is_past, "is_stopped": is_stopped,
+                    "sort_dt": event_dt, "arrival_iso": arrival_dt.isoformat() if arrival_dt else "",
                     "departure_iso": departure_dt.isoformat() if departure_dt else "",
                     "event_kind": "arrival" if arrival else "departure",
                 })
             trains.sort(key=lambda item: item["sort_dt"])
             future = [item for item in trains if not item["is_past"] and not item["is_stopped"] and item["sort_dt"] > now]
-            for index, item in enumerate(future[:2]):
-                item["upcoming_rank"] = index + 1
+            for index, item in enumerate(future[:2]): item["upcoming_rank"] = index + 1
             for item in trains:
                 item.setdefault("upcoming_rank", 0)
                 item["event_iso"] = item["sort_dt"].isoformat()
                 item.pop("sort_dt", None)
             departures_by_direction[direction] = {
-                "info": direction_info,
-                "trains": trains,
-                "next_trains": future[:2],
+                "info": direction_info, "trains": trains, "next_trains": future[:2],
                 "has_arrival_times": any(item["arrival_iso"] for item in trains),
             }
 
     return render_template(
-        "timetable.html",
-        station=station,
-        stations=TIMETABLE_STATIONS,
-        station_info=TIMETABLE_STATIONS.get(station, {}),
-        departures_by_direction=departures_by_direction,
-        line_name="両毛線",
+        "timetable.html", station=station, stations=stations, station_names=station_names,
+        station_info=stations.get(station, {}), departures_by_direction=departures_by_direction,
+        line_name=line_data.get("name", "時刻表"), line_id=line_id, available_lines=available_lines,
         now_label=now.strftime("%Y/%m/%d %H:%M"),
+        operating_day_label="土休日" if now.weekday() >= 5 or jpholiday.is_holiday(now.date()) else "平日",
     )
 
-@app.route("/train/<train_number>", methods=["GET"])
-def train_detail(train_number):
-    """列車ごとの全停車駅・到着時刻・発車時刻を表示する。"""
-    timetable_path = Path(__file__).resolve().parent / "timetable.json"
-    try:
-        with timetable_path.open("r", encoding="utf-8") as f:
-            timetable_data = json.load(f)
-    except (OSError, json.JSONDecodeError):
-        abort(500, description="時刻表データを読み込めませんでした。")
 
-    train = next((item for item in timetable_data.get("trains", [])
+@app.route("/train/<train_number>", defaults={"line_id": "ryomo"}, methods=["GET"])
+@app.route("/train/<line_id>/<train_number>", methods=["GET"])
+def train_detail(train_number, line_id):
+    """列車ごとの全停車駅・到着時刻・発車時刻を表示する。"""
+    line_data = timetable_line_data(line_id)
+    if line_data is None:
+        abort(404)
+    train = next((item for item in line_data.get("trains", [])
                   if str(item.get("train_number", "")) == str(train_number)), None)
     if train is None:
         abort(404)
-
-    stops = []
-    for station_name, times in train.get("stops", {}).items():
-        stops.append({
-            "station": station_name,
-            "arrival": times.get("arrival"),
-            "departure": times.get("departure"),
-        })
-
+    stops = [{"station": name, "arrival": times.get("arrival"), "departure": times.get("departure")}
+             for name, times in train.get("stops", {}).items()]
     return render_template(
-        "train_detail.html",
-        train=train,
-        stops=stops,
-        line_name=timetable_data.get("line", "両毛線"),
+        "train_detail.html", train=train, stops=stops,
+        line_name=line_data.get("name", "時刻表"), line_id=line_id,
         back_station=request.args.get("station", "").strip(),
     )
 
