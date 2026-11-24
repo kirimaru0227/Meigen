@@ -6,7 +6,7 @@
     <div>
       <h1>{% if station %}{{ line_name }}{{ station }}駅時刻表{% else %}{{ line_name }}時刻表{% endif %}</h1>
       {% if station and station_info.en %}
-        <p class="tt-subtitle">Ryomo Line {{ station_info.en }} Station Timetable</p>
+        <p class="tt-subtitle">{{ line_en_name }} {{ station_info.en }} Station Timetable</p>
       {% endif %}
     </div>
   </header>
@@ -30,7 +30,7 @@
               <div class="tt-train-list">
                 {% for train in section.trains %}
                   <a
-                    href="{{ url_for('train_detail', train_number=train.train_number, station=station) }}"
+                    href="{{ url_for('train_detail', line_id=train.source_line_id if train.source_line_id is defined else line_id, train_number=train.train_number, station=station) }}"
                     class="tt-train-link"
                     aria-label="{{ train.train_number }} {{ train.type }} {{ train.destination }}行きの停車駅時刻表を見る"
                   >

@@ -39,7 +39,7 @@
             {% for station_name in timetable_station_names %}
             {% set normalized_station_name = station_name|replace(' ', '')|replace('　', '') %}
             <label class="station-button" data-station="{{ normalized_station_name }}" style="--station-line-color: {{ timetable_line_color }}; --station-line-text-color: {{ timetable_line_text_color }};">
-                <span class="station-name">{% if normalized_station_name == 'あしかがフラワーパーク' %}あしかが<br>フラワーパーク{% else %}{{ normalized_station_name }}{% endif %}</span>
+                <span class="station-name">{% if normalized_station_name == 'あしかがフラワーパーク' %}あしかが<br>フラワーパーク{% elif normalized_station_name == 'とうきょうスカイツリー' %}とうきょう<br>スカイツリー{% else %}{{ normalized_station_name }}{% endif %}</span>
             </label>
             {% endfor %}
         </div>
@@ -210,6 +210,29 @@
     >
 </button>
 
+{% if timetable_transfers %}
+<button type="button" class="timetable-transfer-button" id="timetableTransferButton"
+        aria-label="乗り換え駅を選択" aria-expanded="false" aria-controls="timetableTransferPanel" title="乗り換え">
+    <span aria-hidden="true">⇄</span>
+</button>
+<div class="timetable-transfer-panel" id="timetableTransferPanel" hidden>
+    <div class="timetable-transfer-panel-heading">
+        <strong>乗り換え</strong>
+        <button type="button" id="timetableTransferClose" aria-label="閉じる">×</button>
+    </div>
+    {% for transfer_station, transfer_routes in timetable_transfers.items() %}
+    <section class="timetable-transfer-group">
+        <h3>{{ transfer_station }}</h3>
+        <div class="timetable-transfer-links">
+            {% for target_id, target_name in transfer_routes %}
+            <a href="{{ url_for('timetable_page', line=target_id, station=transfer_station) }}">{{ target_name }}</a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+{% endif %}
+
 <div id="noticeBackdrop" class="notice-backdrop" aria-hidden="true"></div>
 <div
     id="nearestStationMessage"
@@ -314,6 +337,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (refreshButton) {
         refreshButton.addEventListener("click", () => {
             window.location.reload();
+        });
+    }
+
+    const transferButton = document.getElementById("timetableTransferButton");
+    const transferPanel = document.getElementById("timetableTransferPanel");
+    const transferClose = document.getElementById("timetableTransferClose");
+    if (transferButton && transferPanel) {
+        const closeTransferPanel = () => {
+            transferPanel.hidden = true;
+            transferButton.setAttribute("aria-expanded", "false");
+        };
+        transferButton.addEventListener("click", () => {
+            const opening = transferPanel.hidden;
+            transferPanel.hidden = !opening;
+            transferButton.setAttribute("aria-expanded", String(opening));
+        });
+        if (transferClose) transferClose.addEventListener("click", closeTransferPanel);
+        document.addEventListener("keydown", event => { if (event.key === "Escape") closeTransferPanel(); });
+        document.addEventListener("click", event => {
+            if (!transferPanel.hidden && !transferPanel.contains(event.target) && !transferButton.contains(event.target)) closeTransferPanel();
         });
     }
 
