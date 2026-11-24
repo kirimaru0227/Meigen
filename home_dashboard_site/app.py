@@ -1225,11 +1225,26 @@ def timetable_page():
         "tobu_nikko": "Tobu Nikko Line", "tobu_utsunomiya": "Tobu Utsunomiya Line",
         "tobu_isesaki": "Tobu Isesaki Line", "tobu_sano": "Tobu Sano Line",
     }
+    # 駅ページの乗り換え候補は、現在の駅名と完全一致する駅を持つ
+    # 他路線から自動生成する。候補を選ぶと同じ駅名のページへ移動する。
+    timetable_transfer_options = []
+    if station:
+        for target_line_id, target_config in TIMETABLE_LINE_CONFIG.items():
+            if target_line_id == line_id:
+                continue
+            target_stations = target_config.get("stations", {})
+            if station in target_stations:
+                timetable_transfer_options.append({
+                    "line_id": target_line_id,
+                    "line_name": target_config.get("name", target_line_id),
+                    "station": station,
+                })
+
     return render_template(
         "timetable.html", station=station, stations=stations, station_names=station_names,
         station_info=stations.get(station, {}), departures_by_direction=departures_by_direction,
         line_name=line_data.get("name", "時刻表"), line_id=line_id, line_en_name=line_en_names.get(line_id, line_data.get("name", "Timetable")),
-        timetable_transfers=TIMETABLE_TRANSFER_MAP.get(line_id, {}),
+        timetable_transfer_options=timetable_transfer_options,
         now_label=now.strftime("%Y/%m/%d %H:%M"),
         operating_day_label="土休日" if now.weekday() >= 5 or jpholiday.is_holiday(now.date()) else "平日",
     )
