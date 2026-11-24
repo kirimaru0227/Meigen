@@ -1147,7 +1147,6 @@ html body.dark .tt-empty {
   setInterval(updateCountdowns, 15000);
 })();
 </script>
-{% endblock %}
 <script>
 (() => {
   const button = document.getElementById('timetableTransferButton');
@@ -1155,12 +1154,27 @@ html body.dark .tt-empty {
   const close = document.getElementById('timetableTransferClose');
   if (!button || !panel) return;
   const hide = () => { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); };
-  button.addEventListener('click', () => { const open = panel.hidden; panel.hidden = !open; button.setAttribute('aria-expanded', String(open)); });
+  button.addEventListener('click', () => {
+    const willOpen = panel.hidden;
+    panel.hidden = !willOpen;
+    button.setAttribute('aria-expanded', String(willOpen));
+  });
   if (close) close.addEventListener('click', hide);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
-  document.addEventListener('click', event => { if (!panel.hidden && !panel.contains(event.target) && !button.contains(event.target)) hide(); });
-  const update = () => { const dark = document.body.classList.contains('dark'); const lightIcon = button.querySelector('.tt-transfer-icon-light'); const darkIcon = button.querySelector('.tt-transfer-icon-dark'); if (lightIcon) lightIcon.hidden = dark; if (darkIcon) darkIcon.hidden = !dark; };
-  update();
-  new MutationObserver(update).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  document.addEventListener('click', event => {
+    if (!panel.hidden && !panel.contains(event.target) && !button.contains(event.target)) hide();
+  });
+  const updateIcon = () => {
+    const dark = document.body.classList.contains('dark');
+    const lightIcon = button.querySelector('.tt-transfer-icon-light');
+    const darkIcon = button.querySelector('.tt-transfer-icon-dark');
+    if (lightIcon) lightIcon.hidden = dark;
+    if (darkIcon) darkIcon.hidden = !dark;
+  };
+  updateIcon();
+  new MutationObserver(updateIcon).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
+
+{% endblock %}
+
