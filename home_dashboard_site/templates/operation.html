@@ -38,7 +38,7 @@
         <div class="station-grid station-grid-large" id="timetableStationChoices" role="radiogroup" aria-label="駅を選択">
             {% for station_name in timetable_station_names %}
             {% set normalized_station_name = station_name|replace(' ', '')|replace('　', '') %}
-            <label class="station-button" data-station="{{ normalized_station_name }}" style="--station-line-color: {{ timetable_line_color }};">
+            <label class="station-button" data-station="{{ normalized_station_name }}" style="--station-line-color: {{ timetable_line_color }}; --station-line-text-color: {{ timetable_line_text_color }};">
                 <span class="station-name">{% if normalized_station_name == 'あしかがフラワーパーク' %}あしかが<br>フラワーパーク{% else %}{{ normalized_station_name }}{% endif %}</span>
             </label>
             {% endfor %}
@@ -1069,7 +1069,7 @@ if (myStationButton) {
     button.dataset.navigating = 'true';
     button.classList.add('is-selected');
     button.setAttribute('aria-pressed', 'true');
-    // 黄色が描画される時間を確保してから遷移
+    // 路線カラーが描画される時間を確保してから遷移
     window.setTimeout(() => {
       const lineId = document.querySelector('.operation-page')?.dataset.timetableLine || 'ryomo';
       window.location.assign('/timetable?line=' + encodeURIComponent(lineId) + '&station=' + encodeURIComponent(station));
@@ -1160,5 +1160,38 @@ if (myStationButton) {
 .operation-page .station-selector .station-button:focus-visible {
     outline: 3px solid #1685e8 !important;
     outline-offset: 2px !important;
+}
+</style>
+
+
+<style>
+/* 選択中の駅は、選択中の路線カラーで表示する（旧来の黄色指定を上書き） */
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button:active {
+    background: var(--timetable-line-color, var(--station-line-color, #00A650)) !important;
+    background-color: var(--timetable-line-color, var(--station-line-color, #00A650)) !important;
+    border-color: var(--timetable-line-color, var(--station-line-color, #00A650)) !important;
+    color: var(--timetable-line-text-color, #FFFFFF) !important;
+    box-shadow: none !important;
+}
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected .station-name,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button:active .station-name {
+    color: var(--timetable-line-text-color, #FFFFFF) !important;
+}
+</style>
+
+<style>
+/* 駅選択時は、現在選択している路線の色を各駅ボタン自身の変数から適用する */
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button:active {
+    background: var(--station-line-color, var(--timetable-line-color, #00A650)) !important;
+    background-color: var(--station-line-color, var(--timetable-line-color, #00A650)) !important;
+    border-color: var(--station-line-color, var(--timetable-line-color, #00A650)) !important;
+    color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
+    box-shadow: none !important;
+}
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button.is-selected .station-name,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button:active .station-name {
+    color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
 }
 </style>
