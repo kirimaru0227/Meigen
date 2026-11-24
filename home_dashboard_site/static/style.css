@@ -6732,3 +6732,29 @@ html body .page-container.operation-page .station-selector .station-grid.station
 @media (max-width: 600px) {
     html, body { touch-action: pan-x pan-y pinch-zoom; }
 }
+
+
+/* 路線・駅見出しを詰め、閉じた状態での縦間隔を縮小 */
+.operation-page .operation-timetable-lines { margin-bottom: 2px !important; }
+.operation-page .operation-timetable-toggle h2,
+.operation-page .station-selector > .operation-station-heading h2 { line-height: 1.05 !important; }
+.operation-page .station-selector > .operation-station-heading { margin-top: 2px !important; margin-bottom: 6px !important; }
+@media (max-width: 768px) {
+  .operation-page .operation-timetable-lines { margin-bottom: 0 !important; }
+  .operation-page .station-selector > .operation-station-heading { margin-top: 1px !important; margin-bottom: 5px !important; }
+}
+
+/* 駅時刻表ページの乗り換えアイコン */
+.tt-transfer-button { right: 76px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
+.tt-transfer-button img { width: 26px; height: 26px; object-fit: contain; }
+.tt-transfer-button img[hidden] { display: none !important; }
+.tt-transfer-panel { right: 14px; bottom: calc(140px + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 600px) {
+  .tt-transfer-button { right: 70px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); width: 48px; height: 48px; }
+  .tt-transfer-button img { width: 24px; height: 24px; }
+  .tt-transfer-panel { bottom: calc(136px + env(safe-area-inset-bottom, 0px)); }
+}
+
+.tt-transfer-icon-dark { display: none; }
+html body.dark .tt-transfer-icon-light { display: none; }
+html body.dark .tt-transfer-icon-dark { display: block; }
