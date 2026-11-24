@@ -9,6 +9,7 @@
     <div class="td-meta">
       <span>{{ train.direction }}</span>
       {% if train.cars %}<span>{{ train.cars }}両</span>{% endif %}
+      {% for day in train.operating_days or ['毎日'] %}<span>{{ day }}運転</span>{% endfor %}
     </div>
     {% if train.note %}<p class="td-note">{{ train.note }}</p>{% endif %}
   </header>
@@ -29,7 +30,7 @@
               <span>{{ stop.station }}</span>
             {% endif %}
           {% else %}
-            <a href="{{ url_for('timetable_page', station=stop.station) }}" aria-label="{{ stop.station }}駅の時刻表を見る">
+            <a href="{{ url_for('timetable_page', line=line_id, station=stop.station) }}" aria-label="{{ stop.station }}駅の時刻表を見る">
               {% if stop.station == 'あしかがフラワーパーク' %}
                 <span class="td-flower-park-name">あしかが<br>フラワーパーク</span>
               {% else %}
@@ -49,9 +50,9 @@
 
   <div class="td-actions">
     {% if back_station %}
-      <a class="td-button td-primary" href="{{ url_for('timetable_page', station=back_station) }}">駅の時刻表に戻る</a>
+      <a class="td-button td-primary" href="{{ url_for('timetable_page', line=line_id, station=back_station) }}">駅の時刻表に戻る</a>
     {% endif %}
-    <a class="td-button" href="/operation">ほかの駅を選ぶ</a>
+    <a class="td-button" href="{{ url_for('timetable_page', line=line_id) }}">ほかの駅を選ぶ</a>
   </div>
 </section>
 
