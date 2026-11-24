@@ -6419,3 +6419,120 @@ html body main.page form.settings-form > details.setting-accordion > summary > .
         font-size: 11px;
     }
 }
+
+
+/* =========================================================
+   時刻表ページ：路線選択UI
+   ※ operation.html は Jinja の継承テンプレートのため、
+      専用CSSはこの共通CSS側で適用する
+========================================================= */
+
+.operation-page .operation-timetable-lines {
+    width: 100%;
+    margin: 0 0 18px;
+}
+
+/* 「路線を選択」は枠のない見出し文字として表示 */
+.operation-page .operation-timetable-toggle {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: none;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--text) !important;
+    font: inherit !important;
+    text-align: left !important;
+    cursor: pointer;
+}
+
+.operation-page .operation-timetable-toggle h2 {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: 1.5em !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+}
+
+.operation-page .operation-timetable-toggle:focus-visible {
+    outline: 2px solid var(--purple) !important;
+    outline-offset: 4px;
+}
+
+/* 路線ボタンはPC・スマホとも常に2列、同じ大きさ */
+.operation-page .operation-timetable-line-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 52px !important;
+    gap: 9px !important;
+    width: 100% !important;
+    margin-top: 12px !important;
+}
+
+.operation-page .operation-timetable-line-grid[hidden] {
+    display: none !important;
+}
+
+.operation-page .operation-timetable-line {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    height: 52px !important;
+    margin: 0 !important;
+    padding: 5px 8px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 11px !important;
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.operation-page .operation-timetable-line:hover,
+.operation-page .operation-timetable-line:focus-visible {
+    border-color: var(--purple) !important;
+}
+
+.operation-page .operation-timetable-line.is-active,
+.operation-page .operation-timetable-line.active {
+    border-color: var(--purple) !important;
+    background: var(--purple-soft) !important;
+    color: var(--purple) !important;
+}
+
+.operation-page .operation-timetable-line:focus-visible {
+    outline: 2px solid var(--purple);
+    outline-offset: 2px;
+}
+
