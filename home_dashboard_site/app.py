@@ -1821,6 +1821,17 @@ def operation_page():
     operation = fetch_operation_status(route_key)
     operation_alerts = fetch_operation_alerts()
 
+    # 時刻表の路線選択は運行情報ページに配置する。
+    timetable_lines = [
+        {"id": line_id, "name": config["name"]}
+        for line_id, config in TIMETABLE_LINE_CONFIG.items()
+    ]
+    timetable_line_id = request.args.get("timetable_line", "").strip()
+    valid_timetable_ids = {item["id"] for item in timetable_lines}
+    if timetable_line_id not in valid_timetable_ids:
+        timetable_line_id = route_key if route_key in valid_timetable_ids else "ryomo"
+    timetable_station_names = list(TIMETABLE_LINE_CONFIG[timetable_line_id]["stations"].keys())
+
     my_station = request.cookies.get("myHomeStation", "").strip()
     if my_station not in MY_STATION_OPTIONS:
         my_station = ""
@@ -1833,6 +1844,9 @@ def operation_page():
         weather_place=selected_weather_place(),
         my_station=my_station,
         my_station_name=my_station,
+        timetable_lines=timetable_lines,
+        timetable_line_id=timetable_line_id,
+        timetable_station_names=timetable_station_names,
     )
 
 
