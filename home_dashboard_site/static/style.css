@@ -6646,3 +6646,89 @@ html body .page-container.operation-page .station-selector .station-grid.station
     border-color: var(--station-line-color, var(--timetable-line-color, #FACC15)) !important;
   }
 }
+
+/* 時刻表選択UI：スマートフォンの誤拡大防止とコンパクト化 */
+.operation-page .operation-timetable-line,
+.operation-page .station-button,
+.timetable-transfer-button,
+.page-refresh-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 600px) {
+    .operation-page .operation-timetable-line-grid {
+        gap: 5px !important;
+        row-gap: 5px !important;
+        column-gap: 5px !important;
+    }
+    .operation-page .operation-timetable-line-grid .operation-timetable-line {
+        min-height: 34px !important;
+        height: 34px !important;
+        padding: 5px 8px !important;
+        font-size: 11px !important;
+        line-height: 1.15 !important;
+        border-radius: 9px !important;
+    }
+    .operation-page .operation-timetable-lines,
+    .operation-page .operation-timetable-line-grid {
+        touch-action: manipulation;
+    }
+}
+
+/* 乗り換えボタン：更新ボタンと同じ高さに配置 */
+.timetable-transfer-button {
+    position: fixed;
+    z-index: 10001;
+    right: 76px;
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    width: 54px;
+    height: 54px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 3px 12px rgba(0,0,0,.2);
+    font-size: 27px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+.timetable-transfer-button:active { transform: scale(.96); }
+.timetable-transfer-panel {
+    position: fixed;
+    z-index: 10002;
+    right: 14px;
+    bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+    width: min(330px, calc(100vw - 28px));
+    max-height: min(65vh, 520px);
+    overflow-y: auto;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 8px 28px rgba(0,0,0,.22);
+}
+.timetable-transfer-panel[hidden] { display: none !important; }
+.timetable-transfer-panel-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.timetable-transfer-panel-heading strong { font-size:14px; }
+.timetable-transfer-panel-heading button { border:0; background:transparent; color:var(--muted); font-size:24px; padding:0 5px; }
+.timetable-transfer-group { padding:9px 0; border-top:1px solid var(--border); }
+.timetable-transfer-group h3 { margin:0 0 7px; font-size:13px; }
+.timetable-transfer-links { display:flex; flex-wrap:wrap; gap:6px; }
+.timetable-transfer-links a { display:inline-flex; align-items:center; min-height:32px; padding:6px 9px; border:1px solid var(--border); border-radius:9px; background:var(--surface-2); color:var(--text); text-decoration:none; font-size:11px; font-weight:650; }
+@media (max-width:600px) {
+    .timetable-transfer-button { right:70px; bottom:calc(78px + env(safe-area-inset-bottom, 0px)); width:48px; height:48px; font-size:24px; }
+    .timetable-transfer-panel { bottom:calc(136px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 600px) {
+    .operation-page .operation-timetable-line-grid {
+        grid-auto-rows: 34px !important;
+    }
+}
+
+/* スマートフォン全体：ダブルタップ拡大を抑止し、ピンチ操作は維持 */
+@media (max-width: 600px) {
+    html, body { touch-action: pan-x pan-y pinch-zoom; }
+}
