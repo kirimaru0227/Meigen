@@ -27,14 +27,13 @@
         </div>
     </section>
 
-    <!-- 駅選択 -->
+    <!-- 駅選択（初期状態は開く。見出しを押すと開閉） -->
     <section class="station-selector">
-        <div class="operation-section-heading operation-station-heading">
-            <div>
-                <h2>駅を選択</h2>
-            </div>
-        </div>
-        <div class="station-grid station-grid-large" role="radiogroup" aria-label="駅を選択">
+        <button type="button" class="operation-section-heading operation-station-heading operation-station-toggle"
+                id="timetableStationToggle" aria-expanded="true" aria-controls="timetableStationChoices">
+            <span><h2>駅を選択</h2></span>
+        </button>
+        <div class="station-grid station-grid-large" id="timetableStationChoices" role="radiogroup" aria-label="駅を選択">
             {% for station_name in timetable_station_names %}
             {% set normalized_station_name = station_name|replace(' ', '')|replace('　', '') %}
             <label class="station-button" data-station="{{ normalized_station_name }}">
@@ -53,6 +52,15 @@
                 const isOpen = toggle.getAttribute('aria-expanded') === 'true';
                 toggle.setAttribute('aria-expanded', String(!isOpen));
                 choices.hidden = isOpen;
+            });
+        }
+        const stationToggle = document.getElementById('timetableStationToggle');
+        const stationChoices = document.getElementById('timetableStationChoices');
+        if (stationToggle && stationChoices) {
+            stationToggle.addEventListener('click', () => {
+                const isOpen = stationToggle.getAttribute('aria-expanded') === 'true';
+                stationToggle.setAttribute('aria-expanded', String(!isOpen));
+                stationChoices.hidden = isOpen;
             });
         }
         if (choices) {
@@ -469,14 +477,14 @@ if (myStationButton) {
 /* 時刻表ページのタイトル：他ページと揃った余白・サイズ */
 .operation-page > .page-header {
     width: 100%;
-    margin: 0 0 12px !important;
+    margin: 0 0 18px !important;
     padding: 0 !important;
 }
 
 /* スマホ版：時刻表タイトルと駅選択肢の間隔を縮小 */
 @media (max-width: 600px) {
     .operation-page > .page-header {
-        margin-bottom: 6px !important;
+        margin-bottom: 12px !important;
     }
 }
 
@@ -682,7 +690,7 @@ if (myStationButton) {
 
 @media (max-width: 768px) {
     .operation-page > .page-header {
-        margin-bottom: 6px !important;
+        margin-bottom: 12px !important;
     }
 
     /* 駅ボタン：3列、縦横6pxの隙間 */
