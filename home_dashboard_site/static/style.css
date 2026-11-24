@@ -6621,3 +6621,28 @@ html body main.page form.settings-form > details.setting-accordion > summary > .
         margin-bottom: 8px !important;
     }
 }
+
+
+/* 路線ごとの色を駅選択ボタンに反映（旧黄色固定指定を上書き） */
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:active,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:has(input.station-radio:checked) {
+    background: var(--station-line-color, var(--timetable-line-color, #FACC15)) !important;
+    background-color: var(--station-line-color, var(--timetable-line-color, #FACC15)) !important;
+    border-color: var(--station-line-color, var(--timetable-line-color, #FACC15)) !important;
+    color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
+    box-shadow: none !important;
+}
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected .station-name,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:active .station-name,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:has(input.station-radio:checked) .station-name {
+    color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
+    -webkit-text-fill-color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:hover {
+    background: color-mix(in srgb, var(--station-line-color, var(--timetable-line-color, #FACC15)) 16%, transparent) !important;
+    background-color: color-mix(in srgb, var(--station-line-color, var(--timetable-line-color, #FACC15)) 16%, transparent) !important;
+    border-color: var(--station-line-color, var(--timetable-line-color, #FACC15)) !important;
+  }
+}
