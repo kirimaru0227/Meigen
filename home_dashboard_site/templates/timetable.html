@@ -11,6 +11,22 @@
     </div>
   </header>
 
+  {% if station and timetable_transfers.get(station) %}
+  <button type="button" class="timetable-transfer-button tt-transfer-button" id="timetableTransferButton"
+          aria-label="乗り換え路線を表示" aria-expanded="false" aria-controls="timetableTransferPanel" title="乗り換え">
+    <img class="tt-transfer-icon-light" src="{{ url_for('static', filename='icons/right/operation.png') }}" alt="">
+    <img class="tt-transfer-icon-dark" src="{{ url_for('static', filename='icons/dark/operation.png') }}" alt="">
+  </button>
+  <div class="timetable-transfer-panel tt-transfer-panel" id="timetableTransferPanel" hidden>
+    <div class="timetable-transfer-panel-heading"><strong>{{ station }}駅で乗り換え</strong><button type="button" id="timetableTransferClose" aria-label="閉じる">×</button></div>
+    <div class="timetable-transfer-links">
+      {% for target_id, target_name in timetable_transfers.get(station, []) %}
+      <a href="{{ url_for('timetable_page', line=target_id, station=station) }}">{{ target_name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   {% if station %}
     {% if departures_by_direction %}
       <div class="tt-directions">
@@ -1126,3 +1142,19 @@ html body.dark .tt-empty {
 })();
 </script>
 {% endblock %}
+<script>
+(() => {
+  const button = document.getElementById('timetableTransferButton');
+  const panel = document.getElementById('timetableTransferPanel');
+  const close = document.getElementById('timetableTransferClose');
+  if (!button || !panel) return;
+  const hide = () => { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); };
+  button.addEventListener('click', () => { const open = panel.hidden; panel.hidden = !open; button.setAttribute('aria-expanded', String(open)); });
+  if (close) close.addEventListener('click', hide);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
+  document.addEventListener('click', event => { if (!panel.hidden && !panel.contains(event.target) && !button.contains(event.target)) hide(); });
+  const update = () => { const dark = document.body.classList.contains('dark'); const lightIcon = button.querySelector('.tt-transfer-icon-light'); const darkIcon = button.querySelector('.tt-transfer-icon-dark'); if (lightIcon) lightIcon.hidden = dark; if (darkIcon) darkIcon.hidden = !dark; };
+  update();
+  new MutationObserver(update).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
