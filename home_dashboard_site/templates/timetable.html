@@ -14,7 +14,7 @@
   {% if station and timetable_transfers.get(station) %}
   <button type="button" class="timetable-transfer-button tt-transfer-button" id="timetableTransferButton"
           aria-label="乗り換え路線を表示" aria-expanded="false" aria-controls="timetableTransferPanel" title="乗り換え">
-    <img class="tt-transfer-icon-light" src="{{ url_for('static', filename='icons/right/operation.png') }}" alt="">
+    <img class="tt-transfer-icon-light" src="{{ url_for('static', filename='icons/light/operation.png') }}" alt="">
     <img class="tt-transfer-icon-dark" src="{{ url_for('static', filename='icons/dark/operation.png') }}" alt="">
   </button>
   <div class="timetable-transfer-panel tt-transfer-panel" id="timetableTransferPanel" hidden>
