@@ -12,7 +12,7 @@
   </header>
 
   {% if station and timetable_transfer_options %}
-  <button type="button" class="timetable-transfer-button tt-transfer-button" id="timetableTransferButton"
+  <button type="button" class="page-refresh-button timetable-transfer-button tt-transfer-button" id="timetableTransferButton"
           aria-label="乗り換え路線を選択" aria-expanded="false" aria-controls="timetableTransferPanel" title="乗り換え">
     <img class="tt-transfer-icon-light" src="{{ url_for('static', filename='icons/light/operation.png') }}" alt="">
     <img class="tt-transfer-icon-dark" src="{{ url_for('static', filename='icons/dark/operation.png') }}" alt="">
