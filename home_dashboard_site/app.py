@@ -1831,6 +1831,10 @@ def operation_page():
     if timetable_line_id not in valid_timetable_ids:
         timetable_line_id = route_key if route_key in valid_timetable_ids else "ryomo"
     timetable_station_names = list(TIMETABLE_LINE_CONFIG[timetable_line_id]["stations"].keys())
+    # 運行情報ページの両毛線駅選択は、小山～小俣までに限定する。
+    # 桐生以遠の駅情報は列車詳細など既存機能のため設定側に残す。
+    if timetable_line_id == "ryomo" and "小俣" in timetable_station_names:
+        timetable_station_names = timetable_station_names[:timetable_station_names.index("小俣") + 1]
 
     my_station = request.cookies.get("myHomeStation", "").strip()
     if my_station not in MY_STATION_OPTIONS:
