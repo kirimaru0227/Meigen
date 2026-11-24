@@ -27,12 +27,13 @@
         </div>
     </section>
 
-    <!-- 駅選択（初期状態は開く。見出しを押すと開閉） -->
+    <!-- 駅選択（常に表示） -->
     <section class="station-selector">
-        <button type="button" class="operation-section-heading operation-station-heading operation-station-toggle"
-                id="timetableStationToggle" aria-expanded="true" aria-controls="timetableStationChoices">
-            <span><h2>駅を選択</h2></span>
-        </button>
+        <div class="operation-section-heading operation-station-heading">
+            <div>
+                <h2>駅を選択</h2>
+            </div>
+        </div>
         <div class="station-grid station-grid-large" id="timetableStationChoices" role="radiogroup" aria-label="駅を選択">
             {% for station_name in timetable_station_names %}
             {% set normalized_station_name = station_name|replace(' ', '')|replace('　', '') %}
@@ -52,15 +53,6 @@
                 const isOpen = toggle.getAttribute('aria-expanded') === 'true';
                 toggle.setAttribute('aria-expanded', String(!isOpen));
                 choices.hidden = isOpen;
-            });
-        }
-        const stationToggle = document.getElementById('timetableStationToggle');
-        const stationChoices = document.getElementById('timetableStationChoices');
-        if (stationToggle && stationChoices) {
-            stationToggle.addEventListener('click', () => {
-                const isOpen = stationToggle.getAttribute('aria-expanded') === 'true';
-                stationToggle.setAttribute('aria-expanded', String(!isOpen));
-                stationChoices.hidden = isOpen;
             });
         }
         if (choices) {
