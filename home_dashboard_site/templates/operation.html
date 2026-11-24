@@ -5,13 +5,22 @@
 
 
 <style>
-.operation-timetable-lines { margin: 0 0 18px; }
-.operation-timetable-lines h2, .operation-station-heading { margin: 0 0 10px; font-size: 1rem; font-weight: 700; }
+.operation-timetable-lines { margin: 0 0 18px; text-align: left; }
+.operation-timetable-toggle, .operation-station-heading {
+    display: flex; align-items: center; justify-content: flex-start; gap: 9px;
+    width: 100%; margin: 0 0 10px; padding: 0; border: 0;
+    color: inherit; background: transparent; font: inherit; font-size: 1rem;
+    font-weight: 700; text-align: left; cursor: pointer;
+}
+.operation-timetable-toggle:focus-visible { outline: 3px solid var(--primary-color, #1684e8); outline-offset: 4px; border-radius: 4px; }
+.operation-timetable-toggle-icon { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1px solid var(--border-color, #ddd); border-radius: 6px; font-size: 17px; line-height: 1; }
 .operation-timetable-line-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 9px; }
-.operation-timetable-line { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 12px; color: inherit; text-decoration: none; font-weight: 650; text-align: center; background: var(--card-bg, #fff); }
+.operation-timetable-line-grid[hidden] { display: none !important; }
+.operation-timetable-line { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 12px; color: inherit; font-weight: 650; text-align: center; background: var(--card-bg, #fff); cursor: pointer; }
 .operation-timetable-line.is-active { border: 2px solid var(--primary-color, #1684e8); color: var(--primary-color, #1684e8); background: color-mix(in srgb, var(--primary-color, #1684e8) 8%, transparent); }
 .operation-timetable-line:focus-visible { outline: 3px solid var(--primary-color, #1684e8); outline-offset: 2px; }
-.operation-page .station-selector { margin-top: 14px; }
+.operation-page .station-selector { width: 100%; margin-top: 14px; text-align: left; }
+.operation-page .station-selector > .operation-station-heading { justify-content: flex-start; width: 100%; text-align: left; }
 .operation-page .station-name { white-space: pre-line; }
 @media (max-width: 540px) { .operation-timetable-line-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; } .operation-timetable-line { min-height: 42px; padding: 8px 6px; font-size: 13px; } }
 </style>
@@ -23,14 +32,19 @@
         <h1>時刻表</h1>
     </header>
 
-    <!-- 時刻表の路線選択 -->
+    <!-- 時刻表の路線選択（初期状態は閉じる） -->
     <section class="operation-timetable-lines" aria-label="時刻表の路線を選択">
-        <h2>路線を選択</h2>
-        <div class="operation-timetable-line-grid">
+        <button type="button" class="operation-timetable-toggle" id="timetableLineToggle"
+                aria-expanded="false" aria-controls="timetableLineChoices">
+            <span>路線を選択</span>
+            <span class="operation-timetable-toggle-icon" id="timetableLineToggleIcon" aria-hidden="true">＋</span>
+        </button>
+        <div class="operation-timetable-line-grid" id="timetableLineChoices" hidden>
             {% for item in timetable_lines %}
-            <a href="{{ url_for('operation_page', timetable_line=item.id) }}"
-               class="operation-timetable-line{% if item.id == timetable_line_id %} is-active{% endif %}"
-               {% if item.id == timetable_line_id %}aria-current="page"{% endif %}>{{ item.name }}</a>
+            <button type="button"
+                    class="operation-timetable-line{% if item.id == timetable_line_id %} is-active{% endif %}"
+                    data-href="{{ url_for('operation_page', timetable_line=item.id) }}"
+                    aria-pressed="{{ 'true' if item.id == timetable_line_id else 'false' }}">{{ item.name }}</button>
             {% endfor %}
         </div>
     </section>
@@ -41,11 +55,34 @@
         <div class="station-grid station-grid-large" role="radiogroup" aria-label="駅を選択">
             {% for station_name in timetable_station_names %}
             <label class="station-button" data-station="{{ station_name }}">
-                <span class="station-name">{{ station_name|replace('あしかがフラワーパーク', 'あしかが\nフラワーパーク')|replace('さいたま新都心', 'さいたま\n新都心') }}</span>
+                <span class="station-name">{{ station_name|replace(' ', '')|replace('　', '')|replace('あしかがフラワーパーク', 'あしかが\nフラワーパーク') }}</span>
             </label>
             {% endfor %}
         </div>
     </section>
+
+    <script>
+    (() => {
+        const toggle = document.getElementById('timetableLineToggle');
+        const choices = document.getElementById('timetableLineChoices');
+        const icon = document.getElementById('timetableLineToggleIcon');
+        if (toggle && choices) {
+            toggle.addEventListener('click', () => {
+                const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!isOpen));
+                choices.hidden = isOpen;
+                if (icon) icon.textContent = isOpen ? '＋' : '－';
+            });
+        }
+        if (choices) {
+            choices.querySelectorAll('.operation-timetable-line[data-href]').forEach(button => {
+                button.addEventListener('click', () => {
+                    window.location.href = button.dataset.href;
+                });
+            });
+        }
+    })();
+    </script>
 
     <!-- 運行情報 -->
     <section class="operation-alert-section">
