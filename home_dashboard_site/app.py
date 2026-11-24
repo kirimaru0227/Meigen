@@ -1225,13 +1225,32 @@ def timetable_page():
         "tobu_nikko": "Tobu Nikko Line", "tobu_utsunomiya": "Tobu Utsunomiya Line",
         "tobu_isesaki": "Tobu Isesaki Line", "tobu_sano": "Tobu Sano Line",
     }
-    # 駅ページの乗り換え候補は、現在の駅名と完全一致する駅を持つ
-    # 他路線から自動生成する。候補を選ぶと同じ駅名のページへ移動する。
+    # 駅ページの乗り換え候補を生成する。
+    # 上野東京ラインは宇都宮線と一体として扱い、東京駅だけ独立候補にする。
+    # 湘南新宿ラインは宇都宮線と共用する土呂～宇都宮間では候補にしない。
     timetable_transfer_options = []
     if station:
+        shonan_shared_stations = set(
+            SHONAN_STATIONS[:SHONAN_STATIONS.index("土呂") + 1]
+        ) if "土呂" in SHONAN_STATIONS else set()
+        utsunomiya_shared_stations = set(UTSUNOMIYA_TIMETABLE_STATIONS.keys())
+
         for target_line_id, target_config in TIMETABLE_LINE_CONFIG.items():
             if target_line_id == line_id:
                 continue
+
+            # 上野東京ラインは東京駅以外では乗り換え先として表示しない。
+            if target_line_id == "ueno_tokyo" and station != "東京":
+                continue
+
+            # 湘南新宿ラインと宇都宮線の共用区間は乗り換え扱いにしない。
+            if (
+                target_line_id == "shonan_shinjuku"
+                and station in shonan_shared_stations
+                and station in utsunomiya_shared_stations
+            ):
+                continue
+
             target_stations = target_config.get("stations", {})
             if station in target_stations:
                 timetable_transfer_options.append({
