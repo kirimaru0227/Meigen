@@ -29,7 +29,7 @@ html body .tt-page .tt-transfer-panel {
   </header>
 
   {% if station and timetable_transfer_options %}
-  <button type="button" class="page-refresh-button timetable-transfer-button tt-transfer-button" id="timetableTransferButton"
+  <button type="button" class="timetable-transfer-button tt-transfer-button" id="timetableTransferButton"
           aria-label="乗り換え路線を選択" aria-expanded="false" aria-controls="timetableTransferPanel" title="乗り換え">
     <img class="tt-transfer-icon-light" src="{{ url_for('static', filename='icons/light/operation.png') }}" alt="">
     <img class="tt-transfer-icon-dark" src="{{ url_for('static', filename='icons/dark/operation.png') }}" alt="">
@@ -809,6 +809,14 @@ html body.dark .tt-empty {
       }
     });
 
+    // 乗り換えボタンを下部メニューの上に配置する。
+    // 下部メニューがない場合は、従来どおり画面下端から14px。
+    const transferButton = document.getElementById('timetableTransferButton');
+    if (transferButton) {
+      transferButton.style.bottom =
+        `calc(${bottomMenuHeight + 14}px + env(safe-area-inset-bottom, 0px))`;
+    }
+
     const gap = 8;
 
     const availableHeight = Math.max(
@@ -834,6 +842,8 @@ html body.dark .tt-empty {
     } else {
       document.documentElement.classList.remove('tt-screen');
       page.style.removeProperty('--tt-available-height');
+      const transferButton = document.getElementById('timetableTransferButton');
+      if (transferButton) transferButton.style.removeProperty('bottom');
     }
   }
 
