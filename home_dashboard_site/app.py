@@ -1276,8 +1276,21 @@ def timetable_page():
                     "station": station,
                 })
 
-    # 駅ページの「隣の駅」候補。路線をまたぐ場合は遷移先の路線IDも明示する。
-    timetable_neighbor_map = {
+    # 駅ページの「隣の駅」候補。
+    # 通常駅は各路線の駅順から前後駅を自動生成し、乗換駅などは個別指定を優先する。
+    neighbor_station_lists = {
+        "ryomo": list(TIMETABLE_STATIONS.keys()),
+        "utsunomiya": list(UTSUNOMIYA_TIMETABLE_STATIONS.keys()),
+        "ueno_tokyo": list(UTSUNOMIYA_TIMETABLE_STATIONS.keys()) + UTL_TOKAIDO[1:],
+        "shonan_shinjuku": SHONAN_STATIONS,
+        "tobu_skytree": SKYTREE_STATIONS,
+        "tobu_nikko": NIKKO_STATIONS,
+        "tobu_utsunomiya": UTSUNOMIYA_TOHBU_STATIONS,
+        "tobu_isesaki": ISESAKI_STATIONS,
+        "tobu_sano": SANO_STATIONS,
+    }
+    # 路線をまたぐ駅や、通常の隣接駅以外も表示したい駅の個別設定。
+    timetable_neighbor_overrides = {
         ("tobu_utsunomiya", "新栃木"): [
             ("tobu_utsunomiya", "野州平川"),
             ("tobu_utsunomiya", "栃木"),
@@ -1296,9 +1309,7 @@ def timetable_page():
             ("tobu_skytree", "浅草"),
             ("tobu_skytree", "曳舟"),
         ],
-        ("tobu_skytree", "押上"): [
-            ("tobu_skytree", "曳舟"),
-        ],
+        ("tobu_skytree", "押上"): [("tobu_skytree", "曳舟")],
         ("ueno_tokyo", "東京"): [
             ("ueno_tokyo", "新橋"),
             ("utsunomiya", "上野"),
@@ -1313,8 +1324,23 @@ def timetable_page():
             ("shonan_shinjuku", "大宮"),
         ],
     }
+
+    neighbor_pairs = timetable_neighbor_overrides.get((line_id, station))
+    if neighbor_pairs is None and station:
+        route_stations = neighbor_station_lists.get(line_id, list(stations.keys()))
+        try:
+            station_index = route_stations.index(station)
+        except ValueError:
+            neighbor_pairs = []
+        else:
+            neighbor_pairs = []
+            if station_index > 0:
+                neighbor_pairs.append((line_id, route_stations[station_index - 1]))
+            if station_index + 1 < len(route_stations):
+                neighbor_pairs.append((line_id, route_stations[station_index + 1]))
+
     timetable_neighbor_options = []
-    for neighbor_line_id, neighbor_station in timetable_neighbor_map.get((line_id, station), []):
+    for neighbor_line_id, neighbor_station in (neighbor_pairs or []):
         neighbor_config = TIMETABLE_LINE_CONFIG.get(neighbor_line_id, {})
         if neighbor_station not in neighbor_config.get("stations", {}):
             continue
