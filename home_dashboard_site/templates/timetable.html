@@ -852,7 +852,7 @@ html body.dark .tt-empty {
     if (transferButton) {
       transferButton.style.setProperty(
         '--tt-transfer-bottom',
-        `calc(${bottomMenuHeight + 14}px)`
+        `calc(${bottomMenuHeight + 10}px)`
       );
       transferButton.style.setProperty(
         '--tt-transfer-panel-bottom',
@@ -860,14 +860,14 @@ html body.dark .tt-empty {
       );
     }
     if (neighborButton) {
-      const neighborOffset = transferButton ? 78 : 14;
+      const neighborOffset = transferButton ? 74 : 10;
       neighborButton.style.setProperty(
         '--tt-neighbor-bottom',
         `calc(${bottomMenuHeight + neighborOffset}px)`
       );
       neighborButton.style.setProperty(
         '--tt-neighbor-panel-bottom',
-        `calc(${bottomMenuHeight + neighborOffset + 68}px)`
+        `calc(${bottomMenuHeight + neighborOffset + 64}px)`
       );
     }
 
