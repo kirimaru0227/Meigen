@@ -1112,6 +1112,51 @@ if (myStationButton) {
 .operation-page .station-selector .station-grid.station-grid-large > .station-button:active .station-name { color: var(--timetable-line-text-color, #fff) !important; }
 .operation-timetable-line.is-active, .operation-timetable-line.active { background: var(--route-color, #077AE3) !important; border-color: var(--route-color, #077AE3) !important; color: #fff !important; }
 </style>
+<script>
+// 右下の3つの固定ボタンを、共通下部メニューの高さに合わせて配置する。
+(() => {
+  const buttons = [
+    [document.getElementById('pageRefreshButton'), 0],
+    [document.getElementById('nearestStationButton'), 64],
+    [document.getElementById('myStationButton'), 128],
+  ];
+  if (!buttons.some(([button]) => button)) return;
+
+  let observedNav = null;
+  let navObserver = null;
+  const updateFloatingButtons = () => {
+    const nav = document.querySelector('.bottom-nav');
+    let base = 78;
+    if (nav) {
+      const style = getComputedStyle(nav);
+      const rect = nav.getBoundingClientRect();
+      if (style.display !== 'none' && style.visibility !== 'hidden' && rect.height > 0) {
+        base = Math.max(0, window.innerHeight - rect.top) + 10;
+      }
+      if (nav !== observedNav && 'ResizeObserver' in window) {
+        if (navObserver) navObserver.disconnect();
+        observedNav = nav;
+        navObserver = nav ? new ResizeObserver(updateFloatingButtons) : null;
+        if (navObserver) navObserver.observe(nav);
+      }
+    }
+    buttons.forEach(([button, offset]) => {
+      if (button) button.style.setProperty('--operation-floating-bottom', `${base + offset}px`);
+    });
+  };
+
+  updateFloatingButtons();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateFloatingButtons, { once: true });
+  }
+  window.addEventListener('resize', updateFloatingButtons, { passive: true });
+  window.addEventListener('orientationchange', updateFloatingButtons, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateFloatingButtons, { passive: true });
+  }
+})();
+</script>
+
 {% endblock %}
 
 <style>

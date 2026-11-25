@@ -63,6 +63,28 @@ html body .tt-page .tt-transfer-panel {
   </div>
   {% endif %}
 
+  {% if station and timetable_neighbor_options %}
+  <button type="button" class="timetable-transfer-button tt-neighbor-button" id="timetableNeighborButton"
+          aria-label="隣の駅を選択" aria-expanded="false" aria-controls="timetableNeighborPanel" title="隣の駅">
+    <img class="tt-neighbor-icon-light" src="{{ url_for('static', filename='icons/light/neighbor.png') }}" alt="">
+    <img class="tt-neighbor-icon-dark" src="{{ url_for('static', filename='icons/dark/neighbor.png') }}" alt="">
+  </button>
+  <div class="timetable-transfer-panel tt-neighbor-panel" id="timetableNeighborPanel" hidden>
+    <div class="timetable-transfer-panel-heading">
+      <div><strong>{{ station }}駅の隣の駅</strong><small>表示する駅を選択してください</small></div>
+      <button type="button" id="timetableNeighborClose" aria-label="閉じる">×</button>
+    </div>
+    <div class="timetable-transfer-links">
+      {% for option in timetable_neighbor_options %}
+      <a href="{{ url_for('timetable_page', line=option.line_id, station=option.station) }}">
+        <span class="tt-transfer-route-name">{{ option.line_name }}</span>
+        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表を見る</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   {% if station %}
     {% if departures_by_direction %}
       <div class="tt-directions">
@@ -826,6 +848,7 @@ html body.dark .tt-empty {
     // 乗り換えボタンを下部メニューの上に配置する。
     // 下部メニューがない場合は、従来どおり画面下端から14px。
     const transferButton = document.getElementById('timetableTransferButton');
+    const neighborButton = document.getElementById('timetableNeighborButton');
     if (transferButton) {
       transferButton.style.setProperty(
         '--tt-transfer-bottom',
@@ -834,6 +857,17 @@ html body.dark .tt-empty {
       transferButton.style.setProperty(
         '--tt-transfer-panel-bottom',
         `calc(${bottomMenuHeight + 62}px)`
+      );
+    }
+    if (neighborButton) {
+      const neighborOffset = transferButton ? 78 : 14;
+      neighborButton.style.setProperty(
+        '--tt-neighbor-bottom',
+        `calc(${bottomMenuHeight + neighborOffset}px)`
+      );
+      neighborButton.style.setProperty(
+        '--tt-neighbor-panel-bottom',
+        `calc(${bottomMenuHeight + neighborOffset + 48}px)`
       );
     }
 
@@ -867,10 +901,19 @@ html body.dark .tt-empty {
         transferButton.style.removeProperty('--tt-transfer-bottom');
         transferButton.style.removeProperty('--tt-transfer-panel-bottom');
       }
+      const neighborButton = document.getElementById('timetableNeighborButton');
+      if (neighborButton) {
+        neighborButton.style.removeProperty('--tt-neighbor-bottom');
+        neighborButton.style.removeProperty('--tt-neighbor-panel-bottom');
+      }
     }
   }
 
   updateMobileLayout();
+  // base.html の下部メニューはこのスクリプトの後に出力されるため、DOM完成後にも再計測する。
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateMobileLayout, { once: true });
+  }
 
   window.addEventListener(
     'resize',
@@ -1218,6 +1261,34 @@ html body.dark .tt-empty {
     const dark = document.body.classList.contains('dark');
     const lightIcon = button.querySelector('.tt-transfer-icon-light');
     const darkIcon = button.querySelector('.tt-transfer-icon-dark');
+    if (lightIcon) lightIcon.hidden = dark;
+    if (darkIcon) darkIcon.hidden = !dark;
+  };
+  updateIcon();
+  new MutationObserver(updateIcon).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+<script>
+(() => {
+  const button = document.getElementById('timetableNeighborButton');
+  const panel = document.getElementById('timetableNeighborPanel');
+  const close = document.getElementById('timetableNeighborClose');
+  if (!button || !panel) return;
+  const hide = () => { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); };
+  button.addEventListener('click', () => {
+    const willOpen = panel.hidden;
+    panel.hidden = !willOpen;
+    button.setAttribute('aria-expanded', String(willOpen));
+  });
+  if (close) close.addEventListener('click', hide);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
+  document.addEventListener('click', event => {
+    if (!panel.hidden && !panel.contains(event.target) && !button.contains(event.target)) hide();
+  });
+  const updateIcon = () => {
+    const dark = document.body.classList.contains('dark');
+    const lightIcon = button.querySelector('.tt-neighbor-icon-light');
+    const darkIcon = button.querySelector('.tt-neighbor-icon-dark');
     if (lightIcon) lightIcon.hidden = dark;
     if (darkIcon) darkIcon.hidden = !dark;
   };
