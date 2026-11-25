@@ -27,6 +27,7 @@ html body .tt-page .tt-transfer-panel {
 /* スマホ版：乗り換えボタンを隣の駅ボタンと同じ大きさにする */
 @media (max-width: 600px) {
   html body .tt-page .tt-transfer-button {
+    right: 14px !important;
     width: 48px !important;
     height: 48px !important;
   }
@@ -863,31 +864,34 @@ html body.dark .tt-empty {
       }
     });
 
-    // 乗り換えボタンを下部メニューの上に配置する。
-    // 下部メニューがない場合は、従来どおり画面下端から14px。
+    // 運行情報ページと同じ基準で、右下のアイコンを縦に配置する。
+    // 下部メニューがある場合はその上端から10px、ない場合は画面下端から78px。
     const transferButton = document.getElementById('timetableTransferButton');
     const neighborButton = document.getElementById('timetableNeighborButton');
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const baseBottom = bottomMenuHeight > 0 ? bottomMenuHeight + 10 : 78;
+    const buttonStep = isMobile ? 56 : 64;
+
     if (transferButton) {
       transferButton.style.setProperty(
         '--tt-transfer-bottom',
-        `calc(${bottomMenuHeight + 10}px)`
+        `calc(${baseBottom}px)`
       );
       transferButton.style.setProperty(
         '--tt-transfer-panel-bottom',
-        `calc(${bottomMenuHeight + 68}px)`
+        `calc(${baseBottom + 58}px)`
       );
     }
     if (neighborButton) {
-      // スマホは48pxボタン＋8px間隔、PCは54pxボタン＋10px間隔。
-      const isMobile = window.matchMedia('(max-width: 600px)').matches;
-      const neighborOffset = transferButton ? (isMobile ? 66 : 74) : 10;
+      // 乗り換えボタンの一段上に配置（運行情報ページと同じ間隔）。
+      const neighborBottom = baseBottom + (transferButton ? buttonStep : 0);
       neighborButton.style.setProperty(
         '--tt-neighbor-bottom',
-        `calc(${bottomMenuHeight + neighborOffset}px)`
+        `calc(${neighborBottom}px)`
       );
       neighborButton.style.setProperty(
         '--tt-neighbor-panel-bottom',
-        `calc(${bottomMenuHeight + neighborOffset + 64}px)`
+        `calc(${neighborBottom + 64}px)`
       );
     }
 
