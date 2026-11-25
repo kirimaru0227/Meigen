@@ -6787,3 +6787,59 @@ html body.dark .tt-transfer-icon-dark { display: block; }
         margin-bottom: 16px !important;
     }
 }
+
+
+/* 下部メニューの実測高さに合わせて、運行情報ページの3つの固定ボタンを配置 */
+.page-refresh-button,
+.nearest-station-button,
+.my-station-button {
+    bottom: var(--operation-floating-bottom, calc(78px + env(safe-area-inset-bottom, 0px))) !important;
+}
+.nearest-station-button { --operation-floating-bottom: 142px; }
+.my-station-button { --operation-floating-bottom: 206px; }
+@media (max-width: 600px) {
+    .page-refresh-button,
+    .nearest-station-button,
+    .my-station-button {
+        bottom: var(--operation-floating-bottom, calc(78px + env(safe-area-inset-bottom, 0px))) !important;
+    }
+    .nearest-station-button { --operation-floating-bottom: 140px; }
+    .my-station-button { --operation-floating-bottom: 202px; }
+}
+
+/* 隣の駅ボタン：乗り換えボタンと同じ丸型アイコン */
+html body .tt-page .tt-neighbor-button {
+  position: fixed !important;
+  right: 18px !important;
+  bottom: var(--tt-neighbor-bottom, calc(78px + env(safe-area-inset-bottom, 0px))) !important;
+  left: auto !important;
+  top: auto !important;
+  z-index: 1000 !important;
+  width: 54px !important;
+  height: 54px !important;
+}
+html body .tt-page .tt-neighbor-button img {
+  display: block;
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+html body .tt-page .tt-neighbor-button img[hidden] { display: none !important; }
+html body .tt-page .tt-neighbor-panel {
+  position: fixed !important;
+  right: 18px !important;
+  bottom: var(--tt-neighbor-panel-bottom, calc(140px + env(safe-area-inset-bottom, 0px))) !important;
+  z-index: 1001 !important;
+  width: min(280px, calc(100vw - 36px));
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
+}
+@media (max-width: 600px) {
+  html body .tt-page .tt-neighbor-button {
+    right: 14px !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+  html body .tt-page .tt-neighbor-button img { width: 24px; height: 24px; }
+  html body .tt-page .tt-neighbor-panel { right: 14px !important; }
+}
