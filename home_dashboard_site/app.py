@@ -1276,11 +1276,60 @@ def timetable_page():
                     "station": station,
                 })
 
+    # 駅ページの「隣の駅」候補。路線をまたぐ場合は遷移先の路線IDも明示する。
+    timetable_neighbor_map = {
+        ("tobu_utsunomiya", "新栃木"): [
+            ("tobu_utsunomiya", "野州平川"),
+            ("tobu_utsunomiya", "栃木"),
+        ],
+        ("tobu_skytree", "東武動物公園"): [
+            ("tobu_skytree", "姫宮"),
+            ("tobu_nikko", "杉戸高野台"),
+            ("tobu_isesaki", "和戸"),
+        ],
+        ("tobu_skytree", "曳舟"): [
+            ("tobu_skytree", "東向島"),
+            ("tobu_skytree", "とうきょうスカイツリー"),
+            ("tobu_skytree", "押上"),
+        ],
+        ("tobu_skytree", "とうきょうスカイツリー"): [
+            ("tobu_skytree", "浅草"),
+            ("tobu_skytree", "曳舟"),
+        ],
+        ("tobu_skytree", "押上"): [
+            ("tobu_skytree", "曳舟"),
+        ],
+        ("ueno_tokyo", "東京"): [
+            ("ueno_tokyo", "新橋"),
+            ("utsunomiya", "上野"),
+        ],
+        ("shonan_shinjuku", "大宮"): [
+            ("shonan_shinjuku", "浦和"),
+            ("utsunomiya", "土呂"),
+        ],
+        ("utsunomiya", "土呂"): [
+            ("utsunomiya", "東大宮"),
+            ("utsunomiya", "大宮"),
+            ("shonan_shinjuku", "大宮"),
+        ],
+    }
+    timetable_neighbor_options = []
+    for neighbor_line_id, neighbor_station in timetable_neighbor_map.get((line_id, station), []):
+        neighbor_config = TIMETABLE_LINE_CONFIG.get(neighbor_line_id, {})
+        if neighbor_station not in neighbor_config.get("stations", {}):
+            continue
+        timetable_neighbor_options.append({
+            "line_id": neighbor_line_id,
+            "line_name": neighbor_config.get("name", neighbor_line_id),
+            "station": neighbor_station,
+        })
+
     return render_template(
         "timetable.html", station=station, stations=stations, station_names=station_names,
         station_info=stations.get(station, {}), departures_by_direction=departures_by_direction,
         line_name=line_data.get("name", "時刻表"), line_id=line_id, line_en_name=line_en_names.get(line_id, line_data.get("name", "Timetable")),
         timetable_transfer_options=timetable_transfer_options,
+        timetable_neighbor_options=timetable_neighbor_options,
         now_label=now.strftime("%Y/%m/%d %H:%M"),
         operating_day_label="土休日" if now.weekday() >= 5 or jpholiday.is_holiday(now.date()) else "平日",
     )
