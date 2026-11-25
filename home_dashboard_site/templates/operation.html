@@ -35,7 +35,8 @@
                 <h2>駅を選択</h2>
             </div>
         </div>
-        <div class="station-grid station-grid-large" id="timetableStationChoices" role="radiogroup" aria-label="駅を選択">
+        <div class="station-grid station-grid-large" id="timetableStationChoices" role="radiogroup" aria-label="駅を選択"
+             style="--station-row-count: {{ ((timetable_station_names|length + 1) // 2) }};">
             {% for station_name in timetable_station_names %}
             {% set normalized_station_name = station_name|replace(' ', '')|replace('　', '') %}
             <label class="station-button" data-station="{{ normalized_station_name }}" style="--station-line-color: {{ timetable_line_color }}; --station-line-text-color: {{ timetable_line_text_color }};">
@@ -49,11 +50,13 @@
     (() => {
         const toggle = document.getElementById('timetableLineToggle');
         const choices = document.getElementById('timetableLineChoices');
+        const lineSection = document.querySelector('.operation-timetable-lines');
         if (toggle && choices) {
             toggle.addEventListener('click', () => {
                 const isOpen = toggle.getAttribute('aria-expanded') === 'true';
                 toggle.setAttribute('aria-expanded', String(!isOpen));
                 choices.hidden = isOpen;
+                if (lineSection) lineSection.classList.toggle('is-open', !isOpen);
             });
         }
         if (choices) {

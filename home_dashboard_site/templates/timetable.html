@@ -2,36 +2,39 @@
 {% block title %}迷言｜時刻表{% endblock %}
 {% block content %}
 <style>
-/* 乗り換えボタン：下部メニューの上に配置し、読み込み画面より背面にする */
+/* 乗り換えボタン：運行情報ページの更新ボタンと同じ右下位置に固定 */
 html body .tt-page .tt-transfer-button {
   position: fixed !important;
   right: 18px !important;
-  bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
+  bottom: var(--tt-transfer-bottom, calc(78px + env(safe-area-inset-bottom, 0px))) !important;
   left: auto !important;
   top: auto !important;
   width: 54px !important;
   height: 54px !important;
-  z-index: 9999 !important;
+  z-index: 1000 !important;
 }
+/* 乗り換えパネルも読み込み画面より前面に出ない重なり順にする */
 html body .tt-page .tt-transfer-panel {
-  z-index: 9999 !important;
+  bottom: var(--tt-transfer-panel-bottom, calc(136px + env(safe-area-inset-bottom, 0px))) !important;
+  z-index: 1001 !important;
 }
-@media (max-width: 600px) {
-  html body .tt-page .tt-transfer-button {
-    right: 14px !important;
-    bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
-    width: 48px !important;
-    height: 48px !important;
-  }
-  html body .tt-page .tt-transfer-panel {
-    bottom: calc(136px + env(safe-area-inset-bottom, 0px)) !important;
-  }
+.tt-title-route,
+.tt-title-station { display: inline; }
+@media (max-width: 540px) {
+  .tt-title-tobu-long .tt-title-route,
+  .tt-title-tobu-long .tt-title-station { display: block; }
 }
 </style>
 <section class="tt-page">
   <header class="tt-header">
     <div>
-      <h1>{% if station %}{{ line_name }}{{ station }}駅時刻表{% else %}{{ line_name }}時刻表{% endif %}</h1>
+      <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園'] %}tt-title-tobu-long{% endif %}">
+        {% if station %}
+          <span class="tt-title-route">{{ line_name }}</span><span class="tt-title-station">{{ station }}駅時刻表</span>
+        {% else %}
+          {{ line_name }}時刻表
+        {% endif %}
+      </h1>
       {% if station and station_info.en %}
         <p class="tt-subtitle">{{ line_en_name }} {{ station_info.en }} Station Timetable</p>
       {% endif %}
@@ -744,11 +747,12 @@ html body.dark .tt-empty {
   function fitPage() {
     if (!page || !mobileQuery.matches) return;
 
-    const viewportHeight = window.visualViewport
-      ? window.visualViewport.height
-      : window.innerHeight;
-
-    const top = Math.max(0, page.getBoundingClientRect().top);
+    // getBoundingClientRect() と同じ layout viewport の座標で計算する。
+    // iPhoneのホーム画面アプリでは visualViewport.height と innerHeight が
+    // 異なることがあるため、固定メニューの位置と比較する際は innerHeight を使う。
+    const viewportTop = 0;
+    const viewportBottom = window.innerHeight;
+    const top = Math.max(viewportTop, page.getBoundingClientRect().top);
     let bottomMenuHeight = 0;
 
     // サイト共通の固定下部メニューを優先して計測する。
@@ -764,7 +768,7 @@ html body.dark .tt-empty {
       ) {
         bottomMenuHeight = Math.max(
           0,
-          viewportHeight - navRect.top
+          viewportBottom - navRect.top
         );
       }
     }
@@ -808,13 +812,13 @@ html body.dark .tt-empty {
         rect.width >= window.innerWidth * 0.5 &&
         rect.height >= 30 &&
         rect.height <= window.innerHeight * 0.45 &&
-        rect.top < window.innerHeight &&
-        rect.bottom >= viewportHeight - 8;
+        rect.top < viewportBottom &&
+        rect.bottom >= viewportBottom - 8;
 
       if (isBottomMenu) {
         bottomMenuHeight = Math.max(
           bottomMenuHeight,
-          viewportHeight - rect.top
+          viewportBottom - rect.top
         );
       }
     });
@@ -823,15 +827,21 @@ html body.dark .tt-empty {
     // 下部メニューがない場合は、従来どおり画面下端から14px。
     const transferButton = document.getElementById('timetableTransferButton');
     if (transferButton) {
-      transferButton.style.bottom =
-        `calc(${bottomMenuHeight + 14}px + env(safe-area-inset-bottom, 0px))`;
+      transferButton.style.setProperty(
+        '--tt-transfer-bottom',
+        `calc(${bottomMenuHeight + 14}px)`
+      );
+      transferButton.style.setProperty(
+        '--tt-transfer-panel-bottom',
+        `calc(${bottomMenuHeight + 62}px)`
+      );
     }
 
     const gap = 8;
 
     const availableHeight = Math.max(
       200,
-      viewportHeight -
+      viewportBottom -
         top -
         bottomMenuHeight -
         gap
@@ -853,7 +863,10 @@ html body.dark .tt-empty {
       document.documentElement.classList.remove('tt-screen');
       page.style.removeProperty('--tt-available-height');
       const transferButton = document.getElementById('timetableTransferButton');
-      if (transferButton) transferButton.style.removeProperty('bottom');
+      if (transferButton) {
+        transferButton.style.removeProperty('--tt-transfer-bottom');
+        transferButton.style.removeProperty('--tt-transfer-panel-bottom');
+      }
     }
   }
 
