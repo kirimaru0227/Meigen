@@ -49,14 +49,14 @@ html body .tt-page .tt-transfer-panel {
   </button>
   <div class="timetable-transfer-panel tt-transfer-panel" id="timetableTransferPanel" hidden>
     <div class="timetable-transfer-panel-heading">
-      <div><strong>{{ station }}駅で乗り換え</strong><small>移動先の路線を選択してください</small></div>
+      <div><strong>{{ station }}駅で乗り換え</strong></div>
       <button type="button" id="timetableTransferClose" aria-label="閉じる">×</button>
     </div>
     <div class="timetable-transfer-links">
       {% for option in timetable_transfer_options %}
       <a href="{{ url_for('timetable_page', line=option.line_id, station=option.station) }}">
         <span class="tt-transfer-route-name">{{ option.line_name }}</span>
-        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表を見る</span>
+        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表</span>
       </a>
       {% endfor %}
     </div>
@@ -71,14 +71,14 @@ html body .tt-page .tt-transfer-panel {
   </button>
   <div class="timetable-transfer-panel tt-neighbor-panel" id="timetableNeighborPanel" hidden>
     <div class="timetable-transfer-panel-heading">
-      <div><strong>{{ station }}駅の隣の駅</strong><small>表示する駅を選択してください</small></div>
+      <div><strong>{{ station }}駅の隣の駅</strong></div>
       <button type="button" id="timetableNeighborClose" aria-label="閉じる">×</button>
     </div>
     <div class="timetable-transfer-links">
       {% for option in timetable_neighbor_options %}
       <a href="{{ url_for('timetable_page', line=option.line_id, station=option.station) }}">
         <span class="tt-transfer-route-name">{{ option.line_name }}</span>
-        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表を見る</span>
+        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表</span>
       </a>
       {% endfor %}
     </div>
@@ -1254,11 +1254,20 @@ html body.dark .tt-empty {
   const close = document.getElementById('timetableTransferClose');
   if (!button || !panel) return;
   const hide = () => { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); };
+  const placePanel = () => {
+    const buttonRect = button.getBoundingClientRect();
+    const spaceAbove = Math.max(120, buttonRect.top - 16);
+    const bottom = Math.max(8, window.innerHeight - buttonRect.top + 8);
+    panel.style.setProperty('bottom', `${bottom}px`, 'important');
+    panel.style.setProperty('max-height', `${spaceAbove}px`, 'important');
+  };
   button.addEventListener('click', () => {
     const willOpen = panel.hidden;
+    if (willOpen) placePanel();
     panel.hidden = !willOpen;
     button.setAttribute('aria-expanded', String(willOpen));
   });
+  window.addEventListener('resize', () => { if (!panel.hidden) placePanel(); });
   if (close) close.addEventListener('click', hide);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
   document.addEventListener('click', event => {
@@ -1282,11 +1291,20 @@ html body.dark .tt-empty {
   const close = document.getElementById('timetableNeighborClose');
   if (!button || !panel) return;
   const hide = () => { panel.hidden = true; button.setAttribute('aria-expanded', 'false'); };
+  const placePanel = () => {
+    const buttonRect = button.getBoundingClientRect();
+    const spaceAbove = Math.max(120, buttonRect.top - 16);
+    const bottom = Math.max(8, window.innerHeight - buttonRect.top + 8);
+    panel.style.setProperty('bottom', `${bottom}px`, 'important');
+    panel.style.setProperty('max-height', `${spaceAbove}px`, 'important');
+  };
   button.addEventListener('click', () => {
     const willOpen = panel.hidden;
+    if (willOpen) placePanel();
     panel.hidden = !willOpen;
     button.setAttribute('aria-expanded', String(willOpen));
   });
+  window.addEventListener('resize', () => { if (!panel.hidden) placePanel(); });
   if (close) close.addEventListener('click', hide);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
   document.addEventListener('click', event => {
