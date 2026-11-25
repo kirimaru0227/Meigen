@@ -860,7 +860,9 @@ html body.dark .tt-empty {
       );
     }
     if (neighborButton) {
-      const neighborOffset = transferButton ? 74 : 10;
+      // スマホは48pxボタン＋8px間隔、PCは54pxボタン＋10px間隔。
+      const isMobile = window.matchMedia('(max-width: 600px)').matches;
+      const neighborOffset = transferButton ? (isMobile ? 66 : 74) : 10;
       neighborButton.style.setProperty(
         '--tt-neighbor-bottom',
         `calc(${bottomMenuHeight + neighborOffset}px)`

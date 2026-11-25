@@ -1116,11 +1116,11 @@ if (myStationButton) {
 // 右下の3つの固定ボタンを、共通下部メニューの高さに合わせて配置する。
 (() => {
   const buttons = [
-    [document.getElementById('pageRefreshButton'), 0],
-    [document.getElementById('nearestStationButton'), 64],
-    [document.getElementById('myStationButton'), 128],
+    document.getElementById('pageRefreshButton'),
+    document.getElementById('nearestStationButton'),
+    document.getElementById('myStationButton'),
   ];
-  if (!buttons.some(([button]) => button)) return;
+  if (!buttons.some(button => button)) return;
 
   let observedNav = null;
   let navObserver = null;
@@ -1140,8 +1140,13 @@ if (myStationButton) {
         if (navObserver) navObserver.observe(nav);
       }
     }
-    buttons.forEach(([button, offset]) => {
-      if (button) button.style.setProperty('--operation-floating-bottom', `${base + offset}px`);
+    // スマホはボタン48px＋間隔8px、PCは54px＋間隔10pxで等間隔に配置する。
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const step = isMobile ? 56 : 64;
+    buttons.forEach((button, index) => {
+      if (button) {
+        button.style.setProperty('--operation-floating-bottom', `${base + step * index}px`);
+      }
     });
   };
 
