@@ -6843,3 +6843,12 @@ html body .tt-page .tt-neighbor-panel {
   html body .tt-page .tt-neighbor-button img { width: 24px; height: 24px; }
   html body .tt-page .tt-neighbor-panel { right: 14px !important; }
 }
+
+
+/* 乗り換え・隣の駅ボタンは全画面幅で同じ大きさに統一 */
+html body .tt-page .tt-transfer-button,
+html body .tt-page .tt-neighbor-button {
+    width: 54px !important;
+    height: 54px !important;
+    box-sizing: border-box !important;
+}
