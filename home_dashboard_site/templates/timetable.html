@@ -24,6 +24,24 @@ html body .tt-page .tt-transfer-panel {
   .tt-title-tobu-long .tt-title-route,
   .tt-title-tobu-long .tt-title-station { display: block; }
 }
+/* スマホ版：乗り換えボタンを隣の駅ボタンと同じ大きさにする */
+@media (max-width: 600px) {
+  html body .tt-page .tt-transfer-button {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  html body .tt-page .tt-transfer-button img {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+/* 2種類の選択パネルの横幅を統一 */
+html body .tt-page .tt-transfer-panel,
+html body .tt-page .tt-neighbor-panel {
+  width: min(330px, calc(100vw - 28px)) !important;
+  box-sizing: border-box !important;
+  right: 14px !important;
+}
 </style>
 <section class="tt-page">
   <header class="tt-header">
