@@ -6749,12 +6749,12 @@ html body .page-container.operation-page .station-selector .station-grid.station
 }
 
 /* 駅時刻表ページの乗り換えアイコン */
-.tt-transfer-button { right: 76px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
+.tt-transfer-button { right: 18px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
 .tt-transfer-button img { width: 26px; height: 26px; object-fit: contain; }
 .tt-transfer-button img[hidden] { display: none !important; }
 .tt-transfer-panel { right: 14px; bottom: calc(140px + env(safe-area-inset-bottom, 0px)); }
 @media (max-width: 600px) {
-  .tt-transfer-button { right: 70px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); width: 48px; height: 48px; }
+  .tt-transfer-button { right: 14px; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); width: 48px; height: 48px; }
   .tt-transfer-button img { width: 24px; height: 24px; }
   .tt-transfer-panel { bottom: calc(136px + env(safe-area-inset-bottom, 0px)); }
 }
@@ -6851,4 +6851,12 @@ html body .tt-page .tt-neighbor-button {
     width: 54px !important;
     height: 54px !important;
     box-sizing: border-box !important;
+}
+@media (max-width: 600px) {
+  html body .tt-page .tt-transfer-button,
+  html body .tt-page .tt-neighbor-button {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  html body .tt-page .tt-transfer-button { right: 14px !important; }
 }
