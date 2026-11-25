@@ -6762,3 +6762,28 @@ html body .page-container.operation-page .station-selector .station-grid.station
 .tt-transfer-icon-dark { display: none; }
 html body.dark .tt-transfer-icon-light { display: none; }
 html body.dark .tt-transfer-icon-dark { display: block; }
+
+
+/* 時刻表の路線選択を開いたとき、駅選択との間に明確な余白を設ける */
+.operation-page .operation-timetable-lines.is-open {
+    margin-bottom: 18px !important;
+}
+
+/* 駅一覧の行数を駅数に合わせ、東武佐野線などで空の行が残らないようにする */
+.operation-page .station-selector {
+    padding-bottom: 0 !important;
+    gap: 6px !important;
+}
+.operation-page .station-selector .station-grid.station-grid-large {
+    grid-template-rows: repeat(var(--station-row-count, 6), auto) !important;
+}
+
+@media (max-width: 620px) {
+    .operation-page .station-selector {
+        padding: 0 10px 0 !important;
+        gap: 6px !important;
+    }
+    .operation-page .operation-timetable-lines.is-open {
+        margin-bottom: 16px !important;
+    }
+}
