@@ -767,7 +767,7 @@ html body.dark .tt-empty {
    * 画面下端に固定されたメニューの高さを差し引く。
    */
   function fitPage() {
-    if (!page || !mobileQuery.matches) return;
+    if (!page) return;
 
     // getBoundingClientRect() と同じ layout viewport の座標で計算する。
     // iPhoneのホーム画面アプリでは visualViewport.height と innerHeight が
@@ -856,7 +856,7 @@ html body.dark .tt-empty {
       );
       transferButton.style.setProperty(
         '--tt-transfer-panel-bottom',
-        `calc(${bottomMenuHeight + 62}px)`
+        `calc(${bottomMenuHeight + 68}px)`
       );
     }
     if (neighborButton) {
@@ -867,9 +867,12 @@ html body.dark .tt-empty {
       );
       neighborButton.style.setProperty(
         '--tt-neighbor-panel-bottom',
-        `calc(${bottomMenuHeight + neighborOffset + 48}px)`
+        `calc(${bottomMenuHeight + neighborOffset + 68}px)`
       );
     }
+
+    // PCではボタン位置だけを調整し、ページの高さは変更しない。
+    if (!mobileQuery.matches) return;
 
     const gap = 8;
 
@@ -896,23 +899,27 @@ html body.dark .tt-empty {
     } else {
       document.documentElement.classList.remove('tt-screen');
       page.style.removeProperty('--tt-available-height');
-      const transferButton = document.getElementById('timetableTransferButton');
-      if (transferButton) {
-        transferButton.style.removeProperty('--tt-transfer-bottom');
-        transferButton.style.removeProperty('--tt-transfer-panel-bottom');
-      }
-      const neighborButton = document.getElementById('timetableNeighborButton');
-      if (neighborButton) {
-        neighborButton.style.removeProperty('--tt-neighbor-bottom');
-        neighborButton.style.removeProperty('--tt-neighbor-panel-bottom');
-      }
+      // PCでも下部メニューの実測高さに合わせて固定ボタンを配置する。
+      fitPage();
     }
   }
 
   updateMobileLayout();
   // base.html の下部メニューはこのスクリプトの後に出力されるため、DOM完成後にも再計測する。
+  let bottomNavObserver = null;
+  const observeBottomNav = () => {
+    const nav = document.querySelector('.bottom-nav');
+    if (nav && 'ResizeObserver' in window) {
+      if (bottomNavObserver) bottomNavObserver.disconnect();
+      bottomNavObserver = new ResizeObserver(updateMobileLayout);
+      bottomNavObserver.observe(nav);
+    }
+    updateMobileLayout();
+  };
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateMobileLayout, { once: true });
+    document.addEventListener('DOMContentLoaded', observeBottomNav, { once: true });
+  } else {
+    observeBottomNav();
   }
 
   window.addEventListener(
