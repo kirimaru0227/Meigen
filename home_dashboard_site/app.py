@@ -1239,8 +1239,9 @@ def timetable_page():
             if target_line_id == line_id:
                 continue
 
-            # 上野東京ラインは東京駅以外では乗り換え先として表示しない。
-            if target_line_id == "ueno_tokyo" and station != "東京":
+            # 上野東京ラインは原則として東京駅だけ候補にする。
+            # ただし湘南新宿ラインとの乗り換え駅である横浜・戸塚・大船では表示する。
+            if target_line_id == "ueno_tokyo" and station not in {"東京", "横浜", "戸塚", "大船"}:
                 continue
 
             # 上野東京ライン東京駅では、宇都宮線を乗り換え候補にしない。
