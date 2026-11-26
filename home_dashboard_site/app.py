@@ -1038,12 +1038,12 @@ ISESAKI_STATIONS = ["東武動物公園", "和戸", "久喜", "鷲宮", "花崎"
 SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", "吉水", "田沼", "多田", "葛生"]
 
 TIMETABLE_LINE_CONFIG = {
-    "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS, "color": "#B77900", "text_color": "#FFFFFF"},
-    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F", "text_color": "#292524"},
+    "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS, "color": "#FACC15", "text_color": "#000000"},
+    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F", "text_color": "#FFFFFF"},
     "ueno_tokyo": {"name": "上野東京ライン", "stations": _make_route_stations(list(UTSUNOMIYA_TIMETABLE_STATIONS.keys()) + UTL_TOKAIDO[1:]), "color": "#90268E"},
     "shonan_shinjuku": {"name": "湘南新宿ライン", "stations": _make_route_stations(SHONAN_STATIONS), "color": "#E31E27"},
     "tobu_skytree": {"name": "東武スカイツリーライン", "stations": _make_route_stations(SKYTREE_STATIONS), "color": "#0071BB"},
-    "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220", "text_color": "#292524"},
+    "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220", "text_color": "#FFFFFF"},
     "tobu_utsunomiya": {"name": "東武宇都宮線", "stations": _make_route_stations(UTSUNOMIYA_TOHBU_STATIONS), "color": "#D0A248", "text_color": "#292524"},
     "tobu_isesaki": {"name": "東武伊勢崎線", "stations": _make_route_stations(ISESAKI_STATIONS), "color": "#B00339"},
     "tobu_sano": {"name": "東武佐野線", "stations": _make_route_stations(SANO_STATIONS), "color": "#A065AA"},
@@ -1158,18 +1158,20 @@ def timetable_page():
                 continue
             train_direction = train.get("direction")
             if source_line_id in {"ueno_tokyo", "shonan_shinjuku"}:
-                # この2路線はデータ上の「上り/下り」と駅ページの方面表示が逆になるため、
-                # 路線上の駅順（始発→終着）から実際の表示方向を判定する。
+                # 直通列車は stops の登録順が路線順と異なる場合があるため、
+                # 始発駅・終着駅の路線上の位置から方面を判定する。
                 ordered_station_names = list(source_stations.keys())
-                ordered_indices = [ordered_station_names.index(name)
-                                   for name in train.get("stops", {}) if name in source_stations]
-                if len(ordered_indices) >= 2:
-                    train_direction = "下り" if ordered_indices[-1] > ordered_indices[0] else "上り"
+                origin_name = train.get("origin")
+                destination_name = train.get("destination")
+                origin_index = ordered_station_names.index(origin_name) if origin_name in source_stations else None
+                destination_index = ordered_station_names.index(destination_name) if destination_name in source_stations else None
+                if origin_index is not None and destination_index is not None and origin_index != destination_index:
+                    train_direction = "下り" if destination_index > origin_index else "上り"
                 else:
-                    origin_index = ordered_station_names.index(train["origin"]) if train.get("origin") in source_stations else None
-                    destination_index = ordered_station_names.index(train["destination"]) if train.get("destination") in source_stations else None
-                    if origin_index is not None and destination_index is not None and origin_index != destination_index:
-                        train_direction = "下り" if destination_index > origin_index else "上り"
+                    ordered_indices = [ordered_station_names.index(name)
+                                       for name in train.get("stops", {}) if name in source_stations]
+                    if len(ordered_indices) >= 2:
+                        train_direction = "下り" if ordered_indices[-1] > ordered_indices[0] else "上り"
             if train_direction != direction:
                 continue
             stop = train.get("stops", {}).get(source_station, {})
@@ -1191,12 +1193,21 @@ def timetable_page():
             is_stopped = bool(arrival_dt and departure_dt and arrival_dt <= now < departure_dt)
             is_past = bool((departure_dt and departure_dt <= now) or (arrival_dt and not departure_dt and arrival_dt <= now))
             display_dt = departure_dt or arrival_dt or event_dt
+            train_number_text = str(train.get("train_number", ""))
+            destination = train.get("destination", "")
+            destination_display = destination
+            if train_number_text.endswith("E"):
+                destination_display = f"UTL 東京経由{destination}"
+            elif train_number_text.endswith("Y"):
+                destination_display = f"SSL 新宿経由{destination}"
             trains.append({
                 "time": departure or arrival, "time_minutes": display_dt.hour * 60 + display_dt.minute,
                 "train_number": train.get("train_number", ""),
                 "type": train.get("train_name") if train.get("type") == "特急" and train.get("train_name") else train.get("type", "普通"),
-                "cars": stop.get("cars", train.get("cars", "")), "destination": train.get("destination", ""),
-                "origin": train.get("origin", ""), "note": train.get("note", ""),
+                "cars": stop.get("cars", train.get("cars", "")), "destination": destination,
+                "destination_display": destination_display,
+                "origin": train.get("origin", ""), "is_origin": train.get("origin") == source_station,
+                "note": train.get("note", ""),
                 "operating_days": train.get("operating_days", ["毎日"]),
                 "minutes_until": int((event_dt - now).total_seconds() // 60), "is_past": is_past, "is_stopped": is_stopped,
                 "sort_dt": event_dt, "arrival_iso": arrival_dt.isoformat() if arrival_dt else "",
@@ -1226,8 +1237,11 @@ def timetable_page():
             for section in sections:
                 combined.extend(section["trains"])
             combined.sort(key=lambda item: item["sort_dt"])
+            stopped_now = [item for item in combined if item["is_stopped"]]
             future = [item for item in combined if not item["is_past"] and not item["is_stopped"] and item["sort_dt"] > now]
-            for index, item in enumerate(future[:2]): item["upcoming_rank"] = index + 1
+            ranked_now = stopped_now[:1] + future[:1] if stopped_now else future[:2]
+            for index, item in enumerate(ranked_now, start=1):
+                item["upcoming_rank"] = index
             for item in combined:
                 item.setdefault("upcoming_rank", 0)
                 item["event_iso"] = item["sort_dt"].isoformat()
@@ -1237,7 +1251,7 @@ def timetable_page():
                 info = dict(info)
                 info["direction_label"] = "東武日光線・東武伊勢崎線方面"
             departures_by_direction[direction] = {
-                "info": info, "trains": combined, "next_trains": future[:2],
+                "info": info, "trains": combined, "next_trains": ranked_now,
                 "has_arrival_times": any(item["arrival_iso"] for item in combined),
             }
 
@@ -1423,7 +1437,6 @@ def train_detail(train_number, line_id):
             matching_train = next((
                 item for item in segment_data.get("trains", [])
                 if str(item.get("train_number", "")) == train_number_text
-                and item.get("direction") == train.get("direction")
                 and item.get("operating_days", ["毎日"]) == train.get("operating_days", ["毎日"])
                 and item.get("operating_dates", []) == train.get("operating_dates", [])
                 and item.get("excluded_dates", []) == train.get("excluded_dates", [])
@@ -1474,8 +1487,29 @@ def train_detail(train_number, line_id):
             return 24 * 60
 
     ordered_stops = sorted(combined_stops.items(), key=stop_time_key)
-    stops = [{"station": name, "arrival": times.get("arrival"), "departure": times.get("departure")}
-             for name, times in ordered_stops]
+
+    # 直通列車では、駅ごとに所属する路線の時刻表へリンクする。
+    stop_line_candidates = [line_id]
+    if line_id in {"utsunomiya", "ueno_tokyo", "shonan_shinjuku"}:
+        stop_line_candidates.extend(["utsunomiya", "ueno_tokyo", "shonan_shinjuku"])
+    if line_id in {"tobu_nikko", "shonan_shinjuku"}:
+        stop_line_candidates.extend(["tobu_nikko", "shonan_shinjuku"])
+    if line_id in {"ryomo", "utsunomiya"}:
+        stop_line_candidates.extend(["ryomo", "utsunomiya"])
+    stop_line_candidates = list(dict.fromkeys(stop_line_candidates))
+
+    stops = []
+    for name, times in ordered_stops:
+        stop_line_id = next((
+            candidate for candidate in stop_line_candidates
+            if name in TIMETABLE_LINE_CONFIG.get(candidate, {}).get("stations", {})
+        ), None)
+        stops.append({
+            "station": name,
+            "arrival": times.get("arrival"),
+            "departure": times.get("departure"),
+            "line_id": stop_line_id,
+        })
     return render_template(
         "train_detail.html", train=display_train, stops=stops,
         line_name=line_data.get("name", "時刻表"), line_id=line_id,
