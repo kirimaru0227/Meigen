@@ -835,7 +835,7 @@ TIMETABLE_STATIONS = {
         "下り": {"direction_label": "小山方面", "platform": "1番線"},
     },
     "大平下": {
-        "en": "Ohirashita",
+        "en": "Ōhirashita",
         "上り": {"direction_label": "佐野･足利･高崎方面", "platform": ""},
         "下り": {"direction_label": "栃木･小山方面", "platform": ""},
     },
@@ -934,15 +934,15 @@ TIMETABLE_STATIONS = {
 
 # JR宇都宮線（東京～小山～宇都宮）の駅情報
 UTSUNOMIYA_TIMETABLE_STATIONS = {
-    "東京": {"en": "Tokyo", "下り": {"direction_label": "上野･大宮･小山･宇都宮方面", "platform": ""}},
+    "東京": {"en": "Tōkyō", "下り": {"direction_label": "上野･大宮･小山･宇都宮方面", "platform": ""}},
     "上野": {"en": "Ueno", "上り": {"direction_label": "東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
     "尾久": {"en": "Oku", "上り": {"direction_label": "上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
     "赤羽": {"en": "Akabane", "上り": {"direction_label": "上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
     "浦和": {"en": "Urawa", "上り": {"direction_label": "赤羽･上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
     "さいたま新都心": {"en": "Saitama-Shintoshin", "上り": {"direction_label": "浦和･上野･東京方面", "platform": ""}, "下り": {"direction_label": "大宮･小山･宇都宮方面", "platform": ""}},
-    "大宮": {"en": "Omiya", "上り": {"direction_label": "浦和･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "大宮": {"en": "Ōmiya", "上り": {"direction_label": "浦和･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
     "土呂": {"en": "Toro", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
-    "東大宮": {"en": "Higashi-Omiya", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
+    "東大宮": {"en": "Higashi-Ōmiya", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
     "蓮田": {"en": "Hasuda", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
     "白岡": {"en": "Shiraoka", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
     "新白岡": {"en": "Shin-Shiraoka", "上り": {"direction_label": "大宮･上野･東京方面", "platform": ""}, "下り": {"direction_label": "小山･宇都宮方面", "platform": ""}},
@@ -965,38 +965,38 @@ STATION_ENGLISH_NAMES = {
     "宇都宮": "Utsunomiya", "雀宮": "Suzumenomiya", "石橋": "Ishibashi", "自治医大": "Jichi Medical University",
     "小金井": "Koganei", "小山": "Oyama", "間々田": "Mamada", "野木": "Nogi", "古河": "Koga",
     "栗橋": "Kurihashi", "東鷲宮": "Higashi-Washinomiya", "久喜": "Kuki", "新白岡": "Shin-Shiraoka",
-    "白岡": "Shiraoka", "蓮田": "Hasuda", "東大宮": "Higashi-Omiya", "土呂": "Toro", "大宮": "Omiya",
+    "白岡": "Shiraoka", "蓮田": "Hasuda", "東大宮": "Higashi-Ōmiya", "土呂": "Toro", "大宮": "Ōmiya",
     "浦和": "Urawa", "赤羽": "Akabane", "池袋": "Ikebukuro", "新宿": "Shinjuku", "渋谷": "Shibuya",
-    "恵比寿": "Ebisu", "大崎": "Osaki", "西大井": "Nishi-Oi", "武蔵小杉": "Musashi-Kosugi",
+    "恵比寿": "Ebisu", "大崎": "Ōsaki", "西大井": "Nishi-ōi", "武蔵小杉": "Musashi-Kosugi",
     "新川崎": "Shin-Kawasaki", "横浜": "Yokohama", "保土ヶ谷": "Hodogaya", "東戸塚": "Higashi-Totsuka",
-    "戸塚": "Totsuka", "大船": "Ofuna", "北鎌倉": "Kita-Kamakura", "鎌倉": "Kamakura", "逗子": "Zushi",
-    "東京": "Tokyo", "上野": "Ueno", "尾久": "Oku", "さいたま新都心": "Saitama-Shintoshin",
-    "新橋": "Shimbashi", "品川": "Shinagawa", "川崎": "Kawasaki", "藤沢": "Fujisawa", "辻堂": "Tsujido",
-    "茅ケ崎": "Chigasaki", "平塚": "Hiratsuka", "大磯": "Oiso", "二宮": "Ninomiya", "国府津": "Kozu",
+    "戸塚": "Totsuka", "大船": "Ōfuna", "北鎌倉": "Kita-Kamakura", "鎌倉": "Kamakura", "逗子": "Zushi",
+    "東京": "Tōkyō", "上野": "Ueno", "尾久": "Oku", "さいたま新都心": "Saitama-Shintoshin",
+    "新橋": "Shimbashi", "品川": "Shinagawa", "川崎": "Kawasaki", "藤沢": "Fujisawa", "辻堂": "Tsujidō",
+    "茅ケ崎": "Chigasaki", "平塚": "Hiratsuka", "大磯": "Ōiso", "二宮": "Ninomiya", "国府津": "Kōzu",
     "鴨宮": "Kamonomiya", "小田原": "Odawara", "早川": "Hayakawa", "根府川": "Nebukawa", "真鶴": "Manazuru",
-    "湯河原": "Yugawara", "熱海": "Atami", "東武動物公園": "Tobu-Dobutsu-Koen", "姫宮": "Himemiya",
-    "北春日部": "Kita-Kasukabe", "春日部": "Kasukabe", "一ノ割": "Ichinowari", "武里": "Takesato",
-    "せんげん台": "Sengendai", "大袋": "Obukuro", "北越谷": "Kita-Koshigaya", "越谷": "Koshigaya",
-    "新越谷": "Shin-Koshigaya", "蒲生": "Gamo", "新田": "Shinden", "獨協大学前": "Dokkyo-Daigaku-mae",
+    "湯河原": "Yugawara", "熱海": "Atami", "東武動物公園": "Tobu-dobutsu-koen", "姫宮": "Himemiya",
+    "北春日部": "Kita-kasukabe", "春日部": "Kasukabe", "一ノ割": "Ichinowari", "武里": "Takesato",
+    "せんげん台": "Sengendai", "大袋": "Obukuro", "北越谷": "Kita-koshigaya", "越谷": "Koshigaya",
+    "新越谷": "Shin-koshigaya", "蒲生": "Gamo", "新田": "Shinden", "獨協大学前": "Dokkyodaigakumae",
     "草加": "Soka", "谷塚": "Yatsuka", "竹ノ塚": "Takenotsuka", "西新井": "Nishiarai", "梅島": "Umejima",
-    "五反野": "Gotanno", "小菅": "Kosuge", "北千住": "Kita-Senju", "牛田": "Ushida", "堀切": "Horikiri",
-    "鐘ケ淵": "Kane-ga-fuchi", "東向島": "Higashi-Mukojima", "曳舟": "Hikifune", "押上": "Oshiage",
-    "とうきょうスカイツリー": "Tokyo Skytree", "浅草": "Asakusa", "杉戸高野台": "Sugito-Takanodai",
-    "幸手": "Satte", "南栗橋": "Minami-Kurihashi", "新古河": "Shin-Koga", "柳生": "Yagyu",
-    "板倉東洋大前": "Itakura-Toyodai-mae", "藤岡": "Fujioka", "静和": "Shizuwa", "新大平下": "Shin-Ohirashita",
-    "栃木": "Tochigi", "新栃木": "Shin-Tochigi", "合戦場": "Kassemba", "家中": "Ienaka",
-    "東武金崎": "Tobu-Kanasaki", "楡木": "Niregi", "樅山": "Momiyama", "新鹿沼": "Shin-Kanuma",
-    "北鹿沼": "Kita-Kanuma", "板荷": "Itaga", "下小代": "Shimo-Goshiro", "明神": "Myojin",
-    "下今市": "Shimo-Imaichi", "上今市": "Kami-Imaichi", "東武日光": "Tobu-Nikko", "野州平川": "Yashu-Hirakawa",
-    "野州大塚": "Yashu-Otsuka", "壬生": "Mibu", "国谷": "Kuniya", "おもちゃのまち": "Omocha-no-Machi",
-    "安塚": "Yasuzuka", "西川田": "Nishikawada", "江曽島": "Esojima", "南宇都宮": "Minami-Utsunomiya",
-    "東武宇都宮": "Tobu-Utsunomiya", "和戸": "Wado", "鷲宮": "Washinomiya", "花崎": "Hanasaki",
-    "加須": "Kazo", "南羽生": "Minami-Hanyu", "羽生": "Hanyu", "川俣": "Kawamata",
-    "茂林寺前": "Morinji-mae", "館林": "Tatebayashi", "多々良": "Tatara", "県": "Agata",
-    "福居": "Fukui", "東武和泉": "Tobu-Izumi", "足利市": "Ashikagashi", "野州山辺": "Yashu-Yamabe",
+    "五反野": "Gotanno", "小菅": "Kosuge", "北千住": "Kita-senju", "牛田": "Ushida", "堀切": "Horikiri",
+    "鐘ケ淵": "Kane-ga-fuchi", "東向島": "Higashi-mukojima", "曳舟": "Hikifune", "押上": "Oshiage",
+    "とうきょうスカイツリー": "TOKYO SKYTREE", "浅草": "Asakusa", "杉戸高野台": "Sugito-takanodai",
+    "幸手": "Satte", "南栗橋": "Minami-kurihashi", "新古河": "Shin-koga", "柳生": "Yagyu",
+    "板倉東洋大前": "Itakura-toyodaimae", "藤岡": "Fujioka", "静和": "Shizuwa", "新大平下": "Shin-ohirashita",
+    "栃木": "Tochigi", "新栃木": "Shin-tochigi", "合戦場": "Kassemba", "家中": "Ienaka",
+    "東武金崎": "Tobu-kanasaki", "楡木": "Niregi", "樅山": "Momiyama", "新鹿沼": "Shin-kanuma",
+    "北鹿沼": "Kita-kanuma", "板荷": "Itaga", "下小代": "Shimo-goshiro", "明神": "Myojin",
+    "下今市": "Shimo-imaichi", "上今市": "Kami-imaichi", "東武日光": "Tobu-nikko", "野州平川": "Yashu-hirakawa",
+    "野州大塚": "Yashu-otsuka", "壬生": "Mibu", "国谷": "Kuniya", "おもちゃのまち": "Omochanomachi",
+    "安塚": "Yasuzuka", "西川田": "Nishikawada", "江曽島": "Esojima", "南宇都宮": "Minami-utsunomiya",
+    "東武宇都宮": "Tobu-utsunomiya", "和戸": "Wado", "鷲宮": "Washinomiya", "花崎": "Hanasaki",
+    "加須": "Kazo", "南羽生": "Minami-hanyu", "羽生": "Hanyu", "川俣": "Kawamata",
+    "茂林寺前": "Morinjimae", "館林": "Tatebayashi", "多々良": "Tatara", "県": "Agata",
+    "福居": "Fukui", "東武和泉": "Tobu-izumi", "足利市": "Ashikagashi", "野州山辺": "Yashu-yamabe",
     "韮川": "Nigawa", "太田": "Ota", "渡瀬": "Watase", "田島": "Tajima", "佐野市": "Sanoshi",
-    "佐野": "Sano", "堀米": "Horigome", "吉水": "Yoshimizu", "田沼": "Tanuma", "多田": "Tada", "葛生": "Kuzuu",
-    "思川": "Omoigawa", "大平下": "Ohirashita", "岩舟": "Iwafune", "富田": "Tomita",
+    "佐野": "Sano", "堀米": "Horigome", "吉水": "Yoshimizu", "田沼": "Tanuma", "多田": "Tada", "葛生": "Kuzu",
+    "思川": "Omoigawa", "大平下": "Ōhirashita", "岩舟": "Iwafune", "富田": "Tomita",
     "あしかがフラワーパーク": "Ashikaga Flower Park", "足利": "Ashikaga", "山前": "Yamamae", "小俣": "Omata",
 }
 
@@ -1221,7 +1221,7 @@ def timetable_page():
 
     line_en_names = {
         "ryomo": "Ryomo Line", "utsunomiya": "Utsunomiya Line", "ueno_tokyo": "Ueno-Tokyo Line",
-        "shonan_shinjuku": "Shonan-Shinjuku Line", "tobu_skytree": "Tobu Skytree Line",
+        "shonan_shinjuku": "Shonan-Shinjuku Line", "tobu_skytree": "TOBU SKYTREE Line",
         "tobu_nikko": "Tobu Nikko Line", "tobu_utsunomiya": "Tobu Utsunomiya Line",
         "tobu_isesaki": "Tobu Isesaki Line", "tobu_sano": "Tobu Sano Line",
     }
@@ -1295,10 +1295,14 @@ def timetable_page():
             ("tobu_utsunomiya", "野州平川"),
             ("tobu_utsunomiya", "栃木"),
         ],
+        ("tobu_nikko", "栃木"): [
+            ("tobu_utsunomiya", "新栃木"),
+            ("tobu_nikko", "新大平下"),
+        ],
         ("tobu_skytree", "東武動物公園"): [
-            ("tobu_skytree", "姫宮"),
             ("tobu_nikko", "杉戸高野台"),
             ("tobu_isesaki", "和戸"),
+            ("tobu_skytree", "姫宮"),
         ],
         ("tobu_skytree", "曳舟"): [
             ("tobu_skytree", "東向島"),
@@ -1306,17 +1310,17 @@ def timetable_page():
             ("tobu_skytree", "押上"),
         ],
         ("tobu_skytree", "とうきょうスカイツリー"): [
-            ("tobu_skytree", "浅草"),
             ("tobu_skytree", "曳舟"),
+            ("tobu_skytree", "浅草"),
         ],
         ("tobu_skytree", "押上"): [("tobu_skytree", "曳舟")],
         ("ueno_tokyo", "東京"): [
-            ("ueno_tokyo", "新橋"),
             ("utsunomiya", "上野"),
+            ("ueno_tokyo", "新橋"),
         ],
         ("shonan_shinjuku", "大宮"): [
-            ("shonan_shinjuku", "浦和"),
             ("utsunomiya", "土呂"),
+            ("shonan_shinjuku", "浦和"),
         ],
         ("utsunomiya", "土呂"): [
             ("utsunomiya", "東大宮"),
@@ -1338,6 +1342,14 @@ def timetable_page():
                 neighbor_pairs.append((line_id, route_stations[station_index - 1]))
             if station_index + 1 < len(route_stations):
                 neighbor_pairs.append((line_id, route_stations[station_index + 1]))
+
+    # 東武日光線は全駅で隣駅候補の順序を反転する。
+    # 東武宇都宮線も反転するが、新栃木駅は個別指定の順序を維持する。
+    if (
+        (line_id == "tobu_nikko")
+        or (line_id == "tobu_utsunomiya" and station != "新栃木")
+    ) and (line_id, station) not in timetable_neighbor_overrides:
+        neighbor_pairs = list(reversed(neighbor_pairs or []))
 
     timetable_neighbor_options = []
     for neighbor_line_id, neighbor_station in (neighbor_pairs or []):
