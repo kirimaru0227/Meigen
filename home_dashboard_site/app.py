@@ -1203,7 +1203,11 @@ def timetable_page():
             is_past = bool((departure_dt and departure_dt <= now) or (arrival_dt and not departure_dt and arrival_dt <= now))
             display_dt = departure_dt or arrival_dt or event_dt
             train_number_text = str(train.get("train_number", ""))
-            destination = train.get("destination", "")
+            destination = str(train.get("destination", "")).strip()
+            # 当駅止まりの列車は、終着駅の時刻表には表示しない。
+            # 例：上野止まりの列車は上野駅では非表示にし、手前の駅では通常どおり表示する。
+            if destination and destination == source_station:
+                continue
             destination_via = ""
             if train_number_text.endswith("E"):
                 destination_via = "東京経由"
