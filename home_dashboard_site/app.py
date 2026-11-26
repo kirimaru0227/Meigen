@@ -1197,10 +1197,8 @@ def timetable_page():
                 departure_dt = now.replace(hour=int(departure.split(":")[0]), minute=int(departure.split(":")[1]), second=0, microsecond=0) if departure else None
             except (TypeError, ValueError, IndexError):
                 continue
-            if event_dt < now - timedelta(hours=12):
-                event_dt += timedelta(days=1)
-                if arrival_dt: arrival_dt += timedelta(days=1)
-                if departure_dt: departure_dt += timedelta(days=1)
+            # 時刻表は常に当日分だけを表示する。
+            # 深夜に翌日の始発を当日分へ混ぜないよう、時刻の翌日繰り越しは行わない。
             is_stopped = bool(arrival_dt and departure_dt and arrival_dt <= now < departure_dt)
             is_past = bool((departure_dt and departure_dt <= now) or (arrival_dt and not departure_dt and arrival_dt <= now))
             display_dt = departure_dt or arrival_dt or event_dt
@@ -2283,6 +2281,17 @@ def operation_page():
     # 桐生以遠の駅情報は列車詳細など既存機能のため設定側に残す。
     if timetable_line_id == "ryomo" and "小俣" in timetable_station_names:
         timetable_station_names = timetable_station_names[:timetable_station_names.index("小俣") + 1]
+    # JR宇都宮線の駅選択では黒磯～岡本を表示しない。
+    # 駅情報そのものは列車詳細・停車駅データのために残す。
+    if timetable_line_id == "utsunomiya":
+        excluded_utsunomiya_choices = {
+            "黒磯", "那須塩原", "西那須野", "野崎", "矢板",
+            "片岡", "蒲須坂", "氏家", "宝積寺", "岡本",
+        }
+        timetable_station_names = [
+            name for name in timetable_station_names
+            if name not in excluded_utsunomiya_choices
+        ]
 
     my_station = request.cookies.get("myHomeStation", "").strip()
     if my_station not in MY_STATION_OPTIONS:
