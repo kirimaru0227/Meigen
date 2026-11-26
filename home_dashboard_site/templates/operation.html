@@ -1483,3 +1483,32 @@ html body .page-container.operation-page .operation-timetable-line-grid > .opera
     --route-text-color: #000000;
 }
 </style>
+
+<style>
+/* 駅の選択状態を路線選択肢と同じ濃い路線カラーで全面塗りつぶす */
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected:hover,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:active {
+    background: var(--timetable-line-color, #077AE3) !important;
+    background-color: var(--timetable-line-color, #077AE3) !important;
+    background-image: none !important;
+    border: 1px solid var(--timetable-line-color, #077AE3) !important;
+    border-color: var(--timetable-line-color, #077AE3) !important;
+    color: var(--timetable-line-text-color, #FFFFFF) !important;
+    opacity: 1 !important;
+    filter: none !important;
+    box-shadow: none !important;
+}
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected .station-name,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:active .station-name {
+    color: var(--timetable-line-text-color, #FFFFFF) !important;
+}
+/* 路線選択肢の「両毛線」は、未選択・選択中とも黒文字 */
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[data-href*="ryomo"],
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[data-href*="ryomo"].is-active,
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[data-href*="ryomo"].active,
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[data-href*="ryomo"].is-selected,
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[data-href*="ryomo"]:active {
+    color: #000000 !important;
+}
+</style>
