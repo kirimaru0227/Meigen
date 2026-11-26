@@ -24,6 +24,8 @@ html body .tt-page .tt-transfer-panel {
   .tt-title-tobu-long .tt-title-route,
   .tt-title-tobu-long .tt-title-station { display: block; }
 }
+.tt-title-tobu-force-break .tt-title-route,
+.tt-title-tobu-force-break .tt-title-station { display: block; }
 /* スマホ版：乗り換えボタンを隣の駅ボタンと同じ大きさにする */
 @media (max-width: 600px) {
   html body .tt-page .tt-transfer-button {
@@ -47,7 +49,7 @@ html body .tt-page .tt-neighbor-panel {
 <section class="tt-page" style="--tt-line-color: {{ line_color | default('#077AE3', true) }};">
   <header class="tt-header">
     <div>
-      <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園', '獨協大学前', 'せんげん台'] %}tt-title-tobu-long{% endif %}">
+      <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園', '獨協大学前', 'せんげん台'] %}tt-title-tobu-long{% endif %}{% if line_id == 'tobu_skytree' and station in ['獨協大学前', 'せんげん台'] %} tt-title-tobu-force-break{% endif %}">
         {% if station %}
           <span class="tt-title-route">{{ line_name }}</span><span class="tt-title-station">{{ station | replace('保土ヶ谷', '保土ケ谷') }}駅時刻表</span>
         {% else %}

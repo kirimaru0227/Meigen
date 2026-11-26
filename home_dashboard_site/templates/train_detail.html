@@ -178,12 +178,12 @@ html body.dark .td-button.td-primary{background:#077AE3;border-color:#077AE3;col
 
 /* 選択中の駅 */
 .td-stop{scroll-margin-top:105px}
-.td-current-stop{background:rgba(234,179,8,.12);border-radius:8px}
-.td-current-stop .td-stop-name{color:#a16207}
+.td-current-stop{background:color-mix(in srgb,var(--td-line-color) 14%,transparent);border-radius:8px}
+.td-current-stop .td-stop-name{color:var(--td-line-color)}
 .td-flower-park-name{display:inline-block;line-height:1.25;white-space:normal}
 
-html body.dark .td-current-stop{background:rgba(250,204,21,.12)}
-html body.dark .td-current-stop .td-stop-name{color:#fde68a}
+html body.dark .td-current-stop{background:color-mix(in srgb,var(--td-line-color) 22%,#171b22)}
+html body.dark .td-current-stop .td-stop-name{color:var(--td-line-color)}
 
 @media(max-width:520px){
   .td-flower-park-name{font-size:.95em}
