@@ -14,7 +14,10 @@
 <div class="page-container operation-page" data-timetable-line="{{ timetable_line_id }}" style="--timetable-line-color: {{ timetable_line_color }}; --timetable-line-text-color: {{ timetable_line_text_color }};">
 
     <header class="page-header timetable-page-header">
-        <h1>{{ current_timetable_line.name }} 時刻表</h1>
+        <h1 class="timetable-page-title">
+            <span class="timetable-page-title-main">時刻表</span>
+            <span class="timetable-page-title-line">{{ current_timetable_line.name }}</span>
+        </h1>
         <button type="button" class="timetable-line-change-button"
                 id="timetableLineToggle" aria-expanded="false" aria-controls="timetableLineChoices">
             路線を変更
@@ -52,18 +55,31 @@
         const toggle = document.getElementById('timetableLineToggle');
         const choices = document.getElementById('timetableLineChoices');
         const lineSection = document.querySelector('.operation-timetable-lines');
+        const stationSelector = document.querySelector('.operation-page .station-selector');
         if (toggle && choices) {
             toggle.addEventListener('click', () => {
                 const isOpen = toggle.getAttribute('aria-expanded') === 'true';
                 toggle.setAttribute('aria-expanded', String(!isOpen));
                 choices.hidden = isOpen;
+                if (stationSelector) stationSelector.hidden = !isOpen;
                 if (lineSection) lineSection.classList.toggle('is-open', !isOpen);
             });
         }
         if (choices) {
             choices.querySelectorAll('.operation-timetable-line[data-href]').forEach(button => {
                 button.addEventListener('click', () => {
-                    window.location.href = button.dataset.href;
+                    if (button.dataset.navigating === 'true') return;
+                    button.dataset.navigating = 'true';
+                    choices.querySelectorAll('.operation-timetable-line').forEach(item => {
+                        item.classList.remove('is-selected');
+                        item.setAttribute('aria-pressed', 'false');
+                    });
+                    button.classList.add('is-selected');
+                    button.setAttribute('aria-pressed', 'true');
+                    // 選択色が画面に反映されてから路線ページへ移動
+                    window.setTimeout(() => {
+                        window.location.assign(button.dataset.href);
+                    }, 220);
                 });
             });
         }
@@ -1176,8 +1192,29 @@ if (myStationButton) {
     min-width: 0;
     margin: 0 !important;
 }
+.operation-page .timetable-page-title {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    line-height: 1.15 !important;
+}
+.operation-page .timetable-page-title-main {
+    display: block;
+    font-size: clamp(28px, 3vw, 36px) !important;
+    line-height: 1.2 !important;
+}
+.operation-page .timetable-page-title-line {
+    display: block;
+    margin-top: 2px;
+    font-size: clamp(16px, 2vw, 21px) !important;
+    line-height: 1.3 !important;
+    font-weight: 600 !important;
+}
 .timetable-line-change-button {
     flex: 0 0 auto;
+    margin-right: 0 !important;
+    justify-self: end;
     min-height: 42px;
     padding: 8px 14px;
     border: 1px solid #077AE3;
@@ -1205,7 +1242,8 @@ if (myStationButton) {
     gap: 10px 14px !important;
     margin: 0 0 16px !important;
 }
-.operation-page .operation-timetable-line-grid[hidden] {
+.operation-page .operation-timetable-line-grid[hidden],
+.operation-page .station-selector[hidden] {
     display: none !important;
 }
 .operation-page .operation-timetable-line-grid > .operation-timetable-line {
@@ -1233,10 +1271,15 @@ if (myStationButton) {
     -webkit-tap-highlight-color: transparent;
 }
 .operation-page .operation-timetable-line-grid > .operation-timetable-line:active,
-.operation-page .operation-timetable-line-grid > .operation-timetable-line.is-active {
+.operation-page .operation-timetable-line-grid > .operation-timetable-line.is-active,
+.operation-page .operation-timetable-line-grid > .operation-timetable-line.is-selected {
     background: var(--route-color, #077AE3) !important;
+    background-color: var(--route-color, #077AE3) !important;
     border-color: var(--route-color, #077AE3) !important;
     color: #fff !important;
+}
+.operation-page .operation-timetable-line-grid > .operation-timetable-line.is-selected {
+    pointer-events: none;
 }
 @media (max-width: 600px) {
     .operation-page > .timetable-page-header {
@@ -1351,4 +1394,13 @@ html body .page-container.operation-page .station-selector .station-grid.station
 html body .page-container.operation-page .station-selector .station-grid.station-grid-large > .station-button:active .station-name {
     color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
 }
+</style>
+
+<style>
+/* 路線変更中は駅選択肢を隠し、見出しのボタン右端を駅グリッド右端に揃える */
+.operation-page > .timetable-page-header {
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+.operation-page .station-selector[hidden] { display: none !important; }
 </style>
