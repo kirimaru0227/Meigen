@@ -958,6 +958,16 @@ UTSUNOMIYA_TIMETABLE_STATIONS = {
     "石橋": {"en": "Ishibashi", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}, "下り": {"direction_label": "雀宮･宇都宮方面", "platform": ""}},
     "雀宮": {"en": "Suzumenomiya", "上り": {"direction_label": "石橋･小山･東京方面", "platform": ""}, "下り": {"direction_label": "宇都宮方面", "platform": ""}},
     "宇都宮": {"en": "Utsunomiya", "上り": {"direction_label": "小山･大宮･東京方面", "platform": ""}},
+    "黒磯": {"en": "Kuroiso", "上り": {"direction_label": "那須塩原･宇都宮･小金井方面", "platform": "1"}},
+    "那須塩原": {"en": "Nasushiobara", "上り": {"direction_label": "宇都宮･小金井方面", "platform": "9"}},
+    "西那須野": {"en": "Nishi-Nasuno", "上り": {"direction_label": "宇都宮･小金井方面", "platform": ""}},
+    "野崎": {"en": "Nozaki", "上り": {"direction_label": "宇都宮･小金井方面", "platform": ""}},
+    "矢板": {"en": "Yaita", "上り": {"direction_label": "宇都宮･小金井方面", "platform": "3"}},
+    "片岡": {"en": "Kataoka", "上り": {"direction_label": "宇都宮･小金井方面", "platform": ""}},
+    "蒲須坂": {"en": "Kamasusaka", "上り": {"direction_label": "宇都宮･小金井方面", "platform": ""}},
+    "氏家": {"en": "Ujiie", "上り": {"direction_label": "宇都宮･小金井方面", "platform": "1"}},
+    "宝積寺": {"en": "Hoshakuji", "上り": {"direction_label": "宇都宮･小金井方面", "platform": "2"}},
+    "岡本": {"en": "Okamoto", "上り": {"direction_label": "宇都宮･小金井方面", "platform": ""}},
 }
 
 # 路線選択で使う全駅の英語表記。
@@ -970,6 +980,7 @@ STATION_ENGLISH_NAMES = {
     "恵比寿": "Ebisu", "大崎": "Ōsaki", "西大井": "Nishi-ōi", "武蔵小杉": "Musashi-Kosugi",
     "新川崎": "Shin-Kawasaki", "横浜": "Yokohama", "保土ケ谷": "Hodogaya", "東戸塚": "Higashi-Totsuka",
     "戸塚": "Totsuka", "大船": "Ōfuna", "北鎌倉": "Kita-Kamakura", "鎌倉": "Kamakura", "逗子": "Zushi",
+    "黒磯": "Kuroiso", "那須塩原": "Nasushiobara", "西那須野": "Nishi-Nasuno", "野崎": "Nozaki", "矢板": "Yaita", "片岡": "Kataoka", "蒲須坂": "Kamasusaka", "氏家": "Ujiie", "宝積寺": "Hoshakuji", "岡本": "Okamoto",
     "東京": "Tōkyō", "上野": "Ueno", "尾久": "Oku", "さいたま新都心": "Saitama-Shintoshin",
     "新橋": "Shimbashi", "品川": "Shinagawa", "川崎": "Kawasaki", "藤沢": "Fujisawa", "辻堂": "Tsujidō",
     "茅ケ崎": "Chigasaki", "平塚": "Hiratsuka", "大磯": "Ōiso", "二宮": "Ninomiya", "国府津": "Kōzu",
@@ -1195,17 +1206,17 @@ def timetable_page():
             display_dt = departure_dt or arrival_dt or event_dt
             train_number_text = str(train.get("train_number", ""))
             destination = train.get("destination", "")
-            destination_display = destination
+            destination_via = ""
             if train_number_text.endswith("E"):
-                destination_display = f"UTL 東京経由{destination}"
+                destination_via = "東京経由"
             elif train_number_text.endswith("Y"):
-                destination_display = f"SSL 新宿経由{destination}"
+                destination_via = "新宿経由"
             trains.append({
                 "time": departure or arrival, "time_minutes": display_dt.hour * 60 + display_dt.minute,
                 "train_number": train.get("train_number", ""),
                 "type": train.get("train_name") if train.get("type") == "特急" and train.get("train_name") else train.get("type", "普通"),
                 "cars": stop.get("cars", train.get("cars", "")), "destination": destination,
-                "destination_display": destination_display,
+                "destination_display": destination, "destination_via": destination_via,
                 "origin": train.get("origin", ""), "is_origin": train.get("origin") == source_station,
                 "note": train.get("note", ""),
                 "operating_days": train.get("operating_days", ["毎日"]),
