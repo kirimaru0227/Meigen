@@ -1305,6 +1305,65 @@ if (myStationButton) {
 }
 </style>
 
+
+<style>
+/* 選択状態の最終指定。contentブロック内に置き、PC・スマートフォン双方に適用する。 */
+
+/* 駅：選択中は駅ボタン全体を現在の路線カラーで塗りつぶす */
+html body .page-container.operation-page .station-selector
+.station-grid.station-grid-large > label.station-button.is-selected,
+html body .page-container.operation-page .station-selector
+.station-grid.station-grid-large > label.station-button.is-selected:hover,
+html body .page-container.operation-page .station-selector
+.station-grid.station-grid-large > label.station-button:active {
+    background: var(--timetable-line-color, #077AE3) !important;
+    background-color: var(--timetable-line-color, #077AE3) !important;
+    background-image: none !important;
+    border: 1px solid var(--timetable-line-color, #077AE3) !important;
+    border-color: var(--timetable-line-color, #077AE3) !important;
+    color: var(--timetable-line-text-color, #FFFFFF) !important;
+    opacity: 1 !important;
+    filter: none !important;
+    box-shadow: none !important;
+}
+html body .page-container.operation-page .station-selector
+.station-grid.station-grid-large > label.station-button.is-selected .station-name,
+html body .page-container.operation-page .station-selector
+.station-grid.station-grid-large > label.station-button:active .station-name {
+    color: var(--timetable-line-text-color, #FFFFFF) !important;
+}
+
+/* 両毛線：駅の塗りつぶし時は黒文字 */
+html body .page-container.operation-page[data-timetable-line="ryomo"]
+.station-selector .station-grid.station-grid-large > label.station-button.is-selected,
+html body .page-container.operation-page[data-timetable-line="ryomo"]
+.station-selector .station-grid.station-grid-large > label.station-button:active,
+html body .page-container.operation-page[data-timetable-line="ryomo"]
+.station-selector .station-grid.station-grid-large > label.station-button.is-selected .station-name,
+html body .page-container.operation-page[data-timetable-line="ryomo"]
+.station-selector .station-grid.station-grid-large > label.station-button:active .station-name {
+    color: #000000 !important;
+}
+
+/* 路線：「両毛線」は未選択・選択中・押下中とも黒文字 */
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"],
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"]:hover,
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"]:focus,
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"]:active,
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"].is-active,
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"].active,
+html body .page-container.operation-page .operation-timetable-line-grid
+> .operation-timetable-line[data-href*="ryomo"].is-selected {
+    color: #000000 !important;
+}
+</style>
+
 {% endblock %}
 
 <style>
