@@ -318,6 +318,12 @@ html body .tt-page .tt-neighbor-panel {
   justify-content: center;
 }
 
+/* 「始」表示がない列車は、時刻欄全体を行の縦中央に配置 */
+.tt-train:not(:has(.tt-origin-tag)) .tt-time-column {
+  align-self: stretch;
+  justify-content: center;
+}
+
 .tt-train:last-child {
   border-bottom: 0;
 }
