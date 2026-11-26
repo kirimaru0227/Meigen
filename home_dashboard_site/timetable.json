@@ -5679,7 +5679,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -6095,7 +6095,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -6547,7 +6547,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "小金井": {
@@ -6815,7 +6815,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "小金井": {
@@ -6959,7 +6959,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -7135,7 +7135,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "小金井": {
@@ -7642,7 +7642,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "古河": {
@@ -7910,7 +7910,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "小金井": {
@@ -8194,7 +8194,7 @@
           "cars": 10,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -8386,7 +8386,7 @@
           "cars": 10,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -8706,7 +8706,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -8854,7 +8854,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -9122,7 +9122,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -9270,7 +9270,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -9538,7 +9538,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -9686,7 +9686,7 @@
           "cars": 10,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -9954,7 +9954,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -10102,7 +10102,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -10370,7 +10370,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -10518,7 +10518,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -10786,7 +10786,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -10934,7 +10934,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -11311,7 +11311,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -11469,7 +11469,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -12013,7 +12013,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -12161,7 +12161,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -12445,7 +12445,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "古河": {
@@ -12736,7 +12736,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -12913,7 +12913,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -13105,7 +13105,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -13465,7 +13465,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -13680,7 +13680,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "古河": {
@@ -14116,7 +14116,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -19655,23 +19655,72 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
               "arrival": "06:42",
-              "departure": "06:43",
-              "cars": 15
+              "departure": "06:43"
             },
             "浦和": {
               "arrival": "06:48",
-              "departure": "06:49",
-              "cars": 15
+              "departure": "06:49"
             },
             "赤羽": {
               "arrival": "06:58",
-              "departure": "06:59",
-              "cars": 15
+              "departure": "06:59"
+            },
+            "池袋": {
+              "arrival": "07:09",
+              "departure": "07:10"
+            },
+            "新宿": {
+              "arrival": "07:15",
+              "departure": "07:16"
+            },
+            "渋谷": {
+              "arrival": "07:20",
+              "departure": "07:21"
+            },
+            "恵比寿": {
+              "arrival": "07:23",
+              "departure": "07:23"
+            },
+            "大崎": {
+              "arrival": "07:27",
+              "departure": "07:28"
+            },
+            "西大井": {
+              "arrival": "07:31",
+              "departure": "07:32"
+            },
+            "武蔵小杉": {
+              "arrival": "07:37",
+              "departure": "07:37"
+            },
+            "新川崎": {
+              "arrival": "07:40",
+              "departure": "07:40"
+            },
+            "横浜": {
+              "arrival": "07:49",
+              "departure": "07:50"
+            },
+            "保土ケ谷": {
+              "arrival": "07:52",
+              "departure": "07:53"
+            },
+            "東戸塚": {
+              "arrival": "07:57",
+              "departure": "07:58"
+            },
+            "戸塚": {
+              "arrival": "08:01",
+              "departure": "08:02"
+            },
+            "大船": {
+              "arrival": "08:07",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19686,23 +19735,72 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
               "arrival": "07:11",
-              "departure": "07:12",
-              "cars": 15
+              "departure": "07:12"
             },
             "浦和": {
               "arrival": "07:17",
-              "departure": "07:18",
-              "cars": 15
+              "departure": "07:18"
             },
             "赤羽": {
               "arrival": "07:26",
-              "departure": "07:27",
-              "cars": 15
+              "departure": "07:27"
+            },
+            "池袋": {
+              "arrival": "07:36",
+              "departure": "07:37"
+            },
+            "新宿": {
+              "arrival": "07:42",
+              "departure": "07:43"
+            },
+            "渋谷": {
+              "arrival": "07:48",
+              "departure": "07:48"
+            },
+            "恵比寿": {
+              "arrival": "07:50",
+              "departure": "07:51"
+            },
+            "大崎": {
+              "arrival": "07:54",
+              "departure": "07:56"
+            },
+            "西大井": {
+              "arrival": "08:01",
+              "departure": "08:02"
+            },
+            "武蔵小杉": {
+              "arrival": "08:07",
+              "departure": "08:07"
+            },
+            "新川崎": {
+              "arrival": "08:10",
+              "departure": "08:10"
+            },
+            "横浜": {
+              "arrival": "08:19",
+              "departure": "08:19"
+            },
+            "保土ケ谷": {
+              "arrival": "08:22",
+              "departure": "08:23"
+            },
+            "東戸塚": {
+              "arrival": "08:27",
+              "departure": "08:28"
+            },
+            "戸塚": {
+              "arrival": "08:31",
+              "departure": "08:32"
+            },
+            "大船": {
+              "arrival": "08:37",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19717,7 +19815,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -19731,6 +19829,58 @@
             "赤羽": {
               "arrival": "07:45",
               "departure": "07:46"
+            },
+            "池袋": {
+              "arrival": "07:55",
+              "departure": "07:56"
+            },
+            "新宿": {
+              "arrival": "08:01",
+              "departure": "08:02"
+            },
+            "渋谷": {
+              "arrival": "08:07",
+              "departure": "08:07"
+            },
+            "恵比寿": {
+              "arrival": "08:09",
+              "departure": "08:10"
+            },
+            "大崎": {
+              "arrival": "08:13",
+              "departure": "08:14"
+            },
+            "西大井": {
+              "arrival": "08:17",
+              "departure": "08:18"
+            },
+            "武蔵小杉": {
+              "arrival": "08:23",
+              "departure": "08:23"
+            },
+            "新川崎": {
+              "arrival": "08:26",
+              "departure": "08:26"
+            },
+            "横浜": {
+              "arrival": "08:35",
+              "departure": "08:35"
+            },
+            "保土ケ谷": {
+              "arrival": "08:38",
+              "departure": "08:39"
+            },
+            "東戸塚": {
+              "arrival": "08:43",
+              "departure": "08:44"
+            },
+            "戸塚": {
+              "arrival": "08:47",
+              "departure": "08:48"
+            },
+            "大船": {
+              "arrival": "08:53",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19745,7 +19895,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19759,6 +19909,70 @@
             "赤羽": {
               "arrival": "08:02",
               "departure": "08:03"
+            },
+            "池袋": {
+              "arrival": "08:12",
+              "departure": "08:13"
+            },
+            "新宿": {
+              "arrival": "08:18",
+              "departure": "08:19"
+            },
+            "渋谷": {
+              "arrival": "08:24",
+              "departure": "08:24"
+            },
+            "恵比寿": {
+              "arrival": "08:26",
+              "departure": "08:27"
+            },
+            "大崎": {
+              "arrival": "08:31",
+              "departure": "08:31"
+            },
+            "西大井": {
+              "arrival": "08:35",
+              "departure": "08:36"
+            },
+            "武蔵小杉": {
+              "arrival": "08:41",
+              "departure": "08:41"
+            },
+            "新川崎": {
+              "arrival": "08:44",
+              "departure": "08:45"
+            },
+            "横浜": {
+              "arrival": "08:54",
+              "departure": "08:54"
+            },
+            "保土ケ谷": {
+              "arrival": "08:57",
+              "departure": "08:58"
+            },
+            "東戸塚": {
+              "arrival": "09:02",
+              "departure": "09:02"
+            },
+            "戸塚": {
+              "arrival": "09:06",
+              "departure": "09:06"
+            },
+            "大船": {
+              "arrival": "09:11",
+              "departure": "09:12"
+            },
+            "北鎌倉": {
+              "arrival": "09:15",
+              "departure": "09:15"
+            },
+            "鎌倉": {
+              "arrival": "09:18",
+              "departure": "09:19"
+            },
+            "逗子": {
+              "arrival": "09:24",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19773,7 +19987,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -19787,6 +20001,58 @@
             "赤羽": {
               "arrival": "08:16",
               "departure": "08:17"
+            },
+            "池袋": {
+              "arrival": "08:26",
+              "departure": "08:27"
+            },
+            "新宿": {
+              "arrival": "08:32",
+              "departure": "08:34"
+            },
+            "渋谷": {
+              "arrival": "08:38",
+              "departure": "08:39"
+            },
+            "恵比寿": {
+              "arrival": "08:41",
+              "departure": "08:41"
+            },
+            "大崎": {
+              "arrival": "08:45",
+              "departure": "08:46"
+            },
+            "西大井": {
+              "arrival": "08:49",
+              "departure": "08:49"
+            },
+            "武蔵小杉": {
+              "arrival": "08:54",
+              "departure": "08:55"
+            },
+            "新川崎": {
+              "arrival": "08:57",
+              "departure": "08:58"
+            },
+            "横浜": {
+              "arrival": "09:06",
+              "departure": "09:07"
+            },
+            "保土ケ谷": {
+              "arrival": "09:10",
+              "departure": "09:10"
+            },
+            "東戸塚": {
+              "arrival": "09:14",
+              "departure": "09:15"
+            },
+            "戸塚": {
+              "arrival": "09:18",
+              "departure": "09:19"
+            },
+            "大船": {
+              "arrival": "09:25",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19801,7 +20067,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19815,6 +20081,70 @@
             "赤羽": {
               "arrival": "08:32",
               "departure": "08:33"
+            },
+            "池袋": {
+              "arrival": "08:43",
+              "departure": "08:44"
+            },
+            "新宿": {
+              "arrival": "08:49",
+              "departure": "08:50"
+            },
+            "渋谷": {
+              "arrival": "08:54",
+              "departure": "08:54"
+            },
+            "恵比寿": {
+              "arrival": "08:56",
+              "departure": "08:57"
+            },
+            "大崎": {
+              "arrival": "09:01",
+              "departure": "09:04"
+            },
+            "西大井": {
+              "arrival": "09:08",
+              "departure": "09:09"
+            },
+            "武蔵小杉": {
+              "arrival": "09:14",
+              "departure": "09:14"
+            },
+            "新川崎": {
+              "arrival": "09:17",
+              "departure": "09:17"
+            },
+            "横浜": {
+              "arrival": "09:26",
+              "departure": "09:27"
+            },
+            "保土ケ谷": {
+              "arrival": "09:30",
+              "departure": "09:30"
+            },
+            "東戸塚": {
+              "arrival": "09:35",
+              "departure": "09:35"
+            },
+            "戸塚": {
+              "arrival": "09:39",
+              "departure": "09:39"
+            },
+            "大船": {
+              "arrival": "09:45",
+              "departure": "09:46"
+            },
+            "北鎌倉": {
+              "arrival": "09:49",
+              "departure": "09:50"
+            },
+            "鎌倉": {
+              "arrival": "09:53",
+              "departure": "09:53"
+            },
+            "逗子": {
+              "arrival": "09:58",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19829,7 +20159,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -19843,6 +20173,58 @@
             "赤羽": {
               "arrival": "09:01",
               "departure": "09:02"
+            },
+            "池袋": {
+              "arrival": "09:12",
+              "departure": "09:14"
+            },
+            "新宿": {
+              "arrival": "09:19",
+              "departure": "09:20"
+            },
+            "渋谷": {
+              "arrival": "09:24",
+              "departure": "09:25"
+            },
+            "恵比寿": {
+              "arrival": "09:27",
+              "departure": "09:27"
+            },
+            "大崎": {
+              "arrival": "09:31",
+              "departure": "09:32"
+            },
+            "西大井": {
+              "arrival": "09:35",
+              "departure": "09:36"
+            },
+            "武蔵小杉": {
+              "arrival": "09:41",
+              "departure": "09:41"
+            },
+            "新川崎": {
+              "arrival": "09:44",
+              "departure": "09:44"
+            },
+            "横浜": {
+              "arrival": "09:53",
+              "departure": "09:54"
+            },
+            "保土ケ谷": {
+              "arrival": "09:57",
+              "departure": "09:57"
+            },
+            "東戸塚": {
+              "arrival": "10:02",
+              "departure": "10:02"
+            },
+            "戸塚": {
+              "arrival": "10:06",
+              "departure": "10:06"
+            },
+            "大船": {
+              "arrival": "10:12",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19857,7 +20239,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "小金井",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19871,6 +20253,70 @@
             "赤羽": {
               "arrival": "09:32",
               "departure": "09:32"
+            },
+            "池袋": {
+              "arrival": "09:42",
+              "departure": "09:43"
+            },
+            "新宿": {
+              "arrival": "09:48",
+              "departure": "09:50"
+            },
+            "渋谷": {
+              "arrival": "09:54",
+              "departure": "09:55"
+            },
+            "恵比寿": {
+              "arrival": "09:57",
+              "departure": "09:57"
+            },
+            "大崎": {
+              "arrival": "10:01",
+              "departure": "10:02"
+            },
+            "西大井": {
+              "arrival": "10:05",
+              "departure": "10:06"
+            },
+            "武蔵小杉": {
+              "arrival": "10:11",
+              "departure": "10:11"
+            },
+            "新川崎": {
+              "arrival": "10:14",
+              "departure": "10:14"
+            },
+            "横浜": {
+              "arrival": "10:23",
+              "departure": "10:23"
+            },
+            "保土ケ谷": {
+              "arrival": "10:26",
+              "departure": "10:27"
+            },
+            "東戸塚": {
+              "arrival": "10:31",
+              "departure": "10:31"
+            },
+            "戸塚": {
+              "arrival": "10:35",
+              "departure": "10:35"
+            },
+            "大船": {
+              "arrival": "10:41",
+              "departure": "10:42"
+            },
+            "北鎌倉": {
+              "arrival": "10:45",
+              "departure": "10:46"
+            },
+            "鎌倉": {
+              "arrival": "10:48",
+              "departure": "10:49"
+            },
+            "逗子": {
+              "arrival": "10:53",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19885,7 +20331,7 @@
           "cars": 10,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19899,6 +20345,70 @@
             "赤羽": {
               "arrival": "09:58",
               "departure": "09:58"
+            },
+            "池袋": {
+              "arrival": "10:08",
+              "departure": "10:09"
+            },
+            "新宿": {
+              "arrival": "10:14",
+              "departure": "10:15"
+            },
+            "渋谷": {
+              "arrival": "10:20",
+              "departure": "10:21"
+            },
+            "恵比寿": {
+              "arrival": "10:23",
+              "departure": "10:23"
+            },
+            "大崎": {
+              "arrival": "10:27",
+              "departure": "10:27"
+            },
+            "西大井": {
+              "arrival": "10:31",
+              "departure": "10:31"
+            },
+            "武蔵小杉": {
+              "arrival": "10:36",
+              "departure": "10:37"
+            },
+            "新川崎": {
+              "arrival": "10:39",
+              "departure": "10:40"
+            },
+            "横浜": {
+              "arrival": "10:49",
+              "departure": "10:50"
+            },
+            "保土ケ谷": {
+              "arrival": "10:52",
+              "departure": "10:53"
+            },
+            "東戸塚": {
+              "arrival": "10:57",
+              "departure": "10:58"
+            },
+            "戸塚": {
+              "arrival": "11:01",
+              "departure": "11:02"
+            },
+            "大船": {
+              "arrival": "11:07",
+              "departure": "11:08"
+            },
+            "北鎌倉": {
+              "arrival": "11:11",
+              "departure": "11:11"
+            },
+            "鎌倉": {
+              "arrival": "11:14",
+              "departure": "11:15"
+            },
+            "逗子": {
+              "arrival": "11:20",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19913,7 +20423,7 @@
           "cars": 10,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19927,6 +20437,70 @@
             "赤羽": {
               "arrival": "10:26",
               "departure": "10:26"
+            },
+            "池袋": {
+              "arrival": "10:38",
+              "departure": "10:39"
+            },
+            "新宿": {
+              "arrival": "10:44",
+              "departure": "10:45"
+            },
+            "渋谷": {
+              "arrival": "10:50",
+              "departure": "10:50"
+            },
+            "恵比寿": {
+              "arrival": "10:52",
+              "departure": "10:53"
+            },
+            "大崎": {
+              "arrival": "10:56",
+              "departure": "10:57"
+            },
+            "西大井": {
+              "arrival": "11:01",
+              "departure": "11:02"
+            },
+            "武蔵小杉": {
+              "arrival": "11:07",
+              "departure": "11:07"
+            },
+            "新川崎": {
+              "arrival": "11:10",
+              "departure": "11:10"
+            },
+            "横浜": {
+              "arrival": "11:19",
+              "departure": "11:19"
+            },
+            "保土ケ谷": {
+              "arrival": "11:22",
+              "departure": "11:22"
+            },
+            "東戸塚": {
+              "arrival": "11:27",
+              "departure": "11:27"
+            },
+            "戸塚": {
+              "arrival": "11:31",
+              "departure": "11:31"
+            },
+            "大船": {
+              "arrival": "11:36",
+              "departure": "11:38"
+            },
+            "北鎌倉": {
+              "arrival": "11:41",
+              "departure": "11:41"
+            },
+            "鎌倉": {
+              "arrival": "11:44",
+              "departure": "11:45"
+            },
+            "逗子": {
+              "arrival": "11:50",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19941,7 +20515,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19955,6 +20529,70 @@
             "赤羽": {
               "arrival": "10:56",
               "departure": "10:57"
+            },
+            "池袋": {
+              "arrival": "11:08",
+              "departure": "11:09"
+            },
+            "新宿": {
+              "arrival": "11:14",
+              "departure": "11:15"
+            },
+            "渋谷": {
+              "arrival": "11:20",
+              "departure": "11:20"
+            },
+            "恵比寿": {
+              "arrival": "11:22",
+              "departure": "11:23"
+            },
+            "大崎": {
+              "arrival": "11:27",
+              "departure": "11:27"
+            },
+            "西大井": {
+              "arrival": "11:31",
+              "departure": "11:31"
+            },
+            "武蔵小杉": {
+              "arrival": "11:36",
+              "departure": "11:37"
+            },
+            "新川崎": {
+              "arrival": "11:39",
+              "departure": "11:40"
+            },
+            "横浜": {
+              "arrival": "11:48",
+              "departure": "11:49"
+            },
+            "保土ケ谷": {
+              "arrival": "11:52",
+              "departure": "11:52"
+            },
+            "東戸塚": {
+              "arrival": "11:57",
+              "departure": "11:57"
+            },
+            "戸塚": {
+              "arrival": "12:01",
+              "departure": "12:02"
+            },
+            "大船": {
+              "arrival": "12:07",
+              "departure": "12:08"
+            },
+            "北鎌倉": {
+              "arrival": "12:11",
+              "departure": "12:11"
+            },
+            "鎌倉": {
+              "arrival": "12:14",
+              "departure": "12:15"
+            },
+            "逗子": {
+              "arrival": "12:20",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19969,7 +20607,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -19983,6 +20621,70 @@
             "赤羽": {
               "arrival": "11:27",
               "departure": "11:27"
+            },
+            "池袋": {
+              "arrival": "11:38",
+              "departure": "11:39"
+            },
+            "新宿": {
+              "arrival": "11:44",
+              "departure": "11:45"
+            },
+            "渋谷": {
+              "arrival": "11:49",
+              "departure": "11:50"
+            },
+            "恵比寿": {
+              "arrival": "11:52",
+              "departure": "11:53"
+            },
+            "大崎": {
+              "arrival": "11:57",
+              "departure": "11:58"
+            },
+            "西大井": {
+              "arrival": "12:01",
+              "departure": "12:02"
+            },
+            "武蔵小杉": {
+              "arrival": "12:07",
+              "departure": "12:07"
+            },
+            "新川崎": {
+              "arrival": "12:10",
+              "departure": "12:10"
+            },
+            "横浜": {
+              "arrival": "12:19",
+              "departure": "12:19"
+            },
+            "保土ケ谷": {
+              "arrival": "12:22",
+              "departure": "12:22"
+            },
+            "東戸塚": {
+              "arrival": "12:27",
+              "departure": "12:27"
+            },
+            "戸塚": {
+              "arrival": "12:31",
+              "departure": "12:31"
+            },
+            "大船": {
+              "arrival": "12:36",
+              "departure": "12:38"
+            },
+            "北鎌倉": {
+              "arrival": "12:41",
+              "departure": "12:41"
+            },
+            "鎌倉": {
+              "arrival": "12:44",
+              "departure": "12:45"
+            },
+            "逗子": {
+              "arrival": "12:50",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19997,7 +20699,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20011,6 +20713,70 @@
             "赤羽": {
               "arrival": "11:57",
               "departure": "11:57"
+            },
+            "池袋": {
+              "arrival": "12:08",
+              "departure": "12:09"
+            },
+            "新宿": {
+              "arrival": "12:14",
+              "departure": "12:15"
+            },
+            "渋谷": {
+              "arrival": "12:20",
+              "departure": "12:20"
+            },
+            "恵比寿": {
+              "arrival": "12:22",
+              "departure": "12:23"
+            },
+            "大崎": {
+              "arrival": "12:27",
+              "departure": "12:27"
+            },
+            "西大井": {
+              "arrival": "12:31",
+              "departure": "12:31"
+            },
+            "武蔵小杉": {
+              "arrival": "12:36",
+              "departure": "12:37"
+            },
+            "新川崎": {
+              "arrival": "12:39",
+              "departure": "12:40"
+            },
+            "横浜": {
+              "arrival": "12:48",
+              "departure": "12:49"
+            },
+            "保土ケ谷": {
+              "arrival": "12:52",
+              "departure": "12:52"
+            },
+            "東戸塚": {
+              "arrival": "12:57",
+              "departure": "12:57"
+            },
+            "戸塚": {
+              "arrival": "13:01",
+              "departure": "13:02"
+            },
+            "大船": {
+              "arrival": "13:07",
+              "departure": "13:08"
+            },
+            "北鎌倉": {
+              "arrival": "13:11",
+              "departure": "13:11"
+            },
+            "鎌倉": {
+              "arrival": "13:14",
+              "departure": "13:15"
+            },
+            "逗子": {
+              "arrival": "13:20",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20025,7 +20791,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20039,6 +20805,70 @@
             "赤羽": {
               "arrival": "12:26",
               "departure": "12:26"
+            },
+            "池袋": {
+              "arrival": "12:37",
+              "departure": "12:38"
+            },
+            "新宿": {
+              "arrival": "12:43",
+              "departure": "12:45"
+            },
+            "渋谷": {
+              "arrival": "12:49",
+              "departure": "12:50"
+            },
+            "恵比寿": {
+              "arrival": "12:52",
+              "departure": "12:52"
+            },
+            "大崎": {
+              "arrival": "12:56",
+              "departure": "12:57"
+            },
+            "西大井": {
+              "arrival": "13:01",
+              "departure": "13:02"
+            },
+            "武蔵小杉": {
+              "arrival": "13:07",
+              "departure": "13:07"
+            },
+            "新川崎": {
+              "arrival": "13:10",
+              "departure": "13:10"
+            },
+            "横浜": {
+              "arrival": "13:19",
+              "departure": "13:19"
+            },
+            "保土ケ谷": {
+              "arrival": "13:22",
+              "departure": "13:22"
+            },
+            "東戸塚": {
+              "arrival": "13:27",
+              "departure": "13:27"
+            },
+            "戸塚": {
+              "arrival": "13:31",
+              "departure": "13:31"
+            },
+            "大船": {
+              "arrival": "13:36",
+              "departure": "13:38"
+            },
+            "北鎌倉": {
+              "arrival": "13:41",
+              "departure": "13:41"
+            },
+            "鎌倉": {
+              "arrival": "13:44",
+              "departure": "13:45"
+            },
+            "逗子": {
+              "arrival": "13:50",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20053,7 +20883,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20067,6 +20897,70 @@
             "赤羽": {
               "arrival": "12:56",
               "departure": "12:57"
+            },
+            "池袋": {
+              "arrival": "13:08",
+              "departure": "13:09"
+            },
+            "新宿": {
+              "arrival": "13:14",
+              "departure": "13:15"
+            },
+            "渋谷": {
+              "arrival": "13:20",
+              "departure": "13:20"
+            },
+            "恵比寿": {
+              "arrival": "13:23",
+              "departure": "13:23"
+            },
+            "大崎": {
+              "arrival": "13:27",
+              "departure": "13:27"
+            },
+            "西大井": {
+              "arrival": "13:31",
+              "departure": "13:31"
+            },
+            "武蔵小杉": {
+              "arrival": "13:36",
+              "departure": "13:37"
+            },
+            "新川崎": {
+              "arrival": "13:39",
+              "departure": "13:40"
+            },
+            "横浜": {
+              "arrival": "13:48",
+              "departure": "13:49"
+            },
+            "保土ケ谷": {
+              "arrival": "13:52",
+              "departure": "13:52"
+            },
+            "東戸塚": {
+              "arrival": "13:57",
+              "departure": "13:57"
+            },
+            "戸塚": {
+              "arrival": "14:01",
+              "departure": "14:02"
+            },
+            "大船": {
+              "arrival": "14:07",
+              "departure": "14:08"
+            },
+            "北鎌倉": {
+              "arrival": "14:11",
+              "departure": "14:11"
+            },
+            "鎌倉": {
+              "arrival": "14:14",
+              "departure": "14:15"
+            },
+            "逗子": {
+              "arrival": "14:20",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20081,7 +20975,7 @@
           "cars": 10,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20095,6 +20989,70 @@
             "赤羽": {
               "arrival": "13:27",
               "departure": "13:27"
+            },
+            "池袋": {
+              "arrival": "13:37",
+              "departure": "13:38"
+            },
+            "新宿": {
+              "arrival": "13:43",
+              "departure": "13:44"
+            },
+            "渋谷": {
+              "arrival": "13:48",
+              "departure": "13:49"
+            },
+            "恵比寿": {
+              "arrival": "13:51",
+              "departure": "13:51"
+            },
+            "大崎": {
+              "arrival": "13:55",
+              "departure": "13:56"
+            },
+            "西大井": {
+              "arrival": "14:01",
+              "departure": "14:02"
+            },
+            "武蔵小杉": {
+              "arrival": "14:07",
+              "departure": "14:07"
+            },
+            "新川崎": {
+              "arrival": "14:10",
+              "departure": "14:10"
+            },
+            "横浜": {
+              "arrival": "14:19",
+              "departure": "14:19"
+            },
+            "保土ケ谷": {
+              "arrival": "14:22",
+              "departure": "14:22"
+            },
+            "東戸塚": {
+              "arrival": "14:27",
+              "departure": "14:27"
+            },
+            "戸塚": {
+              "arrival": "14:31",
+              "departure": "14:31"
+            },
+            "大船": {
+              "arrival": "14:36",
+              "departure": "14:38"
+            },
+            "北鎌倉": {
+              "arrival": "14:41",
+              "departure": "14:41"
+            },
+            "鎌倉": {
+              "arrival": "14:44",
+              "departure": "14:45"
+            },
+            "逗子": {
+              "arrival": "14:50",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20109,7 +21067,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20123,6 +21081,70 @@
             "赤羽": {
               "arrival": "13:57",
               "departure": "13:57"
+            },
+            "池袋": {
+              "arrival": "14:08",
+              "departure": "14:09"
+            },
+            "新宿": {
+              "arrival": "14:14",
+              "departure": "14:15"
+            },
+            "渋谷": {
+              "arrival": "14:20",
+              "departure": "14:20"
+            },
+            "恵比寿": {
+              "arrival": "14:22",
+              "departure": "14:23"
+            },
+            "大崎": {
+              "arrival": "14:27",
+              "departure": "14:27"
+            },
+            "西大井": {
+              "arrival": "14:31",
+              "departure": "14:31"
+            },
+            "武蔵小杉": {
+              "arrival": "14:36",
+              "departure": "14:37"
+            },
+            "新川崎": {
+              "arrival": "14:39",
+              "departure": "14:40"
+            },
+            "横浜": {
+              "arrival": "14:48",
+              "departure": "14:49"
+            },
+            "保土ケ谷": {
+              "arrival": "14:52",
+              "departure": "14:52"
+            },
+            "東戸塚": {
+              "arrival": "14:57",
+              "departure": "14:57"
+            },
+            "戸塚": {
+              "arrival": "15:01",
+              "departure": "15:02"
+            },
+            "大船": {
+              "arrival": "15:07",
+              "departure": "15:08"
+            },
+            "北鎌倉": {
+              "arrival": "15:11",
+              "departure": "15:12"
+            },
+            "鎌倉": {
+              "arrival": "15:14",
+              "departure": "15:15"
+            },
+            "逗子": {
+              "arrival": "15:20",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20137,7 +21159,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20151,6 +21173,70 @@
             "赤羽": {
               "arrival": "14:27",
               "departure": "14:27"
+            },
+            "池袋": {
+              "arrival": "14:38",
+              "departure": "14:39"
+            },
+            "新宿": {
+              "arrival": "14:44",
+              "departure": "14:45"
+            },
+            "渋谷": {
+              "arrival": "14:49",
+              "departure": "14:50"
+            },
+            "恵比寿": {
+              "arrival": "14:52",
+              "departure": "14:52"
+            },
+            "大崎": {
+              "arrival": "14:56",
+              "departure": "14:57"
+            },
+            "西大井": {
+              "arrival": "15:01",
+              "departure": "15:02"
+            },
+            "武蔵小杉": {
+              "arrival": "15:07",
+              "departure": "15:07"
+            },
+            "新川崎": {
+              "arrival": "15:10",
+              "departure": "15:10"
+            },
+            "横浜": {
+              "arrival": "15:19",
+              "departure": "15:19"
+            },
+            "保土ケ谷": {
+              "arrival": "15:22",
+              "departure": "15:22"
+            },
+            "東戸塚": {
+              "arrival": "15:27",
+              "departure": "15:27"
+            },
+            "戸塚": {
+              "arrival": "15:31",
+              "departure": "15:31"
+            },
+            "大船": {
+              "arrival": "15:36",
+              "departure": "15:37"
+            },
+            "北鎌倉": {
+              "arrival": "15:40",
+              "departure": "15:41"
+            },
+            "鎌倉": {
+              "arrival": "15:44",
+              "departure": "15:44"
+            },
+            "逗子": {
+              "arrival": "15:49",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20165,7 +21251,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20179,6 +21265,70 @@
             "赤羽": {
               "arrival": "14:56",
               "departure": "14:56"
+            },
+            "池袋": {
+              "arrival": "15:08",
+              "departure": "15:09"
+            },
+            "新宿": {
+              "arrival": "15:14",
+              "departure": "15:15"
+            },
+            "渋谷": {
+              "arrival": "15:20",
+              "departure": "15:20"
+            },
+            "恵比寿": {
+              "arrival": "15:22",
+              "departure": "15:23"
+            },
+            "大崎": {
+              "arrival": "15:27",
+              "departure": "15:27"
+            },
+            "西大井": {
+              "arrival": "15:31",
+              "departure": "15:31"
+            },
+            "武蔵小杉": {
+              "arrival": "15:36",
+              "departure": "15:37"
+            },
+            "新川崎": {
+              "arrival": "15:39",
+              "departure": "15:40"
+            },
+            "横浜": {
+              "arrival": "15:48",
+              "departure": "15:49"
+            },
+            "保土ケ谷": {
+              "arrival": "15:52",
+              "departure": "15:53"
+            },
+            "東戸塚": {
+              "arrival": "15:57",
+              "departure": "15:58"
+            },
+            "戸塚": {
+              "arrival": "16:02",
+              "departure": "16:02"
+            },
+            "大船": {
+              "arrival": "16:07",
+              "departure": "16:08"
+            },
+            "北鎌倉": {
+              "arrival": "16:11",
+              "departure": "16:11"
+            },
+            "鎌倉": {
+              "arrival": "16:14",
+              "departure": "16:15"
+            },
+            "逗子": {
+              "arrival": "16:20",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20193,7 +21343,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20207,6 +21357,70 @@
             "赤羽": {
               "arrival": "15:26",
               "departure": "15:26"
+            },
+            "池袋": {
+              "arrival": "15:38",
+              "departure": "15:39"
+            },
+            "新宿": {
+              "arrival": "15:44",
+              "departure": "15:45"
+            },
+            "渋谷": {
+              "arrival": "15:49",
+              "departure": "15:50"
+            },
+            "恵比寿": {
+              "arrival": "15:52",
+              "departure": "15:52"
+            },
+            "大崎": {
+              "arrival": "15:56",
+              "departure": "15:57"
+            },
+            "西大井": {
+              "arrival": "16:01",
+              "departure": "16:02"
+            },
+            "武蔵小杉": {
+              "arrival": "16:07",
+              "departure": "16:07"
+            },
+            "新川崎": {
+              "arrival": "16:10",
+              "departure": "16:10"
+            },
+            "横浜": {
+              "arrival": "16:19",
+              "departure": "16:20"
+            },
+            "保土ケ谷": {
+              "arrival": "16:22",
+              "departure": "16:23"
+            },
+            "東戸塚": {
+              "arrival": "16:27",
+              "departure": "16:28"
+            },
+            "戸塚": {
+              "arrival": "16:31",
+              "departure": "16:32"
+            },
+            "大船": {
+              "arrival": "16:37",
+              "departure": "16:38"
+            },
+            "北鎌倉": {
+              "arrival": "16:41",
+              "departure": "16:41"
+            },
+            "鎌倉": {
+              "arrival": "16:44",
+              "departure": "16:45"
+            },
+            "逗子": {
+              "arrival": "16:49",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20221,7 +21435,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20235,6 +21449,70 @@
             "赤羽": {
               "arrival": "15:56",
               "departure": "15:57"
+            },
+            "池袋": {
+              "arrival": "16:08",
+              "departure": "16:09"
+            },
+            "新宿": {
+              "arrival": "16:14",
+              "departure": "16:15"
+            },
+            "渋谷": {
+              "arrival": "16:19",
+              "departure": "16:20"
+            },
+            "恵比寿": {
+              "arrival": "16:22",
+              "departure": "16:22"
+            },
+            "大崎": {
+              "arrival": "16:26",
+              "departure": "16:27"
+            },
+            "西大井": {
+              "arrival": "16:31",
+              "departure": "16:31"
+            },
+            "武蔵小杉": {
+              "arrival": "16:36",
+              "departure": "16:37"
+            },
+            "新川崎": {
+              "arrival": "16:39",
+              "departure": "16:40"
+            },
+            "横浜": {
+              "arrival": "16:48",
+              "departure": "16:49"
+            },
+            "保土ケ谷": {
+              "arrival": "16:52",
+              "departure": "16:53"
+            },
+            "東戸塚": {
+              "arrival": "16:57",
+              "departure": "16:58"
+            },
+            "戸塚": {
+              "arrival": "17:02",
+              "departure": "17:02"
+            },
+            "大船": {
+              "arrival": "17:07",
+              "departure": "17:09"
+            },
+            "北鎌倉": {
+              "arrival": "17:12",
+              "departure": "17:13"
+            },
+            "鎌倉": {
+              "arrival": "17:16",
+              "departure": "17:16"
+            },
+            "逗子": {
+              "arrival": "17:22",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20249,23 +21527,84 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
               "arrival": "16:11",
-              "departure": "16:12",
-              "cars": 15
+              "departure": "16:12"
             },
             "浦和": {
               "arrival": "16:18",
-              "departure": "16:19",
-              "cars": 15
+              "departure": "16:19"
             },
             "赤羽": {
               "arrival": "16:27",
-              "departure": "16:27",
-              "cars": 15
+              "departure": "16:27"
+            },
+            "池袋": {
+              "arrival": "16:38",
+              "departure": "16:39"
+            },
+            "新宿": {
+              "arrival": "16:44",
+              "departure": "16:45"
+            },
+            "渋谷": {
+              "arrival": "16:49",
+              "departure": "16:50"
+            },
+            "恵比寿": {
+              "arrival": "16:52",
+              "departure": "16:52"
+            },
+            "大崎": {
+              "arrival": "16:56",
+              "departure": "16:57"
+            },
+            "西大井": {
+              "arrival": "17:01",
+              "departure": "17:01"
+            },
+            "武蔵小杉": {
+              "arrival": "17:07",
+              "departure": "17:07"
+            },
+            "新川崎": {
+              "arrival": "17:10",
+              "departure": "17:10"
+            },
+            "横浜": {
+              "arrival": "17:19",
+              "departure": "17:20"
+            },
+            "保土ケ谷": {
+              "arrival": "17:23",
+              "departure": "17:24"
+            },
+            "東戸塚": {
+              "arrival": "17:28",
+              "departure": "17:29"
+            },
+            "戸塚": {
+              "arrival": "17:32",
+              "departure": "17:33"
+            },
+            "大船": {
+              "arrival": "17:38",
+              "departure": "17:38"
+            },
+            "北鎌倉": {
+              "arrival": "17:41",
+              "departure": "17:42"
+            },
+            "鎌倉": {
+              "arrival": "17:44",
+              "departure": "17:45"
+            },
+            "逗子": {
+              "arrival": "17:50",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20280,23 +21619,84 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
               "arrival": "16:46",
-              "departure": "16:47",
-              "cars": 15
+              "departure": "16:47"
             },
             "浦和": {
               "arrival": "16:52",
-              "departure": "16:53",
-              "cars": 15
+              "departure": "16:53"
             },
             "赤羽": {
               "arrival": "17:01",
-              "departure": "17:01",
-              "cars": 15
+              "departure": "17:01"
+            },
+            "池袋": {
+              "arrival": "17:11",
+              "departure": "17:12"
+            },
+            "新宿": {
+              "arrival": "17:18",
+              "departure": "17:19"
+            },
+            "渋谷": {
+              "arrival": "17:23",
+              "departure": "17:23"
+            },
+            "恵比寿": {
+              "arrival": "17:25",
+              "departure": "17:26"
+            },
+            "大崎": {
+              "arrival": "17:30",
+              "departure": "17:30"
+            },
+            "西大井": {
+              "arrival": "17:34",
+              "departure": "17:34"
+            },
+            "武蔵小杉": {
+              "arrival": "17:39",
+              "departure": "17:40"
+            },
+            "新川崎": {
+              "arrival": "17:43",
+              "departure": "17:43"
+            },
+            "横浜": {
+              "arrival": "17:52",
+              "departure": "17:53"
+            },
+            "保土ケ谷": {
+              "arrival": "17:56",
+              "departure": "17:57"
+            },
+            "東戸塚": {
+              "arrival": "18:01",
+              "departure": "18:02"
+            },
+            "戸塚": {
+              "arrival": "18:06",
+              "departure": "18:06"
+            },
+            "大船": {
+              "arrival": "18:11",
+              "departure": "18:13"
+            },
+            "北鎌倉": {
+              "arrival": "18:15",
+              "departure": "18:16"
+            },
+            "鎌倉": {
+              "arrival": "18:19",
+              "departure": "18:19"
+            },
+            "逗子": {
+              "arrival": "18:25",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20311,7 +21711,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20325,6 +21725,70 @@
             "赤羽": {
               "arrival": "17:26",
               "departure": "17:27"
+            },
+            "池袋": {
+              "arrival": "17:38",
+              "departure": "17:39"
+            },
+            "新宿": {
+              "arrival": "17:45",
+              "departure": "17:46"
+            },
+            "渋谷": {
+              "arrival": "17:50",
+              "departure": "17:51"
+            },
+            "恵比寿": {
+              "arrival": "17:53",
+              "departure": "17:53"
+            },
+            "大崎": {
+              "arrival": "17:57",
+              "departure": "17:58"
+            },
+            "西大井": {
+              "arrival": "18:01",
+              "departure": "18:02"
+            },
+            "武蔵小杉": {
+              "arrival": "18:07",
+              "departure": "18:07"
+            },
+            "新川崎": {
+              "arrival": "18:10",
+              "departure": "18:11"
+            },
+            "横浜": {
+              "arrival": "18:19",
+              "departure": "18:20"
+            },
+            "保土ケ谷": {
+              "arrival": "18:23",
+              "departure": "18:24"
+            },
+            "東戸塚": {
+              "arrival": "18:28",
+              "departure": "18:29"
+            },
+            "戸塚": {
+              "arrival": "18:32",
+              "departure": "18:33"
+            },
+            "大船": {
+              "arrival": "18:38",
+              "departure": "18:39"
+            },
+            "北鎌倉": {
+              "arrival": "18:41",
+              "departure": "18:42"
+            },
+            "鎌倉": {
+              "arrival": "18:45",
+              "departure": "18:45"
+            },
+            "逗子": {
+              "arrival": "18:50",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20339,7 +21803,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20353,6 +21817,70 @@
             "赤羽": {
               "arrival": "18:00",
               "departure": "18:01"
+            },
+            "池袋": {
+              "arrival": "18:12",
+              "departure": "18:13"
+            },
+            "新宿": {
+              "arrival": "18:18",
+              "departure": "18:19"
+            },
+            "渋谷": {
+              "arrival": "18:24",
+              "departure": "18:24"
+            },
+            "恵比寿": {
+              "arrival": "18:26",
+              "departure": "18:27"
+            },
+            "大崎": {
+              "arrival": "18:31",
+              "departure": "18:32"
+            },
+            "西大井": {
+              "arrival": "18:36",
+              "departure": "18:37"
+            },
+            "武蔵小杉": {
+              "arrival": "18:42",
+              "departure": "18:42"
+            },
+            "新川崎": {
+              "arrival": "18:45",
+              "departure": "18:46"
+            },
+            "横浜": {
+              "arrival": "18:54",
+              "departure": "18:55"
+            },
+            "保土ケ谷": {
+              "arrival": "18:58",
+              "departure": "18:59"
+            },
+            "東戸塚": {
+              "arrival": "19:03",
+              "departure": "19:04"
+            },
+            "戸塚": {
+              "arrival": "19:07",
+              "departure": "19:08"
+            },
+            "大船": {
+              "arrival": "19:13",
+              "departure": "19:14"
+            },
+            "北鎌倉": {
+              "arrival": "19:16",
+              "departure": "19:17"
+            },
+            "鎌倉": {
+              "arrival": "19:20",
+              "departure": "19:20"
+            },
+            "逗子": {
+              "arrival": "19:25",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20367,7 +21895,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20381,6 +21909,70 @@
             "赤羽": {
               "arrival": "18:32",
               "departure": "18:33"
+            },
+            "池袋": {
+              "arrival": "18:43",
+              "departure": "18:44"
+            },
+            "新宿": {
+              "arrival": "18:49",
+              "departure": "18:50"
+            },
+            "渋谷": {
+              "arrival": "18:54",
+              "departure": "18:55"
+            },
+            "恵比寿": {
+              "arrival": "18:57",
+              "departure": "18:57"
+            },
+            "大崎": {
+              "arrival": "19:01",
+              "departure": "19:02"
+            },
+            "西大井": {
+              "arrival": "19:05",
+              "departure": "19:05"
+            },
+            "武蔵小杉": {
+              "arrival": "19:10",
+              "departure": "19:11"
+            },
+            "新川崎": {
+              "arrival": "19:14",
+              "departure": "19:14"
+            },
+            "横浜": {
+              "arrival": "19:23",
+              "departure": "19:25"
+            },
+            "保土ケ谷": {
+              "arrival": "19:28",
+              "departure": "19:28"
+            },
+            "東戸塚": {
+              "arrival": "19:33",
+              "departure": "19:33"
+            },
+            "戸塚": {
+              "arrival": "19:37",
+              "departure": "19:38"
+            },
+            "大船": {
+              "arrival": "19:43",
+              "departure": "19:44"
+            },
+            "北鎌倉": {
+              "arrival": "19:47",
+              "departure": "19:47"
+            },
+            "鎌倉": {
+              "arrival": "19:50",
+              "departure": "19:51"
+            },
+            "逗子": {
+              "arrival": "19:56",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20395,7 +21987,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -20409,6 +22001,58 @@
             "赤羽": {
               "arrival": "19:05",
               "departure": "19:05"
+            },
+            "池袋": {
+              "arrival": "19:17",
+              "departure": "19:19"
+            },
+            "新宿": {
+              "arrival": "19:24",
+              "departure": "19:25"
+            },
+            "渋谷": {
+              "arrival": "19:29",
+              "departure": "19:30"
+            },
+            "恵比寿": {
+              "arrival": "19:32",
+              "departure": "19:32"
+            },
+            "大崎": {
+              "arrival": "19:36",
+              "departure": "19:37"
+            },
+            "西大井": {
+              "arrival": "19:40",
+              "departure": "19:41"
+            },
+            "武蔵小杉": {
+              "arrival": "19:46",
+              "departure": "19:46"
+            },
+            "新川崎": {
+              "arrival": "19:49",
+              "departure": "19:49"
+            },
+            "横浜": {
+              "arrival": "19:58",
+              "departure": "19:59"
+            },
+            "保土ケ谷": {
+              "arrival": "20:01",
+              "departure": "20:02"
+            },
+            "東戸塚": {
+              "arrival": "20:06",
+              "departure": "20:07"
+            },
+            "戸塚": {
+              "arrival": "20:10",
+              "departure": "20:11"
+            },
+            "大船": {
+              "arrival": "20:16",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20423,23 +22067,84 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
               "arrival": "19:24",
-              "departure": "19:25",
-              "cars": 15
+              "departure": "19:25"
             },
             "浦和": {
               "arrival": "19:30",
-              "departure": "19:31",
-              "cars": 15
+              "departure": "19:31"
             },
             "赤羽": {
               "arrival": "19:39",
-              "departure": "19:39",
-              "cars": 15
+              "departure": "19:39"
+            },
+            "池袋": {
+              "arrival": "19:51",
+              "departure": "19:53"
+            },
+            "新宿": {
+              "arrival": "19:58",
+              "departure": "20:00"
+            },
+            "渋谷": {
+              "arrival": "20:04",
+              "departure": "20:05"
+            },
+            "恵比寿": {
+              "arrival": "20:07",
+              "departure": "20:07"
+            },
+            "大崎": {
+              "arrival": "20:11",
+              "departure": "20:12"
+            },
+            "西大井": {
+              "arrival": "20:16",
+              "departure": "20:17"
+            },
+            "武蔵小杉": {
+              "arrival": "20:22",
+              "departure": "20:22"
+            },
+            "新川崎": {
+              "arrival": "20:25",
+              "departure": "20:25"
+            },
+            "横浜": {
+              "arrival": "20:34",
+              "departure": "20:35"
+            },
+            "保土ケ谷": {
+              "arrival": "20:37",
+              "departure": "20:38"
+            },
+            "東戸塚": {
+              "arrival": "20:42",
+              "departure": "20:43"
+            },
+            "戸塚": {
+              "arrival": "20:46",
+              "departure": "20:47"
+            },
+            "大船": {
+              "arrival": "20:51",
+              "departure": "20:52"
+            },
+            "北鎌倉": {
+              "arrival": "20:55",
+              "departure": "20:56"
+            },
+            "鎌倉": {
+              "arrival": "20:58",
+              "departure": "20:59"
+            },
+            "逗子": {
+              "arrival": "21:04",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20454,7 +22159,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -20468,6 +22173,58 @@
             "赤羽": {
               "arrival": "20:00",
               "departure": "20:01"
+            },
+            "池袋": {
+              "arrival": "20:11",
+              "departure": "20:13"
+            },
+            "新宿": {
+              "arrival": "20:18",
+              "departure": "20:19"
+            },
+            "渋谷": {
+              "arrival": "20:25",
+              "departure": "20:25"
+            },
+            "恵比寿": {
+              "arrival": "20:28",
+              "departure": "20:28"
+            },
+            "大崎": {
+              "arrival": "20:33",
+              "departure": "20:33"
+            },
+            "西大井": {
+              "arrival": "20:37",
+              "departure": "20:37"
+            },
+            "武蔵小杉": {
+              "arrival": "20:42",
+              "departure": "20:43"
+            },
+            "新川崎": {
+              "arrival": "20:45",
+              "departure": "20:46"
+            },
+            "横浜": {
+              "arrival": "20:54",
+              "departure": "20:55"
+            },
+            "保土ケ谷": {
+              "arrival": "20:58",
+              "departure": "20:59"
+            },
+            "東戸塚": {
+              "arrival": "21:03",
+              "departure": "21:03"
+            },
+            "戸塚": {
+              "arrival": "21:07",
+              "departure": "21:07"
+            },
+            "大船": {
+              "arrival": "21:13",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20482,7 +22239,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -20496,6 +22253,58 @@
             "赤羽": {
               "arrival": "20:26",
               "departure": "20:26"
+            },
+            "池袋": {
+              "arrival": "20:37",
+              "departure": "20:38"
+            },
+            "新宿": {
+              "arrival": "20:43",
+              "departure": "20:45"
+            },
+            "渋谷": {
+              "arrival": "20:49",
+              "departure": "20:49"
+            },
+            "恵比寿": {
+              "arrival": "20:51",
+              "departure": "20:52"
+            },
+            "大崎": {
+              "arrival": "20:56",
+              "departure": "20:56"
+            },
+            "西大井": {
+              "arrival": "21:00",
+              "departure": "21:00"
+            },
+            "武蔵小杉": {
+              "arrival": "21:05",
+              "departure": "21:06"
+            },
+            "新川崎": {
+              "arrival": "21:08",
+              "departure": "21:09"
+            },
+            "横浜": {
+              "arrival": "21:17",
+              "departure": "21:18"
+            },
+            "保土ケ谷": {
+              "arrival": "21:20",
+              "departure": "21:21"
+            },
+            "東戸塚": {
+              "arrival": "21:25",
+              "departure": "21:26"
+            },
+            "戸塚": {
+              "arrival": "21:29",
+              "departure": "21:30"
+            },
+            "大船": {
+              "arrival": "21:35",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20510,7 +22319,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20524,6 +22333,70 @@
             "赤羽": {
               "arrival": "21:00",
               "departure": "21:01"
+            },
+            "池袋": {
+              "arrival": "21:12",
+              "departure": "21:13"
+            },
+            "新宿": {
+              "arrival": "21:18",
+              "departure": "21:19"
+            },
+            "渋谷": {
+              "arrival": "21:24",
+              "departure": "21:24"
+            },
+            "恵比寿": {
+              "arrival": "21:26",
+              "departure": "21:27"
+            },
+            "大崎": {
+              "arrival": "21:31",
+              "departure": "21:31"
+            },
+            "西大井": {
+              "arrival": "21:34",
+              "departure": "21:35"
+            },
+            "武蔵小杉": {
+              "arrival": "21:40",
+              "departure": "21:40"
+            },
+            "新川崎": {
+              "arrival": "21:43",
+              "departure": "21:43"
+            },
+            "横浜": {
+              "arrival": "21:52",
+              "departure": "21:52"
+            },
+            "保土ケ谷": {
+              "arrival": "21:55",
+              "departure": "21:55"
+            },
+            "東戸塚": {
+              "arrival": "22:00",
+              "departure": "22:00"
+            },
+            "戸塚": {
+              "arrival": "22:04",
+              "departure": "22:04"
+            },
+            "大船": {
+              "arrival": "22:09",
+              "departure": "22:10"
+            },
+            "北鎌倉": {
+              "arrival": "22:13",
+              "departure": "22:13"
+            },
+            "鎌倉": {
+              "arrival": "22:16",
+              "departure": "22:17"
+            },
+            "逗子": {
+              "arrival": "22:22",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20538,7 +22411,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "赤羽",
+          "destination": "逗子",
           "note": "",
           "stops": {
             "大宮": {
@@ -20552,6 +22425,70 @@
             "赤羽": {
               "arrival": "21:23",
               "departure": "21:24"
+            },
+            "池袋": {
+              "arrival": "21:36",
+              "departure": "21:38"
+            },
+            "新宿": {
+              "arrival": "21:43",
+              "departure": "21:45"
+            },
+            "渋谷": {
+              "arrival": "21:50",
+              "departure": "21:51"
+            },
+            "恵比寿": {
+              "arrival": "21:53",
+              "departure": "21:53"
+            },
+            "大崎": {
+              "arrival": "21:57",
+              "departure": "21:58"
+            },
+            "西大井": {
+              "arrival": "22:01",
+              "departure": "22:02"
+            },
+            "武蔵小杉": {
+              "arrival": "22:07",
+              "departure": "22:08"
+            },
+            "新川崎": {
+              "arrival": "22:11",
+              "departure": "22:11"
+            },
+            "横浜": {
+              "arrival": "22:20",
+              "departure": "22:21"
+            },
+            "保土ケ谷": {
+              "arrival": "22:24",
+              "departure": "22:24"
+            },
+            "東戸塚": {
+              "arrival": "22:29",
+              "departure": "22:29"
+            },
+            "戸塚": {
+              "arrival": "22:33",
+              "departure": "22:34"
+            },
+            "大船": {
+              "arrival": "22:39",
+              "departure": "22:40"
+            },
+            "北鎌倉": {
+              "arrival": "22:43",
+              "departure": "22:43"
+            },
+            "鎌倉": {
+              "arrival": "22:46",
+              "departure": "22:47"
+            },
+            "逗子": {
+              "arrival": "22:52",
+              "departure": null
             }
           },
           "operating_days": [
@@ -20566,7 +22503,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "赤羽",
+          "destination": "大船",
           "note": "",
           "stops": {
             "大宮": {
@@ -20580,6 +22517,58 @@
             "赤羽": {
               "arrival": "22:07",
               "departure": "22:07"
+            },
+            "池袋": {
+              "arrival": "22:17",
+              "departure": "22:18"
+            },
+            "新宿": {
+              "arrival": "22:23",
+              "departure": "22:24"
+            },
+            "渋谷": {
+              "arrival": "22:29",
+              "departure": "22:29"
+            },
+            "恵比寿": {
+              "arrival": "22:31",
+              "departure": "22:32"
+            },
+            "大崎": {
+              "arrival": "22:36",
+              "departure": "22:36"
+            },
+            "西大井": {
+              "arrival": "22:39",
+              "departure": "22:40"
+            },
+            "武蔵小杉": {
+              "arrival": "22:45",
+              "departure": "22:45"
+            },
+            "新川崎": {
+              "arrival": "22:48",
+              "departure": "22:48"
+            },
+            "横浜": {
+              "arrival": "22:57",
+              "departure": "22:57"
+            },
+            "保土ケ谷": {
+              "arrival": "23:00",
+              "departure": "23:01"
+            },
+            "東戸塚": {
+              "arrival": "23:05",
+              "departure": "23:05"
+            },
+            "戸塚": {
+              "arrival": "23:09",
+              "departure": "23:09"
+            },
+            "大船": {
+              "arrival": "23:15",
+              "departure": null
             }
           },
           "operating_days": [

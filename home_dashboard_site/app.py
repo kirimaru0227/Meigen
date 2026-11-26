@@ -1359,6 +1359,7 @@ def timetable_page():
         "timetable.html", station=station, stations=stations, station_names=station_names,
         station_info=stations.get(station, {}), departures_by_direction=departures_by_direction,
         line_name=line_data.get("name", "時刻表"), line_id=line_id, line_en_name=line_en_names.get(line_id, line_data.get("name", "Timetable")),
+        line_color=TIMETABLE_LINE_CONFIG.get(line_id, {}).get("color", "#077AE3"),
         timetable_transfer_options=timetable_transfer_options,
         timetable_neighbor_options=timetable_neighbor_options,
         now_label=now.strftime("%Y/%m/%d %H:%M"),
@@ -1376,11 +1377,45 @@ def train_detail(train_number, line_id):
                   if str(item.get("train_number", "")) == str(train_number)), None)
     if train is None:
         abort(404)
+
+    # 上野東京ライン・湘南新宿ラインの列車詳細では、
+    # 宇都宮線側の区間もつなげて、始発駅から終着駅まで表示する。
+    display_train = dict(train)
+    combined_stops = {}
+    route_segments = {
+        "E": ["utsunomiya", "ueno_tokyo"],
+        "Y": ["utsunomiya", "shonan_shinjuku"],
+    }
+    train_number_text = str(train.get("train_number", ""))
+    suffix = train_number_text[-1:] if train_number_text else ""
+    segment_ids = route_segments.get(suffix, [])
+    if line_id in {"utsunomiya", "ueno_tokyo", "shonan_shinjuku"} and segment_ids:
+        for segment_line_id in segment_ids:
+            segment_data = timetable_line_data(segment_line_id)
+            if not segment_data:
+                continue
+            matching_train = next((
+                item for item in segment_data.get("trains", [])
+                if str(item.get("train_number", "")) == train_number_text
+                and item.get("direction") == train.get("direction")
+                and item.get("operating_days", ["毎日"]) == train.get("operating_days", ["毎日"])
+                and item.get("operating_dates", []) == train.get("operating_dates", [])
+                and item.get("excluded_dates", []) == train.get("excluded_dates", [])
+            ), None)
+            if matching_train:
+                combined_stops.update(matching_train.get("stops", {}))
+                if matching_train.get("origin"):
+                    display_train["origin"] = matching_train.get("origin")
+                if matching_train.get("destination"):
+                    display_train["destination"] = matching_train.get("destination")
+    if combined_stops:
+        display_train["stops"] = combined_stops
     stops = [{"station": name, "arrival": times.get("arrival"), "departure": times.get("departure")}
-             for name, times in train.get("stops", {}).items()]
+             for name, times in display_train.get("stops", {}).items()]
     return render_template(
-        "train_detail.html", train=train, stops=stops,
+        "train_detail.html", train=display_train, stops=stops,
         line_name=line_data.get("name", "時刻表"), line_id=line_id,
+        line_color=TIMETABLE_LINE_CONFIG.get(line_id, {}).get("color", "#077AE3"),
         back_station=request.args.get("station", "").strip(),
     )
 
