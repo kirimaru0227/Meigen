@@ -304,12 +304,18 @@ html body .tt-page .tt-neighbor-panel {
 .tt-train {
   display: grid;
   grid-template-columns: 85px minmax(0, 1fr) auto;
-  gap: 13px;
+  gap: 10px;
   align-items: center;
-  padding: 11px 14px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border-color, rgba(128,128,128,.2));
   position: relative;
   box-sizing: border-box;
+}
+
+/* 発車済みの列車：時刻・始発タグを行の縦中央に配置 */
+.tt-train.tt-past .tt-time-column {
+  align-self: stretch;
+  justify-content: center;
 }
 
 .tt-train:last-child {
@@ -581,8 +587,8 @@ html body .tt-page .tt-neighbor-panel {
   .tt-train {
     width: 100%;
     grid-template-columns: 76px minmax(0, 1fr);
-    gap: 8px;
-    padding: 8px 9px;
+    gap: 7px;
+    padding: 6px 8px;
     align-content: center;
   }
 
@@ -696,8 +702,8 @@ html body .tt-page .tt-neighbor-panel {
 
   .tt-train {
     grid-template-columns: 70px minmax(0, 1fr);
-    gap: 6px;
-    padding: 7px 7px;
+    gap: 5px;
+    padding: 5px 7px;
   }
 
   .tt-time {
