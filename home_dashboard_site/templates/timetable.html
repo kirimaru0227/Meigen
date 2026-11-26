@@ -44,7 +44,7 @@ html body .tt-page .tt-neighbor-panel {
   right: 14px !important;
 }
 </style>
-<section class="tt-page">
+<section class="tt-page" style="--tt-line-color: {{ line_color | default('#077AE3', true) }};">
   <header class="tt-header">
     <div>
       <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園', '獨協大学前', 'せんげん台'] %}tt-title-tobu-long{% endif %}">
@@ -309,13 +309,13 @@ html body .tt-page .tt-neighbor-panel {
 }
 
 .tt-train.tt-next {
-  background: rgba(37,99,235,.09);
-  box-shadow: inset 4px 0 #2563eb;
+  background: color-mix(in srgb, var(--tt-line-color) 11%, transparent);
+  box-shadow: inset 4px 0 var(--tt-line-color);
 }
 
 .tt-train.tt-second {
-  background: rgba(37,99,235,.035);
-  box-shadow: inset 4px 0 rgba(37,99,235,.4);
+  background: color-mix(in srgb, var(--tt-line-color) 4%, transparent);
+  box-shadow: inset 4px 0 color-mix(in srgb, var(--tt-line-color) 48%, transparent);
 }
 
 /* 停車中：黄色 */
@@ -344,7 +344,7 @@ html body .tt-page .tt-neighbor-panel {
 .tt-rank {
   font-size: .72rem;
   font-weight: 800;
-  color: #2563eb;
+  color: var(--tt-line-color);
 }
 
 .tt-train-title {
@@ -375,7 +375,7 @@ html body .tt-page .tt-neighbor-panel {
   margin: 6px 0 0;
   font-size: .85rem;
   font-weight: 750;
-  color: #2563eb;
+  color: var(--tt-line-color);
 }
 
 .tt-note {
@@ -734,13 +734,13 @@ html body.dark .tt-train-link:hover .tt-train {
 }
 
 html body.dark .tt-train.tt-next {
-  background: #1e3558;
-  box-shadow: inset 4px 0 #60a5fa;
+  background: color-mix(in srgb, var(--tt-line-color) 24%, #171b22);
+  box-shadow: inset 4px 0 var(--tt-line-color);
 }
 
 html body.dark .tt-train.tt-second {
-  background: #202a3a;
-  box-shadow: inset 4px 0 #527db8;
+  background: color-mix(in srgb, var(--tt-line-color) 13%, #171b22);
+  box-shadow: inset 4px 0 color-mix(in srgb, var(--tt-line-color) 75%, #171b22);
 }
 
 html body.dark .tt-train.tt-stopped {
@@ -754,7 +754,7 @@ html body.dark .tt-train.tt-stopped .tt-countdown {
 
 html body.dark .tt-countdown,
 html body.dark .tt-rank {
-  color: #93c5fd;
+  color: var(--tt-line-color);
 }
 
 html body.dark .tt-past .tt-countdown {
