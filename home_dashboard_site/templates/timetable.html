@@ -140,20 +140,23 @@ html body .tt-page .tt-neighbor-panel {
                     >
                       <div class="tt-time-column">
                         <strong class="tt-time">{{ train.time }}</strong>
-                        {% if train.is_origin %}
-                          <span class="tt-origin-tag">始</span>
-                        {% endif %}
-                        {% if train.upcoming_rank == 1 %}
-                          <span class="tt-rank">先発</span>
-                        {% elif train.upcoming_rank == 2 %}
-                          <span class="tt-rank">次発</span>
-                        {% endif %}
+                        <span class="tt-time-tags">
+                          {% if train.is_origin %}
+                            <span class="tt-origin-tag">始</span>
+                          {% endif %}
+                          {% if train.upcoming_rank == 1 %}
+                            <span class="tt-rank">先発</span>
+                          {% elif train.upcoming_rank == 2 %}
+                            <span class="tt-rank">次発</span>
+                          {% endif %}
+                        </span>
                       </div>
 
                       <div class="tt-train-main">
                         <div class="tt-train-title">
                           <span class="tt-type">{{ train.type }}</span>
                           <strong>{{ train.destination_display | default(train.destination) }}</strong>
+                          {% if train.destination_via %}<small class="tt-destination-via">{{ train.destination_via }}</small>{% endif %}
                           {% if train.cars %}
                             <span class="tt-cars">{{ train.cars }}両</span>
                           {% endif %}
@@ -340,6 +343,9 @@ html body .tt-page .tt-neighbor-panel {
   gap: 4px;
 }
 
+.tt-time-tags { display: inline-flex; align-items: center; gap: 5px; min-height: 1.2em; }
+.tt-destination-via { font-size: .76em; font-weight: 700; opacity: .78; white-space: nowrap; }
+
 .tt-time {
   font-size: 1.35rem;
   font-variant-numeric: tabular-nums;
@@ -369,6 +375,9 @@ html body .tt-page .tt-neighbor-panel {
   font-weight: 800;
   color: var(--tt-line-color);
 }
+
+.tt-page[data-line-id="ryomo"] .tt-rank,
+.tt-page[data-line-id="ryomo"] .tt-countdown { color: #A66F00; }
 
 .tt-train-title {
   display: flex;
@@ -402,7 +411,7 @@ html body .tt-page .tt-neighbor-panel {
 }
 
 .tt-page[data-line-id="ryomo"] .tt-countdown {
-  color: #8A5A00;
+  color: #A66F00;
 }
 
 .tt-note {
@@ -784,7 +793,8 @@ html body.dark .tt-rank {
   color: var(--tt-line-color);
 }
 
-html body.dark .tt-page[data-line-id="ryomo"] .tt-countdown {
+html body.dark .tt-page[data-line-id="ryomo"] .tt-countdown,
+html body.dark .tt-page[data-line-id="ryomo"] .tt-rank {
   color: #FDE68A;
 }
 
@@ -1264,13 +1274,13 @@ html body.dark .tt-empty {
           index === 0 ? 'tt-next' : 'tt-second'
         );
 
-        const column = item.row.querySelector('.tt-time-column');
+        const tags = item.row.querySelector('.tt-time-tags');
 
-        if (column) {
+        if (tags) {
           const rank = document.createElement('span');
           rank.className = 'tt-rank';
           rank.textContent = item.label;
-          column.appendChild(rank);
+          tags.appendChild(rank);
         }
       });
 
@@ -1284,7 +1294,9 @@ html body.dark .tt-empty {
           : null
       );
 
-      // 自動スクロールは行わず、初電から終電までの先頭位置を保つ。
+      // 次の列車（停車中を含む）を表示。スクロール範囲はリスト内に限定し、
+      // 先頭では始発、末尾では終電がそれぞれ端に来る。
+      scrollToTargetIfChanged(list, targetRow);
     });
   }
 
