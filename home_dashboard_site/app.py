@@ -1220,8 +1220,8 @@ def timetable_page():
             }
 
     line_en_names = {
-        "ryomo": "Ryomo Line", "utsunomiya": "Utsunomiya Line", "ueno_tokyo": "Ueno-Tokyo Line",
-        "shonan_shinjuku": "Shonan-Shinjuku Line", "tobu_skytree": "TOBU SKYTREE Line",
+        "ryomo": "Ryōmō Line", "utsunomiya": "Utsunomiya Line", "ueno_tokyo": "Ueno-Tōkyō Line",
+        "shonan_shinjuku": "Shōnan-Shinjuku Line", "tobu_skytree": "TOBU SKYTREE Line",
         "tobu_nikko": "Tobu Nikko Line", "tobu_utsunomiya": "Tobu Utsunomiya Line",
         "tobu_isesaki": "Tobu Isesaki Line", "tobu_sano": "Tobu Sano Line",
     }
