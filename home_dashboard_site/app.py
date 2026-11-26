@@ -1105,7 +1105,7 @@ def train_operates_on_date(train, target_date):
 def timetable_page():
     data = load_timetable_data()
     available_lines = [
-        {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650")}
+        {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650"), "text_color": config.get("text_color", "#FFFFFF")}
         for line_id, config in TIMETABLE_LINE_CONFIG.items()
     ]
     supported_ids = {item["id"] for item in available_lines}
@@ -2121,7 +2121,7 @@ def operation_page():
 
     # 時刻表の路線選択は運行情報ページに配置する。
     timetable_lines = [
-        {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650")}
+        {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650"), "text_color": config.get("text_color", "#FFFFFF")}
         for line_id, config in TIMETABLE_LINE_CONFIG.items()
     ]
     timetable_line_id = request.args.get("timetable_line", "").strip()
