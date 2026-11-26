@@ -1085,11 +1085,16 @@ def timetable_line_data(line_id):
 def train_operates_on_date(train, target_date):
     """運行日指定を判定。未指定の旧データは毎日運転として扱う。"""
     date_text = target_date.strftime("%Y-%m-%d")
-    if date_text in train.get("excluded_dates", []):
+    month_day_text = target_date.strftime("%m-%d")
+    excluded_dates = train.get("excluded_dates", [])
+    if date_text in excluded_dates or month_day_text in excluded_dates:
         return False
     operating_days = train.get("operating_days") or ["毎日"]
     operating_dates = train.get("operating_dates", [])
-    if "特定日" in operating_days and date_text in operating_dates:
+    date_is_listed = date_text in operating_dates or month_day_text in operating_dates
+    if operating_dates and "特定日" not in operating_days and not date_is_listed:
+        return False
+    if "特定日" in operating_days and date_is_listed:
         return True
     if "毎日" in operating_days or "全日" in operating_days:
         return True
@@ -1173,7 +1178,7 @@ def timetable_page():
             trains.append({
                 "time": departure or arrival, "time_minutes": display_dt.hour * 60 + display_dt.minute,
                 "train_number": train.get("train_number", ""), "type": train.get("type", "普通"),
-                "cars": train.get("cars", ""), "destination": train.get("destination", ""),
+                "cars": stop.get("cars", train.get("cars", "")), "destination": train.get("destination", ""),
                 "origin": train.get("origin", ""), "note": train.get("note", ""),
                 "operating_days": train.get("operating_days", ["毎日"]),
                 "minutes_until": int((event_dt - now).total_seconds() // 60), "is_past": is_past, "is_stopped": is_stopped,
