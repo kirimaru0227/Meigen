@@ -47,9 +47,9 @@ html body .tt-page .tt-neighbor-panel {
 <section class="tt-page">
   <header class="tt-header">
     <div>
-      <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園'] %}tt-title-tobu-long{% endif %}">
+      <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園', '獨協大学前', 'せんげん台'] %}tt-title-tobu-long{% endif %}">
         {% if station %}
-          <span class="tt-title-route">{{ line_name }}</span><span class="tt-title-station">{{ station }}駅時刻表</span>
+          <span class="tt-title-route">{{ line_name }}</span><span class="tt-title-station">{{ station | replace('保土ヶ谷', '保土ケ谷') }}駅時刻表</span>
         {% else %}
           {{ line_name }}時刻表
         {% endif %}
@@ -68,14 +68,14 @@ html body .tt-page .tt-neighbor-panel {
   </button>
   <div class="timetable-transfer-panel tt-transfer-panel" id="timetableTransferPanel" hidden>
     <div class="timetable-transfer-panel-heading">
-      <div><strong>{{ station }}駅で乗り換え</strong></div>
+      <div><strong>{{ station | replace('保土ヶ谷', '保土ケ谷') }}駅で乗り換え</strong></div>
       <button type="button" id="timetableTransferClose" aria-label="閉じる">×</button>
     </div>
     <div class="timetable-transfer-links">
       {% for option in timetable_transfer_options %}
       <a href="{{ url_for('timetable_page', line=option.line_id, station=option.station) }}">
         <span class="tt-transfer-route-name">{{ option.line_name }}</span>
-        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表</span>
+        <span class="tt-transfer-station-name">{{ option.station | replace('保土ヶ谷', '保土ケ谷') }}駅の時刻表</span>
       </a>
       {% endfor %}
     </div>
@@ -90,14 +90,14 @@ html body .tt-page .tt-neighbor-panel {
   </button>
   <div class="timetable-transfer-panel tt-neighbor-panel" id="timetableNeighborPanel" hidden>
     <div class="timetable-transfer-panel-heading">
-      <div><strong>{{ station }}駅の隣の駅</strong></div>
+      <div><strong>{{ station | replace('保土ヶ谷', '保土ケ谷') }}駅の隣の駅</strong></div>
       <button type="button" id="timetableNeighborClose" aria-label="閉じる">×</button>
     </div>
     <div class="timetable-transfer-links">
       {% for option in timetable_neighbor_options %}
       <a href="{{ url_for('timetable_page', line=option.line_id, station=option.station) }}">
         <span class="tt-transfer-route-name">{{ option.line_name }}</span>
-        <span class="tt-transfer-station-name">{{ option.station }}駅の時刻表</span>
+        <span class="tt-transfer-station-name">{{ option.station | replace('保土ヶ谷', '保土ケ谷') }}駅の時刻表</span>
       </a>
       {% endfor %}
     </div>
@@ -114,7 +114,7 @@ html body .tt-page .tt-neighbor-panel {
                 {% if section.info.platform %}
                   <p class="tt-platform">{{ section.info.platform }}</p>
                 {% endif %}
-                <h2>{{ section.info.direction_label }}</h2>
+                <h2>{{ section.info.direction_label | replace('保土ヶ谷', '保土ケ谷') }}</h2>
               </div>
               <span class="tt-direction-tag">{{ direction }}</span>
             </div>
