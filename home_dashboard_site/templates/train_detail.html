@@ -4,7 +4,7 @@
 <section class="td-page" style="--td-line-color: {{ line_color | default('#077AE3', true) }};">
   <header class="td-header">
     <p class="td-eyebrow">{{ line_name }} 列車時刻表</p>
-    <h1>{{ train.train_number }} <span>{{ train.type }}</span></h1>
+    <h1><span class="td-train-type">{{ train.type }}</span><small class="td-train-number">{{ train.train_number }}</small></h1>
     <p class="td-route">{{ train.origin }} <span aria-hidden="true">→</span> {{ train.destination }}</p>
     <div class="td-meta">
       <span>{{ train.direction }}</span>
@@ -23,20 +23,20 @@
       <li class="td-stop{% if back_station and stop.station == back_station %} td-current-stop{% endif %}"{% if back_station and stop.station == back_station %} id="currentStationStop"{% endif %}>
         <span class="td-stop-dot" aria-hidden="true"></span>
         <div class="td-stop-name">
-          {% if stop.station in ['桐生', '岩宿', '国定', '伊勢崎', '駒形', '前橋大島', '前橋', '新前橋', '井野', '高崎問屋町', '高崎'] %}
-            {% if stop.station == 'あしかがフラワーパーク' %}
-              <span class="td-flower-park-name">あしかが<br>フラワーパーク</span>
-            {% else %}
-              <span>{{ stop.station }}</span>
-            {% endif %}
-          {% else %}
-            <a href="{{ url_for('timetable_page', line=line_id, station=stop.station) }}" aria-label="{{ stop.station }}駅の時刻表を見る">
+          {% if stop.line_id %}
+            <a href="{{ url_for('timetable_page', line=stop.line_id, station=stop.station) }}" aria-label="{{ stop.station }}駅の時刻表を見る">
               {% if stop.station == 'あしかがフラワーパーク' %}
                 <span class="td-flower-park-name">あしかが<br>フラワーパーク</span>
               {% else %}
                 {{ stop.station }}
               {% endif %}
             </a>
+          {% else %}
+            {% if stop.station == 'あしかがフラワーパーク' %}
+              <span class="td-flower-park-name">あしかが<br>フラワーパーク</span>
+            {% else %}
+              <span>{{ stop.station }}</span>
+            {% endif %}
           {% endif %}
         </div>
         <div class="td-times">
@@ -60,8 +60,9 @@
 .td-page{max-width:760px;margin:0 auto;padding:clamp(16px,3vw,30px);color:var(--text-color,#1f2937)}
 .td-header{margin-bottom:22px}
 .td-eyebrow{margin:0 0 7px;font-size:.82rem;font-weight:750;opacity:.65}
-.td-header h1{margin:0;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.25}
-.td-header h1 span{font-size:.72em;font-weight:650}
+.td-header h1{display:flex;align-items:baseline;gap:9px;margin:0;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.25}
+.td-header h1 .td-train-type{font-size:1em;font-weight:800}
+.td-header h1 .td-train-number{font-size:.62em;font-weight:650;opacity:.72}
 .td-route{margin:9px 0;font-size:1.15rem;font-weight:800}
 .td-route span{padding:0 7px;color:var(--td-line-color)}
 .td-meta{display:flex;flex-wrap:wrap;gap:7px}
@@ -134,7 +135,7 @@
 
 .td-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:22px 0 8px}
 .td-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border:1px solid var(--border-color,#d7dce5);border-radius:999px;color:inherit;text-decoration:none;font-weight:800}
-.td-primary{background:#077AE3;color:#fff;border-color:transparent}
+.td-primary{background:var(--td-line-color);color:#fff;border-color:var(--td-line-color)}
 .td-button:hover{filter:brightness(.97)}
 
 @media(max-width:520px){
@@ -174,7 +175,7 @@ html body.dark .td-route span{color:var(--td-line-color)}
 html body.dark .td-meta span{background:#303846;color:#f3f4f6}
 html body.dark .td-note{background:#252c37;color:#f3f4f6}
 html body.dark .td-button{border-color:#596273;color:#f8fafc;background:#252c37}
-html body.dark .td-button.td-primary{background:#077AE3;border-color:#077AE3;color:#fff}
+html body.dark .td-button.td-primary{background:var(--td-line-color);border-color:var(--td-line-color);color:#fff}
 
 /* 選択中の駅 */
 .td-stop{scroll-margin-top:105px}

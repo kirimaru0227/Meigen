@@ -46,7 +46,7 @@ html body .tt-page .tt-neighbor-panel {
   right: 14px !important;
 }
 </style>
-<section class="tt-page" style="--tt-line-color: {{ line_color | default('#077AE3', true) }};">
+<section class="tt-page" data-line-id="{{ line_id }}" style="--tt-line-color: {{ line_color | default('#077AE3', true) }};">
   <header class="tt-header">
     <div>
       <h1 class="{% if line_id == 'tobu_skytree' and station in ['とうきょうスカイツリー', '東武動物公園', '獨協大学前', 'せんげん台'] %}tt-title-tobu-long{% endif %}{% if line_id == 'tobu_skytree' and station in ['獨協大学前', 'せんげん台'] %} tt-title-tobu-force-break{% endif %}">
@@ -140,17 +140,20 @@ html body .tt-page .tt-neighbor-panel {
                     >
                       <div class="tt-time-column">
                         <strong class="tt-time">{{ train.time }}</strong>
+                        {% if train.is_origin %}
+                          <span class="tt-origin-tag">始</span>
+                        {% endif %}
                         {% if train.upcoming_rank == 1 %}
-                          <span class="tt-rank">次発</span>
+                          <span class="tt-rank">先発</span>
                         {% elif train.upcoming_rank == 2 %}
-                          <span class="tt-rank">次々発</span>
+                          <span class="tt-rank">次発</span>
                         {% endif %}
                       </div>
 
                       <div class="tt-train-main">
                         <div class="tt-train-title">
                           <span class="tt-type">{{ train.type }}</span>
-                          <strong>{{ train.destination }}</strong>
+                          <strong>{{ train.destination_display | default(train.destination) }}</strong>
                           {% if train.cars %}
                             <span class="tt-cars">{{ train.cars }}両</span>
                           {% endif %}
@@ -161,7 +164,7 @@ html body .tt-page .tt-neighbor-panel {
                         {% endif %}
 
                         <p class="tt-countdown" data-countdown>
-                          {% if not section.has_arrival_times and train.upcoming_rank not in [1, 2] %}
+                          {% if train.upcoming_rank not in [1, 2] %}
                           {% elif train.is_stopped %}
                             停車中
                           {% elif train.is_past %}
@@ -343,6 +346,24 @@ html body .tt-page .tt-neighbor-panel {
   letter-spacing: -.03em;
 }
 
+.tt-origin-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35em;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--tt-line-color);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.tt-page[data-line-id="ryomo"] .tt-origin-tag {
+  color: #000;
+}
+
 .tt-rank {
   font-size: .72rem;
   font-weight: 800;
@@ -378,6 +399,10 @@ html body .tt-page .tt-neighbor-panel {
   font-size: .85rem;
   font-weight: 750;
   color: var(--tt-line-color);
+}
+
+.tt-page[data-line-id="ryomo"] .tt-countdown {
+  color: #8A5A00;
 }
 
 .tt-note {
@@ -757,6 +782,10 @@ html body.dark .tt-train.tt-stopped .tt-countdown {
 html body.dark .tt-countdown,
 html body.dark .tt-rank {
   color: var(--tt-line-color);
+}
+
+html body.dark .tt-page[data-line-id="ryomo"] .tt-countdown {
+  color: #FDE68A;
 }
 
 html body.dark .tt-past .tt-countdown {
@@ -1197,7 +1226,7 @@ html body.dark .tt-empty {
         });
 
         upcoming.forEach(item => {
-          if (ranked.length < 3) {
+          if (ranked.length < 2) {
             ranked.push({
               row: item.row,
               label: ranked.length === 1 ? '次発' : '次々発'
@@ -1224,13 +1253,7 @@ html body.dark .tt-empty {
         const kind = row.getAttribute('data-event-kind');
         const countdown = row.querySelector('[data-countdown]');
 
-        if (
-          countdown &&
-          (
-            (!hasArrivalTimes && !rankedRows.has(row)) ||
-            (hasArrivalTimes && kind === 'arrival' && !rankedRows.has(row))
-          )
-        ) {
+        if (countdown && !rankedRows.has(row)) {
           countdown.textContent = '';
         }
       });
@@ -1261,8 +1284,7 @@ html body.dark .tt-empty {
           : null
       );
 
-      // 対象列車を一覧の先頭に表示する。
-      scrollToTargetIfChanged(list, targetRow);
+      // 自動スクロールは行わず、初電から終電までの先頭位置を保つ。
     });
   }
 
