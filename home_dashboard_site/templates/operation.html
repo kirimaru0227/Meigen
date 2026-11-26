@@ -31,7 +31,7 @@
             <button type="button"
                     class="operation-timetable-line station-button{% if item.id == timetable_line_id %} is-active active{% endif %}"
                     data-href="{{ url_for('operation_page', timetable_line=item.id) }}"
-                    style="--route-color: {{ item.color }}; --route-text-color: {{ item.text_color|default('#FFFFFF') }};"
+                    style="--route-color: {{ item.color }}; --route-text-color: {{ '#000000' if item.id == 'ryomo' else item.text_color|default('#FFFFFF') }};"
                     aria-pressed="{{ 'true' if item.id == timetable_line_id else 'false' }}">{{ item.name }}</button>
             {% endfor %}
         </div>
@@ -1447,5 +1447,39 @@ html body .page-container.operation-page .station-selector .station-grid.station
 .operation-page[data-timetable-line="ryomo"] .station-selector .station-grid.station-grid-large > .station-button.is-selected .station-name,
 .operation-page[data-timetable-line="ryomo"] .station-selector .station-grid.station-grid-large > .station-button:active .station-name {
     color: #292524 !important;
+}
+</style>
+
+
+<style>
+/* PC・スマートフォン共通：駅の選択状態を路線選択肢と同じ方式で表示 */
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:active {
+    background: var(--station-line-color, var(--timetable-line-color, #00A650)) !important;
+    background-color: var(--station-line-color, var(--timetable-line-color, #00A650)) !important;
+    border: 1px solid var(--station-line-color, var(--timetable-line-color, #00A650)) !important;
+    color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button.is-selected .station-name,
+html body .page-container.operation-page .station-selector .station-grid.station-grid-large > label.station-button:active .station-name {
+    color: var(--station-line-text-color, var(--timetable-line-text-color, #FFFFFF)) !important;
+}
+/* 両毛線の駅・路線選択肢は、塗りつぶし時も黒文字 */
+html body .page-container.operation-page[data-timetable-line="ryomo"] .station-selector .station-grid.station-grid-large > label.station-button.is-selected,
+html body .page-container.operation-page[data-timetable-line="ryomo"] .station-selector .station-grid.station-grid-large > label.station-button:active,
+html body .page-container.operation-page[data-timetable-line="ryomo"] .station-selector .station-grid.station-grid-large > label.station-button.is-selected .station-name,
+html body .page-container.operation-page[data-timetable-line="ryomo"] .station-selector .station-grid.station-grid-large > label.station-button:active .station-name {
+    color: #000000 !important;
+}
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[style*="route-color"]:is(.is-selected, .is-active, .active, :active) {
+    background: var(--route-color, #077AE3) !important;
+    background-color: var(--route-color, #077AE3) !important;
+    border-color: var(--route-color, #077AE3) !important;
+    color: var(--route-text-color, #FFFFFF) !important;
+}
+html body .page-container.operation-page .operation-timetable-line-grid > .operation-timetable-line[data-href*="ryomo"] {
+    --route-text-color: #000000;
 }
 </style>
