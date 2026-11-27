@@ -108,7 +108,7 @@ html body .tt-page .tt-neighbor-panel {
 
   {% if station %}
     {% if departures_by_direction %}
-      <div class="tt-directions">
+      <div class="tt-directions{% if line_id == 'shonan_shinjuku' %} tt-directions-reversed{% endif %}">
         {% for direction, section in departures_by_direction.items() %}
           <section class="tt-direction">
             <div class="tt-direction-heading">
@@ -304,29 +304,12 @@ html body .tt-page .tt-neighbor-panel {
 .tt-train {
   display: grid;
   grid-template-columns: 85px minmax(0, 1fr) auto;
-  gap: 10px;
+  gap: 13px;
   align-items: center;
-  padding: 8px 12px;
+  padding: 11px 14px;
   border-bottom: 1px solid var(--border-color, rgba(128,128,128,.2));
   position: relative;
   box-sizing: border-box;
-}
-
-/* 発車済みの列車：時刻・始発タグを行の縦中央に配置 */
-.tt-train.tt-past .tt-time-column {
-  align-self: stretch;
-  justify-content: center;
-}
-
-/* 「始」も「先発・次発」もない場合、空のタグ欄をなくす */
-.tt-time-tags:not(:has(.tt-origin-tag, .tt-rank)) {
-  display: none;
-}
-
-/* 「始」表示がない列車は、時刻欄を行の縦中央に配置 */
-.tt-train:not(:has(.tt-origin-tag)) .tt-time-column {
-  align-self: center;
-  justify-content: center;
 }
 
 .tt-train:last-child {
@@ -598,8 +581,8 @@ html body .tt-page .tt-neighbor-panel {
   .tt-train {
     width: 100%;
     grid-template-columns: 76px minmax(0, 1fr);
-    gap: 7px;
-    padding: 6px 8px;
+    gap: 8px;
+    padding: 8px 9px;
     align-content: center;
   }
 
@@ -713,8 +696,8 @@ html body .tt-page .tt-neighbor-panel {
 
   .tt-train {
     grid-template-columns: 70px minmax(0, 1fr);
-    gap: 5px;
-    padding: 5px 7px;
+    gap: 6px;
+    padding: 7px 7px;
   }
 
   .tt-time {
@@ -1404,3 +1387,7 @@ html body.dark .tt-empty {
 
 {% endblock %}
 
+
+<style>
+.tt-directions-reversed { display: flex; flex-direction: column-reverse; }
+</style>

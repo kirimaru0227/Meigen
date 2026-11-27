@@ -3,15 +3,22 @@
 {% block content %}
 <section class="td-page" data-line-id="{{ line_id }}" style="--td-line-color: {{ line_color | default('#077AE3', true) }};">
   <header class="td-header">
-    <p class="td-eyebrow">{{ line_name }} 列車時刻表</p>
-    <h1><span class="td-train-type">{{ train.type }}</span><small class="td-train-number">{{ train.train_number }}</small></h1>
-    <p class="td-route">{{ train.origin }} <span aria-hidden="true">→</span> {{ train.destination }}</p>
-    <div class="td-meta">
-      <span>{{ train.direction }}</span>
-      {% if train.cars %}<span>{{ train.cars }}両</span>{% endif %}
-      {% for day in train.operating_days or ['毎日'] %}<span>{{ day }}運転</span>{% endfor %}
+    <div class="td-main-info">
+      <div class="td-main-row">
+        <strong class="td-main-type">{{ train.type }}</strong>
+        <strong class="td-main-destination">{{ train.destination }}行き</strong>
+      </div>
+      <div class="td-main-line">{{ line_name }} <small>{{ train.train_number }}</small></div>
+      <div class="td-meta">
+        {% if train.cars %}<span>{{ train.cars }}両</span>{% endif %}
+        {% if train.operating_dates %}
+          <span>運転日：{{ train.operating_dates | join('・') }}</span>
+        {% else %}
+          {% for day in train.operating_days or ['毎日'] %}<span>{{ day }}運転</span>{% endfor %}
+        {% endif %}
+      </div>
+      {% if train.note %}<p class="td-note">{{ train.note }}</p>{% endif %}
     </div>
-    {% if train.note %}<p class="td-note">{{ train.note }}</p>{% endif %}
   </header>
 
   <section class="td-card" aria-label="停車駅と時刻">
@@ -52,13 +59,19 @@
     {% if back_station %}
       <a class="td-button td-primary" href="{{ url_for('timetable_page', line=line_id, station=back_station) }}">駅の時刻表に戻る</a>
     {% endif %}
-    <a class="td-button" href="{{ url_for('timetable_page', line=line_id) }}">ほかの駅を選ぶ</a>
+    <a class="td-button" href="{{ url_for('timetable_page', line=line_id, station='') }}">他の駅を見る</a>
   </div>
 </section>
 
 <style>
 .td-page{max-width:760px;margin:0 auto;padding:clamp(16px,3vw,30px);color:var(--text-color,#1f2937)}
 .td-header{margin-bottom:22px}
+.td-main-info{display:flex;flex-direction:column;gap:8px}
+.td-main-line{font-size:.76rem;font-weight:700;opacity:.72}
+.td-main-line small{font-size:.9em;margin-left:6px}
+.td-main-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.td-main-type{font-size:1.45rem}
+.td-main-destination{font-size:1.2rem}
 .td-eyebrow{margin:0 0 7px;font-size:.82rem;font-weight:750;opacity:.65}
 .td-header h1{display:flex;align-items:baseline;gap:9px;margin:0;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.25}
 .td-header h1 .td-train-type{font-size:1em;font-weight:800}
@@ -169,7 +182,7 @@ html body.dark .td-times span{color:#d1d5db;opacity:1}
 html body.dark .td-stop{border-color:#3b4350}
 html body.dark .td-stop-dot{background:#171b22;border-color:var(--td-line-color)}
 html body.dark .td-stops::before{background:var(--td-line-color)}
-html body.dark .td-stop-name a{color:var(--td-line-color);text-decoration:none}
+html body.dark .td-stop-name a{color:#f8fafc;text-decoration:none}
 html body.dark .td-stop-name a:hover,
 html body.dark .td-stop-name a:focus-visible{color:var(--td-line-color);text-decoration:none}
 html body.dark .td-route span{color:var(--td-line-color)}
