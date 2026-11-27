@@ -1213,11 +1213,28 @@ def timetable_page():
                 destination_via = "東京経由"
             elif train_number_text.endswith("Y"):
                 destination_via = "新宿経由"
+            # 増結・解結を反映した駅ごとの両数。
+            # 宇都宮線系統は小金井まで10両（524Mのみ5両）、小金井から15両。
+            # 1589E・1657Eは平塚まで15両、平塚発車後は10両。
+            cars = stop.get("cars", train.get("cars", ""))
+            if train_number_text in {"2521Y", "1529E", "2523Y", "532M", "2551Y", "4533Y", "1641E", "2559Y", "1653E", "524M"} and source_line_id == "utsunomiya":
+                station_order = list(source_stations.keys())
+                koganei_index = station_order.index("小金井") if "小金井" in station_order else -1
+                station_index = station_order.index(source_station) if source_station in source_stations else -1
+                cars = (5 if train_number_text == "524M" else 10) if koganei_index >= 0 and station_index < koganei_index else 15
+            elif train_number_text in {"1589E", "1657E"}:
+                if source_line_id == "utsunomiya":
+                    cars = 15
+                elif source_line_id == "ueno_tokyo":
+                    station_order = list(source_stations.keys())
+                    hiratsuka_index = station_order.index("平塚") if "平塚" in station_order else -1
+                    station_index = station_order.index(source_station) if source_station in source_stations else -1
+                    cars = 15 if hiratsuka_index >= 0 and station_index <= hiratsuka_index else 10
             trains.append({
                 "time": departure or arrival, "time_minutes": display_dt.hour * 60 + display_dt.minute,
                 "train_number": train.get("train_number", ""),
                 "type": train.get("train_name") if train.get("type") == "特急" and train.get("train_name") else train.get("type", "普通"),
-                "cars": stop.get("cars", train.get("cars", "")), "destination": destination,
+                "cars": cars, "destination": destination,
                 "destination_display": destination, "destination_via": destination_via,
                 "origin": train.get("origin", ""), "is_origin": train.get("origin") == source_station,
                 "note": "" if train.get("operating_dates") else train.get("note", ""),
@@ -1269,6 +1286,11 @@ def timetable_page():
             departures_by_direction[display_direction] = {
                 "info": info, "trains": combined, "next_trains": ranked_now,
                 "has_arrival_times": any(item["arrival_iso"] for item in combined),
+            }
+        if line_id == "shonan_shinjuku":
+            departures_by_direction = {
+                key: departures_by_direction[key]
+                for key in ("南行", "北行") if key in departures_by_direction
             }
 
     line_en_names = {
@@ -1438,6 +1460,12 @@ def train_detail(train_number, line_id):
     combined_stops = dict(train.get("stops", {}))
     train_number_text = str(train.get("train_number", ""))
     suffix = train_number_text[-1:] if train_number_text else ""
+    if train_number_text in {"2521Y", "1529E", "2523Y", "532M", "2551Y", "4533Y", "1641E", "2559Y", "1653E"}:
+        display_train["cars"] = "10両(小金井から15両)"
+    elif train_number_text == "524M":
+        display_train["cars"] = "5両(小金井から15両)"
+    elif train_number_text in {"1589E", "1657E"}:
+        display_train["cars"] = "15両(平塚から10両)"
 
     # 宇都宮線から上野東京ライン・湘南新宿ラインへ直通する列車。
     route_segments = {
