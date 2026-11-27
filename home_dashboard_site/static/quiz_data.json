@@ -524,5 +524,698 @@
       "どうして(～か、いや～ない)",
       "どうにかして(～したい･～てほしい･～よう)"
     ]
+  },
+  {
+    "number": 51,
+    "page": 68,
+    "word": "にほふ",
+    "reading": "",
+    "translations": [
+      "美しく照り映える",
+      "美しく輝く"
+    ]
+  },
+  {
+    "number": 52,
+    "page": 68,
+    "word": "うつろふ",
+    "reading": "",
+    "translations": [
+      "色が変わる",
+      "(色が変わり)紅葉する",
+      "(葉や花が)散る",
+      "(心が)移る",
+      "心変わりする"
+    ]
+  },
+  {
+    "number": 53,
+    "page": 68,
+    "word": "いぬ",
+    "reading": "",
+    "translations": [
+      "行く",
+      "去る",
+      "(時が)過ぎ去る"
+    ]
+  },
+  {
+    "number": 54,
+    "page": 68,
+    "word": "あそぶ",
+    "reading": "",
+    "translations": [
+      "管弦を楽しむ"
+    ]
+  },
+  {
+    "number": 55,
+    "page": 68,
+    "word": "めづ",
+    "reading": "",
+    "translations": [
+      "感嘆する",
+      "ほめる",
+      "たたえる",
+      "愛する",
+      "かわいがる",
+      "好む"
+    ]
+  },
+  {
+    "number": 56,
+    "page": 68,
+    "word": "ならふ",
+    "reading": "",
+    "translations": [
+      "慣れる",
+      "習慣となる",
+      "親しむ",
+      "なじむ"
+    ]
+  },
+  {
+    "number": 57,
+    "page": 68,
+    "word": "かしづく",
+    "reading": "",
+    "translations": [
+      "大切に養育する",
+      "大切に世話をする"
+    ]
+  },
+  {
+    "number": 58,
+    "page": 68,
+    "word": "たのむ(四段活用)",
+    "reading": "",
+    "translations": [
+      "あてにする",
+      "期待する"
+    ]
+  },
+  {
+    "number": 58,
+    "page": 68,
+    "word": "たのむ(下二段活用)",
+    "reading": "",
+    "translations": [
+      "あてにさせる",
+      "期待させる"
+    ]
+  },
+  {
+    "number": 59,
+    "page": 68,
+    "word": "まもる",
+    "reading": "",
+    "translations": [
+      "見つめる",
+      "見守る"
+    ]
+  },
+  {
+    "number": 60,
+    "page": 68,
+    "word": "きこゆ",
+    "reading": "",
+    "translations": [
+      "聞こえる",
+      "(自然に)耳に入る",
+      "世間に知られる",
+      "うわさされる",
+      "評判になる",
+      "理解できる",
+      "意味が分かる"
+    ]
+  },
+  {
+    "number": 61,
+    "page": 68,
+    "word": "おこす",
+    "reading": "",
+    "translations": [
+      "よこす",
+      "送ってくる"
+    ]
+  },
+  {
+    "number": 62,
+    "page": 68,
+    "word": "まうく",
+    "reading": "",
+    "translations": [
+      "準備する",
+      "用意する"
+    ]
+  },
+  {
+    "number": 63,
+    "page": 68,
+    "word": "いらふ",
+    "reading": "",
+    "translations": [
+      "答える",
+      "返事する"
+    ]
+  },
+  {
+    "number": 64,
+    "page": 68,
+    "word": "わたる",
+    "reading": "",
+    "translations": [
+      "行く",
+      "来る",
+      "通う",
+      "ずっと(～する)",
+      "一面に(～する)"
+    ]
+  },
+  {
+    "number": 64,
+    "page": 68,
+    "word": "わたらせたまふ",
+    "reading": "",
+    "translations": [
+      "いらっしゃる"
+    ]
+  },
+  {
+    "number": 65,
+    "page": 68,
+    "word": "ぐす",
+    "reading": "",
+    "translations": [
+      "(引き)連れる",
+      "つき従える",
+      "つき従う",
+      "連れ立つ",
+      "添える",
+      "備える",
+      "備わる"
+    ]
+  },
+  {
+    "number": 66,
+    "page": 68,
+    "word": "とぶらふ",
+    "reading": "",
+    "translations": [
+      "訪れる",
+      "訪ねる",
+      "見舞う",
+      "安否を尋ねる",
+      "弔問する",
+      "供養する"
+    ]
+  },
+  {
+    "number": 67,
+    "page": 68,
+    "word": "ものす",
+    "reading": "",
+    "translations": [
+      "いる",
+      "ある",
+      "行く",
+      "来る",
+      "何かをする"
+    ]
+  },
+  {
+    "number": 67,
+    "page": 68,
+    "word": "～ものしたまふ",
+    "reading": "",
+    "translations": [
+      "～(て)いらっしゃる"
+    ]
+  },
+  {
+    "number": 68,
+    "page": 68,
+    "word": "わななく",
+    "reading": "",
+    "translations": [
+      "ふるえる"
+    ]
+  },
+  {
+    "number": 69,
+    "page": 68,
+    "word": "わづらふ",
+    "reading": "",
+    "translations": [
+      "思い悩む",
+      "病気になる",
+      "苦労する",
+      "難儀する"
+    ]
+  },
+  {
+    "number": 69,
+    "page": 68,
+    "word": "わづらふ(補助動詞)",
+    "reading": "",
+    "translations": [
+      "～するのに困る",
+      "～しかねる"
+    ]
+  },
+  {
+    "number": 70,
+    "page": 68,
+    "word": "まどふ",
+    "reading": "",
+    "translations": [
+      "心が乱れる",
+      "途方に暮れる",
+      "あわてる",
+      "ひどく(～する)"
+    ]
+  },
+  {
+    "number": 71,
+    "page": 68,
+    "word": "かづく(四段活用)",
+    "reading": "",
+    "translations": [
+      "(ほうびを)いただく",
+      "かぶる"
+    ]
+  },
+  {
+    "number": 71,
+    "page": 68,
+    "word": "かづく(下二段活用)",
+    "reading": "",
+    "translations": [
+      "(ほうびを)与える",
+      "かぶせる"
+    ]
+  },
+  {
+    "number": 72,
+    "page": 68,
+    "word": "うす",
+    "reading": "",
+    "translations": [
+      "消える",
+      "なくなる",
+      "亡くなる",
+      "死ぬ"
+    ]
+  },
+  {
+    "number": 73,
+    "page": 68,
+    "word": "おこなふ",
+    "reading": "",
+    "translations": [
+      "仏道の修行をする",
+      "勤行する"
+    ]
+  },
+  {
+    "number": 74,
+    "page": 68,
+    "word": "おもしろし",
+    "reading": "",
+    "translations": [
+      "(景色などが)すばらしい",
+      "趣がある",
+      "興趣がある",
+      "興味がある"
+    ]
+  },
+  {
+    "number": 75,
+    "page": 68,
+    "word": "あらまほし",
+    "reading": "",
+    "translations": [
+      "理想的だ",
+      "好ましい"
+    ]
+  },
+  {
+    "number": 76,
+    "page": 68,
+    "word": "やむごとなし",
+    "reading": "",
+    "translations": [
+      "高貴だ",
+      "尊い",
+      "大切だ",
+      "この上ない",
+      "並々でない"
+    ]
+  },
+  {
+    "number": 77,
+    "page": 68,
+    "word": "ゆゆし",
+    "reading": "",
+    "translations": [
+      "不吉だ",
+      "不吉なほど美しい",
+      "恐ろしい",
+      "すばらしい",
+      "立派だ",
+      "はなはだしい",
+      "重大だ",
+      "大変だ"
+    ]
+  },
+  {
+    "number": 78,
+    "page": 68,
+    "word": "畏し･恐し",
+    "reading": "かしこし",
+    "translations": [
+      "おそれ多い",
+      "もったいない"
+    ]
+  },
+  {
+    "number": 78,
+    "page": 68,
+    "word": "賢し",
+    "reading": "かしこし",
+    "translations": [
+      "すばらしい",
+      "立派だ",
+      "好都合だ"
+    ]
+  },
+  {
+    "number": 78,
+    "page": 68,
+    "word": "かしこし(連用形)",
+    "reading": "",
+    "translations": [
+      "非常に"
+    ]
+  },
+  {
+    "number": 79,
+    "page": 68,
+    "word": "うるはし",
+    "reading": "",
+    "translations": [
+      "端正だ",
+      "きちんとしている",
+      "立派だ",
+      "親しい"
+    ]
+  },
+  {
+    "number": 80,
+    "page": 68,
+    "word": "はかなし",
+    "reading": "",
+    "translations": [
+      "頼りない",
+      "あっけない",
+      "むなしい",
+      "ちょっとした",
+      "とるに足らない"
+    ]
+  },
+  {
+    "number": 81,
+    "page": 68,
+    "word": "はかばかし",
+    "reading": "",
+    "translations": [
+      "しっかりしている",
+      "たのもしい",
+      "はっきりしている",
+      "際だっている"
+    ]
+  },
+  {
+    "number": 82,
+    "page": 68,
+    "word": "やさし",
+    "reading": "",
+    "translations": [
+      "優雅だ",
+      "上品だ",
+      "風流だ",
+      "けなげだ",
+      "殊勝だ",
+      "感心だ"
+    ]
+  },
+  {
+    "number": 83,
+    "page": 68,
+    "word": "いはけなし",
+    "reading": "",
+    "translations": [
+      "幼い",
+      "あどけない"
+    ]
+  },
+  {
+    "number": 84,
+    "page": 68,
+    "word": "かたはらいたし",
+    "reading": "",
+    "translations": [
+      "見苦しい",
+      "苦々しい",
+      "気の毒だ",
+      "心苦しい",
+      "恥ずかしい",
+      "きまりが悪い",
+      "ばかばかしい",
+      "笑止千万だ"
+    ]
+  },
+  {
+    "number": 85,
+    "page": 68,
+    "word": "こころもとなし",
+    "reading": "",
+    "translations": [
+      "待ち遠しい",
+      "じれったい",
+      "不安だ",
+      "心配だ",
+      "はっきりしない",
+      "ぼんやりしている"
+    ]
+  },
+  {
+    "number": 86,
+    "page": 68,
+    "word": "いとほし",
+    "reading": "",
+    "translations": [
+      "かわいそうだ",
+      "気の毒だ",
+      "かわいい",
+      "いとしい"
+    ]
+  },
+  {
+    "number": 87,
+    "page": 68,
+    "word": "あさまし",
+    "reading": "",
+    "translations": [
+      "驚きあきれるほどだ",
+      "あきれるほどひどい",
+      "情けない",
+      "嘆かわしい"
+    ]
+  },
+  {
+    "number": 88,
+    "page": 68,
+    "word": "いたし",
+    "reading": "",
+    "translations": [
+      "すばらしい"
+    ]
+  },
+  {
+    "number": 88,
+    "page": 68,
+    "word": "いたし(打消を伴う)",
+    "reading": "",
+    "translations": [
+      "それほど(～ない)"
+    ]
+  },
+  {
+    "number": 88,
+    "page": 68,
+    "word": "いたく･いたう",
+    "reading": "",
+    "translations": [
+      "たいそう",
+      "とても"
+    ]
+  },
+  {
+    "number": 89,
+    "page": 68,
+    "word": "つれなし",
+    "reading": "",
+    "translations": [
+      "平然としている",
+      "そ知らぬふりをしている",
+      "冷淡だ",
+      "薄情だ",
+      "何の変化もない",
+      "もとのままだ"
+    ]
+  },
+  {
+    "number": 90,
+    "page": 68,
+    "word": "あいなし",
+    "reading": "",
+    "translations": [
+      "筋違いだ",
+      "具合が悪い",
+      "つまらない",
+      "おもしろくない"
+    ]
+  },
+  {
+    "number": 90,
+    "page": 68,
+    "word": "あいなく･あいなう",
+    "reading": "",
+    "translations": [
+      "むやみに",
+      "わけもなく"
+    ]
+  },
+  {
+    "number": 91,
+    "page": 68,
+    "word": "あぢきなし",
+    "reading": "",
+    "translations": [
+      "どうにもならない",
+      "無益だ",
+      "つまらない",
+      "苦々しい"
+    ]
+  },
+  {
+    "number": 92,
+    "page": 68,
+    "word": "さがなし",
+    "reading": "",
+    "translations": [
+      "性質がよくない",
+      "意地が悪い",
+      "いたずらだ"
+    ]
+  },
+  {
+    "number": 93,
+    "page": 68,
+    "word": "すさまじ",
+    "reading": "",
+    "translations": [
+      "興ざめだ",
+      "殺風景だ",
+      "荒涼としている"
+    ]
+  },
+  {
+    "number": 94,
+    "page": 68,
+    "word": "いふかいなし",
+    "reading": "",
+    "translations": [
+      "どうしようもない",
+      "言ってもしかたがない",
+      "とるに足らない",
+      "たわいない",
+      "ひどい",
+      "ふがいない"
+    ]
+  },
+  {
+    "number": 95,
+    "page": 68,
+    "word": "よしなし",
+    "reading": "",
+    "translations": [
+      "関係がない",
+      "いわれがない",
+      "理由がない",
+      "方法がない",
+      "しかたがない",
+      "つまらない",
+      "かいがない"
+    ]
+  },
+  {
+    "number": 96,
+    "page": 68,
+    "word": "びんなし",
+    "reading": "",
+    "translations": [
+      "都合が悪い",
+      "不都合だ",
+      "困ったことだ",
+      "感心しない"
+    ]
+  },
+  {
+    "number": 97,
+    "page": 68,
+    "word": "さうざうし",
+    "reading": "",
+    "translations": [
+      "物足りない",
+      "心寂しい"
+    ]
+  },
+  {
+    "number": 98,
+    "page": 68,
+    "word": "むつかし",
+    "reading": "",
+    "translations": [
+      "うっとうしい",
+      "不快だ",
+      "わずらわしい",
+      "面倒だ",
+      "むさくるしい",
+      "見苦しい"
+    ]
+  },
+  {
+    "number": 99,
+    "page": 68,
+    "word": "あてなり",
+    "reading": "",
+    "translations": [
+      "身分が高い",
+      "高貴だ",
+      "上品だ",
+      "優美だ"
+    ]
+  },
+  {
+    "number": 100,
+    "page": 68,
+    "word": "きよらなり",
+    "reading": "",
+    "translations": [
+      "美しい",
+      "華麗だ"
+    ]
   }
 ]
