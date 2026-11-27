@@ -35,6 +35,7 @@
       <div id="quiz-reading" class="quiz-reading"></div>
     </div>
     <div id="quiz-options" class="quiz-options"></div>
+    <div id="quiz-feedback" class="quiz-feedback" role="status" aria-live="polite" hidden></div>
     <button id="quiz-answer" class="quiz-next" disabled>解答</button>
     <button id="quiz-next" class="quiz-next" hidden>次の問題へ</button>
   </div>
@@ -50,7 +51,23 @@
 .quiz-settings{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px;padding:16px;border:1px solid var(--border-color,#ddd);border-radius:13px}.quiz-settings label,.quiz-range-field legend{font-weight:700}.quiz-setting-field{display:grid;gap:7px}.quiz-settings input{width:100%;min-width:0;box-sizing:border-box;padding:11px 12px;border:1px solid var(--border-color,#ccc);border-radius:10px;background:var(--card-bg,#fff);color:inherit;font-size:1rem}.quiz-range-field{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;margin:0;padding:0;border:0}.quiz-range-field legend{grid-column:1/-1;margin-bottom:7px}.quiz-range-field label{font-size:.9rem}.quiz-settings-error{margin:0;color:#dc2626;font-weight:700}
 .quiz-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:700}.quiz-back{border:0;border-radius:10px;background:#077AE3;color:#fff;padding:10px 14px;font-weight:700;cursor:pointer}.quiz-word-area{text-align:center;margin:24px 0}.quiz-meta{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:8px}.quiz-page,.quiz-number{font-weight:700;color:var(--muted-color,#777)}.quiz-word{font-size:clamp(2rem,8vw,3rem);margin:0!important}.quiz-reading{min-height:1.2em;margin-top:1px;font-size:1rem;line-height:1.2;opacity:.75}
 .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}.quiz-option{min-height:58px;padding:12px;border:1px solid var(--border-color,#ccc);border-radius:12px;background:transparent;color:inherit;font-size:1rem;text-align:left;cursor:pointer}.quiz-option.selected{border:2px solid #077AE3;background:#077AE318}.quiz-option:disabled{opacity:1;cursor:default}.quiz-option.correct{border:2px solid #16a34a;background:#16a34a18}.quiz-option.wrong{border:2px solid #dc2626;background:#dc262618}
-.quiz-next{width:100%;padding:13px;border:0;border-radius:12px;background:#077AE3;color:white;font-weight:700;font-size:1rem;cursor:pointer;margin-top:8px}.quiz-next:disabled{opacity:.4;cursor:not-allowed}.quiz-score{text-align:center;font-size:1.6rem;font-weight:800;margin:28px 0}.quiz-result-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}.quiz-result-actions button{width:100%;height:48px;min-height:48px;margin:0;display:flex;align-items:center;justify-content:center;box-sizing:border-box}.quiz-return{margin-top:0}
+.quiz-next{width:100%;padding:13px;border:0;border-radius:12px;background:#077AE3;color:white;font-weight:700;font-size:1rem;cursor:pointer;margin-top:8px}.quiz-next:disabled{opacity:.4;cursor:not-allowed}
+.quiz-feedback{position:relative;overflow:hidden;margin:4px 0 14px;padding:16px;border-radius:14px;text-align:center;font-weight:800;animation:feedback-pop .35s cubic-bezier(.2,1.4,.4,1) both}
+.quiz-feedback.correct-feedback{color:#15803d;background:#16a34a18;border:1px solid #16a34a70}
+.quiz-feedback.wrong-feedback{color:#dc2626;background:#dc262618;border:1px solid #dc262670}
+.quiz-feedback .feedback-icon{display:block;font-size:2rem;line-height:1.2;margin-bottom:5px}
+.quiz-feedback .feedback-title{display:block;font-size:1.25rem}
+.quiz-feedback .feedback-answer{display:block;margin-top:5px;font-size:.95rem;font-weight:600}
+.quiz-card.answer-correct .quiz-word-area{animation:correct-glow .55s ease}
+.quiz-card.answer-wrong{animation:wrong-shake .38s ease}
+.quiz-feedback.correct-feedback::before,.quiz-feedback.correct-feedback::after{content:"✦　✧　✦";position:absolute;top:5px;font-size:1.1rem;color:#eab308;animation:confetti-float .8s ease-out both}
+.quiz-feedback.correct-feedback::before{left:8px}.quiz-feedback.correct-feedback::after{right:8px}
+@keyframes feedback-pop{0%{opacity:0;transform:scale(.82) translateY(8px)}70%{transform:scale(1.04)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes correct-glow{0%{transform:scale(1)}45%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes wrong-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes confetti-float{0%{opacity:0;transform:translateY(12px) rotate(-20deg)}35%{opacity:1}100%{opacity:0;transform:translateY(-12px) rotate(20deg)}}
+@media(prefers-reduced-motion:reduce){.quiz-feedback,.quiz-card.answer-correct .quiz-word-area,.quiz-card.answer-wrong,.quiz-feedback.correct-feedback::before,.quiz-feedback.correct-feedback::after{animation:none!important}}
+.quiz-score{text-align:center;font-size:1.6rem;font-weight:800;margin:28px 0}.quiz-result-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}.quiz-result-actions button{width:100%;height:48px;min-height:48px;margin:0;display:flex;align-items:center;justify-content:center;box-sizing:border-box}.quiz-return{margin-top:0}
 @media(max-width:520px){.quiz-options{grid-template-columns:1fr}.quiz-option{min-height:52px}.quiz-card{padding:17px}.quiz-top{align-items:flex-start}.quiz-back{padding:9px 10px;font-size:.88rem}.quiz-result-actions{grid-template-columns:1fr}.quiz-result-actions button{height:48px;min-height:48px}}
 /* 結果画面の2つのボタン：角丸・文字サイズ・高さを統一 */
 .quiz-result-actions button{height:48px;min-height:48px;padding:12px 14px;border-radius:12px;font-size:1rem;font-weight:700;line-height:1.2;box-sizing:border-box;} 
@@ -170,7 +187,7 @@ html[data-theme="dark"] .quiz-settings-error {
  }
  function showQuestion(){
    if(index>=questions.length){showResult();return;}
-   answered=false;selectedChoice=null;$('quiz-answer').hidden=false;$('quiz-answer').disabled=true;$('quiz-next').hidden=true;
+   answered=false;selectedChoice=null;$('quiz-feedback').hidden=true;$('quiz-feedback').className='quiz-feedback';game.classList.remove('answer-correct','answer-wrong');$('quiz-answer').hidden=false;$('quiz-answer').disabled=true;$('quiz-next').hidden=true;
    const q=questions[index];$('quiz-progress').textContent=`第${index+1}問 / 全${questions.length}問`;$('quiz-word').textContent=q.word;
    $('quiz-reading').textContent=q.reading||'';$('quiz-page').textContent=q.page!==null&&q.page!==undefined?`P${q.page}`:'';$('quiz-number').textContent=`問題番号:${q.number||''}`;
    const box=$('quiz-options');box.innerHTML='';
@@ -179,7 +196,19 @@ html[data-theme="dark"] .quiz-settings-error {
  function selectOption(choice,button){if(answered)return;selectedChoice=choice;[...$('quiz-options').children].forEach(b=>b.classList.toggle('selected',b===button));$('quiz-answer').disabled=false;}
  function answer(){if(answered||selectedChoice===null)return;answered=true;const q=questions[index];
    [...$('quiz-options').children].forEach(b=>{b.disabled=true;const value=b.textContent.slice(2).trim();if(value===q.correct)b.classList.add('correct');if(value===selectedChoice&&selectedChoice!==q.correct)b.classList.add('wrong');});
-   if(selectedChoice===q.correct)score++;
+   const feedback=$('quiz-feedback');
+   if(selectedChoice===q.correct){
+     score++;
+     feedback.className='quiz-feedback correct-feedback';
+     feedback.innerHTML='<span class="feedback-icon" aria-hidden="true">🎉</span><span class="feedback-title">正解！</span><span class="feedback-answer">その調子！</span>';
+     game.classList.add('answer-correct');
+   }else{
+     feedback.className='quiz-feedback wrong-feedback';
+     const safeCorrect=q.correct.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+     feedback.innerHTML=`<span class="feedback-icon" aria-hidden="true">💡</span><span class="feedback-title">不正解…</span><span class="feedback-answer">正解は「${safeCorrect}」</span>`;
+     game.classList.add('answer-wrong');
+   }
+   feedback.hidden=false;
    $('quiz-answer').hidden=true;$('quiz-next').hidden=false;$('quiz-next').textContent=index===questions.length-1?'結果を見る':'次の問題へ';
  }
  function start(){
