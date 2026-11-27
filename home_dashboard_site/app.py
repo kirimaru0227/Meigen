@@ -1220,7 +1220,7 @@ def timetable_page():
                 "cars": stop.get("cars", train.get("cars", "")), "destination": destination,
                 "destination_display": destination, "destination_via": destination_via,
                 "origin": train.get("origin", ""), "is_origin": train.get("origin") == source_station,
-                "note": train.get("note", ""),
+                "note": "" if train.get("operating_dates") else train.get("note", ""),
                 "operating_days": train.get("operating_days", ["毎日"]),
                 "minutes_until": int((event_dt - now).total_seconds() // 60), "is_past": is_past, "is_stopped": is_stopped,
                 "sort_dt": event_dt, "arrival_iso": arrival_dt.isoformat() if arrival_dt else "",
