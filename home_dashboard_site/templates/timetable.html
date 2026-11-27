@@ -130,7 +130,7 @@ html body .tt-page .tt-neighbor-panel {
                     aria-label="{{ train.train_number }} {{ train.type }} {{ train.destination }}行きの停車駅時刻表を見る"
                   >
                     <article
-                      class="tt-train {% if not train.is_origin %}tt-no-origin{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
+                      class="tt-train {% if not train.is_origin and train.upcoming_rank not in [1, 2] %}tt-no-origin{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
                       data-event="{{ train.event_iso }}"
                       data-arrival="{{ train.arrival_iso }}"
                       data-departure="{{ train.departure_iso }}"
