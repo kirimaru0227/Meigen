@@ -11525,7 +11525,7 @@
           "direction": "下り",
           "origin": "新宿",
           "destination": "東武日光",
-          "note": "グリーン車指定席（4人用グリーン個室連結）・普通車全車指定席。4人用グリーン個室料金は6,300円です",
+          "note": "",
           "stops": {
             "新宿": {
               "arrival": null,
@@ -12519,7 +12519,7 @@
           "direction": "下り",
           "origin": "新宿",
           "destination": "鬼怒川温泉",
-          "note": "普通車全車指定席",
+          "note": "",
           "stops": {
             "新宿": {
               "arrival": null,
@@ -22674,6 +22674,106 @@
           "destination": "宇都宮",
           "note": "",
           "stops": {
+            "伊東": {
+              "arrival": null,
+              "departure": "17:45"
+            },
+            "宇佐美": {
+              "arrival": "17:50",
+              "departure": "17:51"
+            },
+            "網代": {
+              "arrival": "17:55",
+              "departure": "17:56"
+            },
+            "伊豆多賀": {
+              "arrival": "18:00",
+              "departure": "18:00"
+            },
+            "来宮": {
+              "arrival": "18:06",
+              "departure": "18:07"
+            },
+            "熱海": {
+              "arrival": "18:11",
+              "departure": "18:12"
+            },
+            "湯河原": {
+              "arrival": "18:17",
+              "departure": "18:17"
+            },
+            "真鶴": {
+              "arrival": "18:21",
+              "departure": "18:21"
+            },
+            "根府川": {
+              "arrival": "18:26",
+              "departure": "18:26"
+            },
+            "早川": {
+              "arrival": "18:30",
+              "departure": "18:31"
+            },
+            "小田原": {
+              "arrival": "18:34",
+              "departure": "18:38"
+            },
+            "鴨宮": {
+              "arrival": "18:41",
+              "departure": "18:42"
+            },
+            "国府津": {
+              "arrival": "18:44",
+              "departure": "18:46"
+            },
+            "二宮": {
+              "arrival": "18:50",
+              "departure": "18:50"
+            },
+            "大磯": {
+              "arrival": "18:55",
+              "departure": "18:55"
+            },
+            "平塚": {
+              "arrival": "19:00",
+              "departure": "19:05"
+            },
+            "茅ケ崎": {
+              "arrival": "19:10",
+              "departure": "19:10"
+            },
+            "辻堂": {
+              "arrival": "19:13",
+              "departure": "19:14"
+            },
+            "藤沢": {
+              "arrival": "19:17",
+              "departure": "19:17"
+            },
+            "大船": {
+              "arrival": "19:22",
+              "departure": "19:23"
+            },
+            "戸塚": {
+              "arrival": "19:27",
+              "departure": "19:28"
+            },
+            "横浜": {
+              "arrival": "19:37",
+              "departure": "19:39"
+            },
+            "川崎": {
+              "arrival": "19:46",
+              "departure": "19:47"
+            },
+            "品川": {
+              "arrival": "19:55",
+              "departure": "19:57"
+            },
+            "新橋": {
+              "arrival": "20:01",
+              "departure": "20:02"
+            },
             "東京": {
               "arrival": "20:05",
               "departure": "20:06"
@@ -25263,6 +25363,106 @@
           "destination": "小金井",
           "note": "",
           "stops": {
+            "伊東": {
+              "arrival": null,
+              "departure": "20:05"
+            },
+            "宇佐美": {
+              "arrival": "20:10",
+              "departure": "20:11"
+            },
+            "網代": {
+              "arrival": "20:15",
+              "departure": "20:16"
+            },
+            "伊豆多賀": {
+              "arrival": "20:20",
+              "departure": "20:20"
+            },
+            "来宮": {
+              "arrival": "20:26",
+              "departure": "20:27"
+            },
+            "熱海": {
+              "arrival": "20:30",
+              "departure": "20:35"
+            },
+            "湯河原": {
+              "arrival": "20:40",
+              "departure": "20:41"
+            },
+            "真鶴": {
+              "arrival": "20:44",
+              "departure": "20:44"
+            },
+            "根府川": {
+              "arrival": "20:49",
+              "departure": "20:50"
+            },
+            "早川": {
+              "arrival": "20:54",
+              "departure": "20:54"
+            },
+            "小田原": {
+              "arrival": "20:57",
+              "departure": "20:57"
+            },
+            "鴨宮": {
+              "arrival": "21:00",
+              "departure": "21:00"
+            },
+            "国府津": {
+              "arrival": "21:04",
+              "departure": "21:09"
+            },
+            "二宮": {
+              "arrival": "21:13",
+              "departure": "21:13"
+            },
+            "大磯": {
+              "arrival": "21:18",
+              "departure": "21:18"
+            },
+            "平塚": {
+              "arrival": "21:21",
+              "departure": "21:22"
+            },
+            "茅ケ崎": {
+              "arrival": "21:26",
+              "departure": "21:27"
+            },
+            "辻堂": {
+              "arrival": "21:30",
+              "departure": "21:30"
+            },
+            "藤沢": {
+              "arrival": "21:33",
+              "departure": "21:34"
+            },
+            "大船": {
+              "arrival": "21:38",
+              "departure": "21:38"
+            },
+            "戸塚": {
+              "arrival": "21:43",
+              "departure": "21:43"
+            },
+            "横浜": {
+              "arrival": "21:52",
+              "departure": "21:53"
+            },
+            "川崎": {
+              "arrival": "22:01",
+              "departure": "22:01"
+            },
+            "品川": {
+              "arrival": "22:10",
+              "departure": "22:11"
+            },
+            "新橋": {
+              "arrival": "22:15",
+              "departure": "22:16"
+            },
             "東京": {
               "arrival": "22:19",
               "departure": "22:20"
@@ -36373,6 +36573,22 @@
               "arrival": null,
               "departure": "17:45"
             },
+            "宇佐美": {
+              "arrival": "17:50",
+              "departure": "17:51"
+            },
+            "網代": {
+              "arrival": "17:55",
+              "departure": "17:56"
+            },
+            "伊豆多賀": {
+              "arrival": "18:00",
+              "departure": "18:00"
+            },
+            "来宮": {
+              "arrival": "18:06",
+              "departure": "18:07"
+            },
             "熱海": {
               "arrival": "18:11",
               "departure": "18:12"
@@ -38797,6 +39013,22 @@
             "伊東": {
               "arrival": null,
               "departure": "20:05"
+            },
+            "宇佐美": {
+              "arrival": "20:10",
+              "departure": "20:11"
+            },
+            "網代": {
+              "arrival": "20:15",
+              "departure": "20:16"
+            },
+            "伊豆多賀": {
+              "arrival": "20:20",
+              "departure": "20:20"
+            },
+            "来宮": {
+              "arrival": "20:26",
+              "departure": "20:27"
             },
             "熱海": {
               "arrival": "20:30",
@@ -48132,7 +48364,7 @@
           "direction": "下り",
           "origin": "新宿",
           "destination": "東武日光",
-          "note": "グリーン車指定席（4人用グリーン個室連結）・普通車全車指定席。4人用グリーン個室料金は6,300円です",
+          "note": "",
           "stops": {
             "栃木": {
               "arrival": "10:50",
@@ -48207,7 +48439,7 @@
           "direction": "下り",
           "origin": "新宿",
           "destination": "鬼怒川温泉",
-          "note": "普通車全車指定席",
+          "note": "",
           "stops": {
             "栃木": {
               "arrival": "11:44",

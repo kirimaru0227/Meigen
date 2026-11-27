@@ -1154,6 +1154,33 @@ def timetable_page():
 
     now = datetime.now(JST)
 
+    full_service_origin_cache = {}
+
+    def full_service_origin(train):
+        """列車番号が変わる直通列車は、接続前の区間も含めた本当の始発駅を返す。"""
+        service_id = train.get("through_service_id")
+        if not service_id:
+            return train.get("origin", "")
+        if service_id in full_service_origin_cache:
+            return full_service_origin_cache[service_id]
+        candidates = []
+        for candidate_line in data.get("lines", []):
+            for candidate_train in candidate_line.get("trains", []):
+                if candidate_train.get("through_service_id") != service_id:
+                    continue
+                for station_name, times in candidate_train.get("stops", {}).items():
+                    value = times.get("departure") or times.get("arrival")
+                    if not value:
+                        continue
+                    try:
+                        hour, minute = (int(part) for part in value.split(":"))
+                        candidates.append((hour * 60 + minute, station_name))
+                    except (TypeError, ValueError):
+                        continue
+        origin = min(candidates)[1] if candidates else train.get("origin", "")
+        full_service_origin_cache[service_id] = origin
+        return origin
+
     def collect_direction(source_line_id, source_station, direction):
         source_config = TIMETABLE_LINE_CONFIG.get(source_line_id, {})
         source_stations = source_config.get("stations", {})
@@ -1209,10 +1236,13 @@ def timetable_page():
             if destination and destination == source_station:
                 continue
             destination_via = ""
-            if train_number_text.endswith("E"):
-                destination_via = "東京経由"
-            elif train_number_text.endswith("Y"):
-                destination_via = "新宿経由"
+            display_direction_for_label = ("北行" if direction == "下り" else "南行") if source_line_id in {"ueno_tokyo", "shonan_shinjuku"} else direction
+            hide_via = (source_line_id == "utsunomiya" and direction == "下り") or (source_line_id in {"ueno_tokyo", "shonan_shinjuku"} and display_direction_for_label == "北行")
+            if not hide_via:
+                if train_number_text.endswith("E"):
+                    destination_via = "東京経由"
+                elif train_number_text.endswith("Y"):
+                    destination_via = "新宿経由"
             # 増結・解結を反映した駅ごとの両数。
             # 宇都宮線系統は小金井まで10両（524Mのみ5両）、小金井から15両。
             # 1589E・1657Eは平塚まで15両、平塚発車後は10両。
@@ -1236,7 +1266,7 @@ def timetable_page():
                 "type": train.get("train_name") if train.get("type") == "特急" and train.get("train_name") else train.get("type", "普通"),
                 "cars": cars, "destination": destination,
                 "destination_display": destination, "destination_via": destination_via,
-                "origin": train.get("origin", ""), "is_origin": train.get("origin") == source_station,
+                "origin": full_service_origin(train), "is_origin": full_service_origin(train) == source_station,
                 "note": "" if train.get("operating_dates") else train.get("note", ""),
                 "operating_days": train.get("operating_days", ["毎日"]),
                 "minutes_until": int((event_dt - now).total_seconds() // 60), "is_past": is_past, "is_stopped": is_stopped,
@@ -1282,15 +1312,10 @@ def timetable_page():
                 info["direction_label"] = "東武日光線・東武伊勢崎線方面"
             display_direction = direction
             if line_id in {"ueno_tokyo", "shonan_shinjuku"}:
-                display_direction = "北行" if direction == "上り" else "南行"
+                display_direction = "北行" if direction == "下り" else "南行"
             departures_by_direction[display_direction] = {
                 "info": info, "trains": combined, "next_trains": ranked_now,
                 "has_arrival_times": any(item["arrival_iso"] for item in combined),
-            }
-        if line_id == "shonan_shinjuku":
-            departures_by_direction = {
-                key: departures_by_direction[key]
-                for key in ("南行", "北行") if key in departures_by_direction
             }
 
     line_en_names = {
