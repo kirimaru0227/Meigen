@@ -1779,31 +1779,9 @@ def _find_status(text):
         phrase in text for phrase in delay_phrases
     )
 
-    # 直通運転中止と遅延が併記されている場合は「遅延」を優先
-    if has_direct_stop and has_delay:
-        delay_indexes = [
-            text.find(phrase)
-            for phrase in delay_phrases
-            if text.find(phrase) >= 0
-        ]
-        return "遅延", min(delay_indexes)
-
-    # 通常の運転中止・見合わせは従来どおり判定
-    suspension_matches = [
-        (text.find(phrase), phrase)
-        for phrase in suspension_options
-        if text.find(phrase) >= 0
-        and phrase not in direct_stop_phrases
-    ]
-
-    if suspension_matches:
-        suspension_matches.sort(key=lambda item: item[0])
-        index, phrase = suspension_matches[0]
-        return phrase, index
-
-    # ------------------------------------------
-    # 3. 運転再開後も遅れ・運休が残る場合
-    # ------------------------------------------
+    # 運転再開後も「一部列車に遅れが出ています」などの記載が
+    # 残っている場合は、先に「遅延」と判定する。
+    # 「運転見合わせ」という過去の説明に引っ張られないようにする。
     has_restart = any(
         phrase in text
         for phrase in (
@@ -1829,8 +1807,34 @@ def _find_status(text):
     )
 
     if has_restart and has_remaining_disruption:
-        index = text.find("運転")
-        return "遅延", index if index >= 0 else 0
+        delay_indexes = [
+            text.find(phrase)
+            for phrase in delay_phrases
+            if text.find(phrase) >= 0
+        ]
+        return "遅延", min(delay_indexes) if delay_indexes else text.find("運転")
+
+    # 直通運転中止と遅延が併記されている場合は「遅延」を優先
+    if has_direct_stop and has_delay:
+        delay_indexes = [
+            text.find(phrase)
+            for phrase in delay_phrases
+            if text.find(phrase) >= 0
+        ]
+        return "遅延", min(delay_indexes)
+
+    # 通常の運転中止・見合わせは従来どおり判定
+    suspension_matches = [
+        (text.find(phrase), phrase)
+        for phrase in suspension_options
+        if text.find(phrase) >= 0
+        and phrase not in direct_stop_phrases
+    ]
+
+    if suspension_matches:
+        suspension_matches.sort(key=lambda item: item[0])
+        index, phrase = suspension_matches[0]
+        return phrase, index
 
     # ------------------------------------------
     # 4. 運休・遅延
@@ -2319,9 +2323,9 @@ def operation_page():
     # 桐生以遠の駅情報は列車詳細など既存機能のため設定側に残す。
     if timetable_line_id == "ryomo" and "小俣" in timetable_station_names:
         timetable_station_names = timetable_station_names[:timetable_station_names.index("小俣") + 1]
-    # JR宇都宮線の駅選択では黒磯～岡本を表示しない。
+    # JR宇都宮線・上野東京ラインの駅選択では黒磯～岡本を表示しない。
     # 駅情報そのものは列車詳細・停車駅データのために残す。
-    if timetable_line_id == "utsunomiya":
+    if timetable_line_id in {"utsunomiya", "ueno_tokyo"}:
         excluded_utsunomiya_choices = {
             "黒磯", "那須塩原", "西那須野", "野崎", "矢板",
             "片岡", "蒲須坂", "氏家", "宝積寺", "岡本",
