@@ -12,7 +12,7 @@
       <div class="td-meta">
         {% set display_direction = train.direction or '上り' %}
         {% if line_id in ['ueno_tokyo', 'shonan_shinjuku'] %}
-          {% set display_direction = '北行' if display_direction == '上り' else '南行' %}
+          {% set display_direction = '北行' if display_direction == '下り' else '南行' %}
         {% endif %}
         <span>{{ display_direction }}</span>
         {% if train.cars %}<span>{{ train.cars if '両' in (train.cars | string) else (train.cars|string ~ '両') }}</span>{% endif %}
