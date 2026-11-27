@@ -41,8 +41,8 @@
   </div>
 
   <div id="quiz-result" class="quiz-card" hidden>
-    <button class="quiz-next" id="review-wrong" type="button" hidden style="margin:0 0 16px;background:#dc2626!important">間違えた問題を復習</button>
     <h2>結果</h2><p id="quiz-score" class="quiz-score"></p>
+    <button class="quiz-next" id="review-wrong" type="button" hidden style="margin:0 0 16px;background:#dc2626!important">間違えた問題を復習</button>
     <div class="quiz-result-actions"><button class="quiz-next" id="retry-quiz">もう一度挑戦</button><button class="quiz-back quiz-return" id="return-select">クイズ選択へ戻る</button></div>
   </div>
 </section>
@@ -155,7 +155,7 @@ html[data-theme="dark"] .quiz-settings-error {
  const entries = {{ quiz_data|tojson }};
  const $ = id => document.getElementById(id);
  const select=$('quiz-select'), game=$('quiz-game'), result=$('quiz-result');
- let questions=[], index=0, score=0, selectedChoice=null, answered=false;
+ let questions=[], index=0, score=0, selectedChoice=null, answered=false, wrongQuestions=[], isReview=false;
  const shuffle=a=>{const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;};
  // 問題番号の範囲に含まれる「単語」を対象にする。同じ番号の別単語も別レコード。
  function getValidEntries(rangeStart,rangeEnd){
