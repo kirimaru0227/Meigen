@@ -130,7 +130,7 @@ html body .tt-page .tt-neighbor-panel {
                     aria-label="{{ train.train_number }} {{ train.type }} {{ train.destination }}行きの停車駅時刻表を見る"
                   >
                     <article
-                      class="tt-train {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
+                      class="tt-train {% if not train.is_origin %}tt-no-origin{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
                       data-event="{{ train.event_iso }}"
                       data-arrival="{{ train.arrival_iso }}"
                       data-departure="{{ train.departure_iso }}"
@@ -314,6 +314,22 @@ html body .tt-page .tt-neighbor-panel {
 
 .tt-train:last-child {
   border-bottom: 0;
+}
+
+/* 始発駅ではない列車は、時刻を種別・行先と同じ高さに置き、行を詰める */
+.tt-train.tt-no-origin {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.tt-train.tt-no-origin .tt-time-column {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.tt-train.tt-no-origin .tt-time-tags {
+  min-height: 0;
 }
 
 .tt-train.tt-next {
@@ -584,6 +600,21 @@ html body .tt-page .tt-neighbor-panel {
     gap: 8px;
     padding: 8px 9px;
     align-content: center;
+  }
+
+  .tt-train.tt-no-origin {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .tt-train.tt-no-origin .tt-time-column {
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .tt-train.tt-no-origin .tt-time-tags {
+    min-height: 0;
   }
 
   /* 発車・到着時刻 */
