@@ -6,7 +6,7 @@
     <div class="td-main-info">
       <div class="td-main-row">
         <strong class="td-main-type">{{ train.type }}</strong>
-        <strong class="td-main-destination">{{ train.destination | replace('行き', '') }}</strong>
+        <strong class="td-main-destination">{{ train.destination }}</strong>
       </div>
       <div class="td-main-line">{{ line_name }} <small>{{ train.train_number }}</small></div>
       <div class="td-meta">
@@ -15,11 +15,11 @@
           {% set display_direction = '北行' if display_direction == '上り' else '南行' %}
         {% endif %}
         <span>{{ display_direction }}</span>
-        {% if train.cars %}<span>{{ train.cars }}両</span>{% endif %}
+        {% if train.cars %}<span>{{ train.cars if '両' in (train.cars | string) else (train.cars|string ~ '両') }}</span>{% endif %}
         {% if train.operating_dates %}
-          <span>運転日：{{ train.operating_dates | join('･') | replace('：', ':') }}</span>
+          <span>{{ train.operating_dates | join('･') | replace('-', '/') | replace('：', ':') }}運転</span>
         {% else %}
-          {% for day in train.operating_days or ['毎日'] %}<span>運転日：{{ day | replace('・', '･') | replace('：', ':') }}</span>{% endfor %}
+          {% for day in train.operating_days or ['毎日'] %}<span>{{ day | replace('・', '･') | replace('：', ':') }}運転</span>{% endfor %}
         {% endif %}
       </div>
       {% if train.note and '運転日' not in train.note %}<p class="td-note">{{ train.note | replace('：', ':') | replace('・', '･') }}</p>{% endif %}
@@ -82,7 +82,7 @@
 .td-header h1 .td-train-number{font-size:.62em;font-weight:650;opacity:.72}
 .td-route{margin:9px 0;font-size:1.15rem;font-weight:800}
 .td-route span{padding:0 7px;color:var(--td-line-color)}
-.td-meta{display:flex;flex-wrap:wrap;gap:7px}
+.td-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .td-meta span{padding:4px 9px;border-radius:999px;background:rgba(100,116,139,.13);font-size:.8rem;font-weight:750}
 .td-note{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:rgba(100,116,139,.09);font-size:.9rem}
 
