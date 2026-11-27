@@ -82,7 +82,7 @@
             <td style="padding:9px;border-top:1px solid var(--border);white-space:nowrap;">利用者 #{{ row.visitor_id[:8] }}</td>
             <td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.visits) }}</td>
             <td style="padding:9px;text-align:right;border-top:1px solid var(--border);">{{ "{:,}".format(row.clicks) }}</td>
-            <td style="padding:9px;border-top:1px solid var(--border);">{% if row.pages %}{% for page_name in row.pages.split(', ') %}{{ page_label_map.get(page_name, page_name)|replace('MM 列車時刻表', 'M 列車時刻表') }}{% if not loop.last %}、{% endif %}{% endfor %}{% else %}—{% endif %}</td>
+            <td style="padding:9px;border-top:1px solid var(--border);">{% if row.pages %}{{ (row.pages|string).replace('clock page', '時計').replace('Clock page', '時計').replace('CLOCK PAGE', '時計').replace('database page', 'データベース').replace('Database page', 'データベース').replace('DATABASE PAGE', 'データベース').replace('MM 列車時刻表', 'M 列車時刻表') }}{% else %}—{% endif %}</td>
             <td style="padding:9px;border-top:1px solid var(--border);white-space:nowrap;">{{ row.last_seen }}</td>
             <td style="padding:9px;border-top:1px solid var(--border);white-space:nowrap;">
               <form method="post" style="margin:0;" onsubmit="return confirm('利用者 #{{ row.visitor_id[:8] }} のアクセス履歴とクリック履歴をすべて削除します。この操作は取り消せません。よろしいですか？');">
