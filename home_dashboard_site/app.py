@@ -1049,19 +1049,9 @@ ISESAKI_STATIONS = ["東武動物公園", "和戸", "久喜", "鷲宮", "花崎"
 SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", "吉水", "田沼", "多田", "葛生"]
 
 TIMETABLE_LINE_CONFIG = {
-    "ryomo": {"name": "両毛線", "stations": TIMETABLE_STATIONS, "color": "#FACC15", "text_color": "#000000"},
-    "utsunomiya": {"name": "JR宇都宮線", "stations": UTSUNOMIYA_TIMETABLE_STATIONS, "color": "#F58A1F", "text_color": "#FFFFFF"},
-    "ueno_tokyo": {
-    "name": "上野東京ライン",
-    "stations": _make_route_stations([
-        name for name in UTSUNOMIYA_TIMETABLE_STATIONS.keys()
-        if name not in {
-            "黒磯", "那須塩原", "西那須野", "野崎", "矢板",
-            "片岡", "蒲須坂", "氏家", "宝積寺", "岡本"
-        }
-    ] + UTL_TOKAIDO[1:]),
-    "color": "#90268E"
-},
+    "ryomo": {"name": "両毛線", "stations": {k: v for k, v in TIMETABLE_STATIONS.items() if k not in {"桐生", "岩宿", "国定", "伊勢崎", "駒形", "前橋大島", "前橋", "新前橋", "井野", "高崎問屋町", "高崎"}}, "color": "#FACC15", "text_color": "#000000"},
+    "utsunomiya": {"name": "JR宇都宮線", "stations": {k: v for k, v in UTSUNOMIYA_TIMETABLE_STATIONS.items() if k not in {"黒磯", "那須塩原", "西那須野", "野崎", "矢板", "片岡", "蒲須坂", "氏家", "宝積寺", "岡本"}}, "color": "#F58A1F", "text_color": "#FFFFFF"},
+    "ueno_tokyo": {"name": "上野東京ライン", "stations": _make_route_stations(list(UTSUNOMIYA_TIMETABLE_STATIONS.keys()) + UTL_TOKAIDO[1:]), "color": "#90268E"},
     "shonan_shinjuku": {"name": "湘南新宿ライン", "stations": _make_route_stations(SHONAN_STATIONS), "color": "#E31E27"},
     "tobu_skytree": {"name": "東武スカイツリーライン", "stations": _make_route_stations(SKYTREE_STATIONS), "color": "#0071BB"},
     "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220", "text_color": "#FFFFFF"},
@@ -1273,7 +1263,10 @@ def timetable_page():
             if len(sections) > 1:
                 info = dict(info)
                 info["direction_label"] = "東武日光線・東武伊勢崎線方面"
-            departures_by_direction[direction] = {
+            display_direction = direction
+            if line_id in {"ueno_tokyo", "shonan_shinjuku"}:
+                display_direction = "北行" if direction == "上り" else "南行"
+            departures_by_direction[display_direction] = {
                 "info": info, "trains": combined, "next_trains": ranked_now,
                 "has_arrival_times": any(item["arrival_iso"] for item in combined),
             }
@@ -1527,6 +1520,9 @@ def train_detail(train_number, line_id):
             candidate for candidate in stop_line_candidates
             if name in TIMETABLE_LINE_CONFIG.get(candidate, {}).get("stations", {})
         ), None)
+        if name in {"桐生", "岩宿", "国定", "伊勢崎", "駒形", "前橋大島", "前橋", "新前橋", "井野", "高崎問屋町", "高崎",
+                    "黒磯", "那須塩原", "西那須野", "野崎", "矢板", "片岡", "蒲須坂", "氏家", "宝積寺", "岡本"}:
+            stop_line_id = None
         stops.append({
             "station": name,
             "arrival": times.get("arrival"),
