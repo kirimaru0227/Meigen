@@ -10728,7 +10728,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "熱海",
+          "destination": "伊東",
           "note": "",
           "stops": {
             "宇都宮": {
@@ -14090,7 +14090,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "熱海",
+          "destination": "沼津",
           "note": "",
           "stops": {
             "古河": {
@@ -17869,7 +17869,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "宇都宮",
-          "destination": "熱海",
+          "destination": "伊東",
           "note": "",
           "stops": {
             "東京": {
@@ -17955,6 +17955,26 @@
             "熱海": {
               "arrival": "18:03",
               "departure": "18:04"
+            },
+            "来宮": {
+              "arrival": "18:06",
+              "departure": "18:07"
+            },
+            "伊豆多賀": {
+              "arrival": "18:13",
+              "departure": "18:14"
+            },
+            "網代": {
+              "arrival": "18:19",
+              "departure": "18:22"
+            },
+            "宇佐美": {
+              "arrival": "18:26",
+              "departure": "18:27"
+            },
+            "伊東": {
+              "arrival": "18:31",
+              "departure": null
             }
           },
           "operating_days": [
@@ -19525,7 +19545,7 @@
           "cars": 15,
           "direction": "上り",
           "origin": "古河",
-          "destination": "熱海",
+          "destination": "沼津",
           "note": "",
           "stops": {
             "東京": {
@@ -19611,6 +19631,18 @@
             "熱海": {
               "arrival": "24:16",
               "departure": "24:17"
+            },
+            "函南": {
+              "arrival": "24:24",
+              "departure": "24:25"
+            },
+            "三島": {
+              "arrival": "24:30",
+              "departure": "24:30"
+            },
+            "沼津": {
+              "arrival": "24:35",
+              "departure": null
             }
           },
           "operating_days": [
