@@ -6,18 +6,23 @@
     <div class="td-main-info">
       <div class="td-main-row">
         <strong class="td-main-type">{{ train.type }}</strong>
-        <strong class="td-main-destination">{{ train.destination }}行き</strong>
+        <strong class="td-main-destination">{{ train.destination | replace('行き', '') }}</strong>
       </div>
       <div class="td-main-line">{{ line_name }} <small>{{ train.train_number }}</small></div>
       <div class="td-meta">
+        {% set display_direction = train.direction or '上り' %}
+        {% if line_id in ['ueno_tokyo', 'shonan_shinjuku'] %}
+          {% set display_direction = '北行' if display_direction == '上り' else '南行' %}
+        {% endif %}
+        <span>{{ display_direction }}</span>
         {% if train.cars %}<span>{{ train.cars }}両</span>{% endif %}
         {% if train.operating_dates %}
-          <span>運転日：{{ train.operating_dates | join('・') }}</span>
+          <span>運転日：{{ train.operating_dates | join('･') | replace('：', ':') }}</span>
         {% else %}
-          {% for day in train.operating_days or ['毎日'] %}<span>{{ day }}運転</span>{% endfor %}
+          {% for day in train.operating_days or ['毎日'] %}<span>運転日：{{ day | replace('・', '･') | replace('：', ':') }}</span>{% endfor %}
         {% endif %}
       </div>
-      {% if train.note %}<p class="td-note">{{ train.note }}</p>{% endif %}
+      {% if train.note and '運転日' not in train.note %}<p class="td-note">{{ train.note | replace('：', ':') | replace('・', '･') }}</p>{% endif %}
     </div>
   </header>
 
@@ -59,19 +64,18 @@
     {% if back_station %}
       <a class="td-button td-primary" href="{{ url_for('timetable_page', line=line_id, station=back_station) }}">駅の時刻表に戻る</a>
     {% endif %}
-    <a class="td-button" href="{{ url_for('timetable_page', line=line_id, station='') }}">他の駅を見る</a>
+    <a class="td-button" href="{{ url_for('operation_page', timetable_line=line_id) }}">他の駅を見る</a>
   </div>
 </section>
 
 <style>
 .td-page{max-width:760px;margin:0 auto;padding:clamp(16px,3vw,30px);color:var(--text-color,#1f2937)}
 .td-header{margin-bottom:22px}
-.td-main-info{display:flex;flex-direction:column;gap:8px}
-.td-main-line{font-size:.76rem;font-weight:700;opacity:.72}
+.td-main-info{display:flex;flex-direction:column;gap:2px}
+.td-main-line{font-size:.76rem;font-weight:700;opacity:.72;line-height:1.1;margin-top:0}
 .td-main-line small{font-size:.9em;margin-left:6px}
-.td-main-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.td-main-type{font-size:1.45rem}
-.td-main-destination{font-size:1.2rem}
+.td-main-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;line-height:1.12;margin-bottom:0}
+.td-main-type,.td-main-destination{font-size:1.35rem}
 .td-eyebrow{margin:0 0 7px;font-size:.82rem;font-weight:750;opacity:.65}
 .td-header h1{display:flex;align-items:baseline;gap:9px;margin:0;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.25}
 .td-header h1 .td-train-type{font-size:1em;font-weight:800}
@@ -200,8 +204,10 @@ html body.dark .td-page[data-line-id="ryomo"] .td-button.td-primary{color:#000}
 .td-flower-park-name{display:inline-block;line-height:1.25;white-space:normal}
 
 html body.dark .td-current-stop{background:color-mix(in srgb,var(--td-line-color) 22%,#171b22)}
-html body.dark .td-current-stop .td-stop-name{color:var(--td-line-color)}
-html body.dark .td-page[data-line-id="ryomo"] .td-current-stop .td-stop-name{color:#FDE68A}
+html body.dark .td-current-stop .td-stop-name,
+html body.dark .td-current-stop .td-stop-name a{color:var(--td-line-color) !important}
+html body.dark .td-page[data-line-id="ryomo"] .td-current-stop .td-stop-name,
+html body.dark .td-page[data-line-id="ryomo"] .td-current-stop .td-stop-name a{color:#FDE68A !important}
 .td-page[data-line-id="ryomo"] .td-current-stop .td-stop-name{color:#A66F00}
 
 @media(max-width:520px){
