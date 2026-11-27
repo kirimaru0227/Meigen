@@ -15,9 +15,9 @@
       </div>
       <fieldset class="quiz-range-field">
         <legend>出題範囲（問題番号）</legend>
-        <input id="range-start" type="number" min="1" step="1" value="1" inputmode="numeric" aria-label="出題範囲の開始番号">
+        <input id="range-start" type="number" min="1" step="1" value="51" inputmode="numeric" aria-label="出題範囲の開始番号">
         <span>～</span>
-        <input id="range-end" type="number" min="1" step="1" value="50" inputmode="numeric" aria-label="出題範囲の終了番号">
+        <input id="range-end" type="number" min="1" step="1" value="100" inputmode="numeric" aria-label="出題範囲の終了番号">
       </fieldset>
       <button class="quiz-next" id="begin-quiz">解く</button>
       <p id="quiz-settings-error" class="quiz-settings-error" role="alert" hidden></p>
@@ -41,6 +41,7 @@
   </div>
 
   <div id="quiz-result" class="quiz-card" hidden>
+    <button class="quiz-next" id="review-wrong" type="button" hidden>間違えた問題を復習</button>
     <h2>結果</h2><p id="quiz-score" class="quiz-score"></p>
     <div class="quiz-result-actions"><button class="quiz-next" id="retry-quiz">もう一度挑戦</button><button class="quiz-back quiz-return" id="return-select">クイズ選択へ戻る</button></div>
   </div>
@@ -189,7 +190,7 @@ html[data-theme="dark"] .quiz-settings-error {
    if(index>=questions.length){showResult();return;}
    answered=false;selectedChoice=null;$('quiz-feedback').hidden=true;$('quiz-feedback').className='quiz-feedback';game.classList.remove('answer-correct','answer-wrong');$('quiz-answer').hidden=false;$('quiz-answer').disabled=true;$('quiz-next').hidden=true;
    const q=questions[index];$('quiz-progress').textContent=`第${index+1}問 / 全${questions.length}問`;$('quiz-word').textContent=q.word;
-   $('quiz-reading').textContent=q.reading||'';$('quiz-page').textContent=q.page!==null&&q.page!==undefined?`P${q.page}`:'';$('quiz-number').textContent=`問題番号:${q.number||''}`;
+   $('quiz-reading').textContent=q.reading||'';$('quiz-page').textContent=q.page!==null&&q.page!==undefined&&String(q.page).trim()!==''?`P${q.page}`:'';$('quiz-number').textContent=`問題番号:${q.number||''}`;
    const box=$('quiz-options');box.innerHTML='';
    q.options.forEach((choice,i)=>{const b=document.createElement('button');b.type='button';b.className='quiz-option';b.textContent=`${['①','②','③','④'][i]} ${choice}`;b.addEventListener('click',()=>selectOption(choice,b));box.appendChild(b);});
  }
@@ -200,12 +201,13 @@ html[data-theme="dark"] .quiz-settings-error {
    if(selectedChoice===q.correct){
      score++;
      feedback.className='quiz-feedback correct-feedback';
-     feedback.innerHTML='<span class="feedback-icon" aria-hidden="true">🎉</span><span class="feedback-title">正解！</span><span class="feedback-answer">その調子！</span>';
+     feedback.innerHTML='<span class="feedback-title">正解！</span><span class="feedback-answer">その調子！</span>';
      game.classList.add('answer-correct');
    }else{
+     wrongQuestions.push(q);
      feedback.className='quiz-feedback wrong-feedback';
      const safeCorrect=q.correct.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-     feedback.innerHTML=`<span class="feedback-icon" aria-hidden="true">💡</span><span class="feedback-title">不正解…</span><span class="feedback-answer">正解は「${safeCorrect}」</span>`;
+     feedback.innerHTML=`<span class="feedback-title">不正解…</span><span class="feedback-answer">正解は「${safeCorrect}」</span>`;
      game.classList.add('answer-wrong');
    }
    feedback.hidden=false;
@@ -219,10 +221,21 @@ html[data-theme="dark"] .quiz-settings-error {
    if(count>translationCount){error.textContent=`問題数は、指定範囲内の訳語数（${translationCount}）以下にしてください。`;error.hidden=false;return;}
    questions=makeQuestions(count,first,last);if(!questions.length){error.textContent='指定した範囲に出題できる問題がありません。';error.hidden=false;return;}
    if(questions.length<count){error.textContent=`選択肢を4つ用意できる訳語が少ないため、${questions.length}問で出題します。`;error.hidden=false;}
-   index=0;score=0;select.hidden=true;result.hidden=true;game.hidden=false;showQuestion();
+   index=0;score=0;wrongQuestions=[];isReview=false;select.hidden=true;result.hidden=true;game.hidden=false;showQuestion();
  }
- function showResult(){game.hidden=true;result.hidden=false;$('quiz-score').textContent=`${questions.length}問中 ${score}問正解（${Math.round(score/questions.length*100)}%）`;}
+ function showResult(){
+   game.hidden=true;result.hidden=false;
+   $('quiz-score').textContent=`${questions.length}問中 ${score}問正解（${Math.round(score/questions.length*100)}%）`;
+   $('review-wrong').hidden=wrongQuestions.length===0;
+ }
  function back(){game.hidden=true;result.hidden=true;select.hidden=false;$('quiz-settings').hidden=true;}
+ $('review-wrong').addEventListener('click',()=>{
+   questions=wrongQuestions.slice();
+   wrongQuestions=[];
+   index=0;score=0;isReview=true;
+   result.hidden=true;game.hidden=false;
+   showQuestion();
+ });
  $('range-start').addEventListener('input',updateQuestionCountLimit);
  $('range-end').addEventListener('input',updateQuestionCountLimit);
  $('start-kobun').addEventListener('click',()=>{const opened=$('start-kobun').getAttribute('aria-expanded')==='true';$('start-kobun').setAttribute('aria-expanded',String(!opened));$('quiz-settings').hidden=opened;if(!opened)updateQuestionCountLimit();});$('begin-quiz').addEventListener('click',start);$('retry-quiz').addEventListener('click',start);$('return-select').addEventListener('click',back);$('quit-quiz').addEventListener('click',back);$('quiz-answer').addEventListener('click',answer);$('quiz-next').addEventListener('click',()=>{index++;showQuestion();});
