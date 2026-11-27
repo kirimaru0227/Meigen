@@ -1312,10 +1312,15 @@ def timetable_page():
                 info["direction_label"] = "東武日光線・東武伊勢崎線方面"
             display_direction = direction
             if line_id in {"ueno_tokyo", "shonan_shinjuku"}:
-                display_direction = "北行" if direction == "下り" else "南行"
+                display_direction = "北行" if direction == "上り" else "南行"
             departures_by_direction[display_direction] = {
                 "info": info, "trains": combined, "next_trains": ranked_now,
                 "has_arrival_times": any(item["arrival_iso"] for item in combined),
+            }
+        if line_id == "shonan_shinjuku":
+            departures_by_direction = {
+                key: departures_by_direction[key]
+                for key in ("南行", "北行") if key in departures_by_direction
             }
 
     line_en_names = {
