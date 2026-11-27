@@ -1457,7 +1457,15 @@ def train_detail(train_number, line_id):
         abort(404)
 
     display_train = dict(train)
-    combined_stops = dict(train.get("stops", {}))
+    combined_stops = {name: dict(times) for name, times in train.get("stops", {}).items()}
+
+    def merge_stop_times(source_stops):
+        for station_name, station_times in (source_stops or {}).items():
+            current = combined_stops.setdefault(station_name, {"arrival": None, "departure": None})
+            for time_key in ("arrival", "departure"):
+                if not current.get(time_key) and station_times.get(time_key):
+                    current[time_key] = station_times[time_key]
+
     train_number_text = str(train.get("train_number", ""))
     suffix = train_number_text[-1:] if train_number_text else ""
     if train_number_text in {"2521Y", "1529E", "2523Y", "532M", "2551Y", "4533Y", "1641E", "2559Y", "1653E"}:
@@ -1486,7 +1494,7 @@ def train_detail(train_number, line_id):
                 and item.get("excluded_dates", []) == train.get("excluded_dates", [])
             ), None)
             if matching_train:
-                combined_stops.update(matching_train.get("stops", {}))
+                merge_stop_times(matching_train.get("stops", {}))
                 if matching_train.get("origin"):
                     display_train["origin"] = matching_train["origin"]
                 if matching_train.get("destination"):
@@ -1498,6 +1506,7 @@ def train_detail(train_number, line_id):
     if train.get("type") == "特急" and train_name:
         connected_groups = [
             {"tobu_nikko", "shonan_shinjuku"},
+            {"utsunomiya", "tobu_nikko"},
             {"ryomo", "utsunomiya"},
         ]
         connected_group = next((group for group in connected_groups if line_id in group), set())
@@ -1517,8 +1526,20 @@ def train_detail(train_number, line_id):
                 and item.get("excluded_dates", []) == train.get("excluded_dates", [])
             ), None)
             if matching_train:
-                combined_stops.update(matching_train.get("stops", {}))
+                merge_stop_times(matching_train.get("stops", {}))
         display_train["type"] = train_name
+
+    # 列車番号が変わる直通列車（320M→1538E、2823M→823Mなど）も全区間を結合する。
+    through_service_id = train.get("through_service_id")
+    if through_service_id:
+        all_data = load_timetable_data().get("lines", [])
+        for other_line in all_data:
+            for matching_train in other_line.get("trains", []):
+                if matching_train.get("through_service_id") != through_service_id:
+                    continue
+                if other_line.get("id") == line_id and str(matching_train.get("train_number", "")) == train_number_text:
+                    continue
+                merge_stop_times(matching_train.get("stops", {}))
 
     # 路線をまたいで結合した場合も、到着・発車時刻順に停車駅を並べる。
     def stop_time_key(item):
@@ -1531,6 +1552,9 @@ def train_detail(train_number, line_id):
             return 24 * 60
 
     ordered_stops = sorted(combined_stops.items(), key=stop_time_key)
+    if through_service_id and ordered_stops:
+        display_train["origin"] = ordered_stops[0][0]
+        display_train["destination"] = ordered_stops[-1][0]
 
     # 直通列車では、駅ごとに所属する路線の時刻表へリンクする。
     stop_line_candidates = [line_id]
@@ -1538,6 +1562,8 @@ def train_detail(train_number, line_id):
         stop_line_candidates.extend(["utsunomiya", "ueno_tokyo", "shonan_shinjuku"])
     if line_id in {"tobu_nikko", "shonan_shinjuku"}:
         stop_line_candidates.extend(["tobu_nikko", "shonan_shinjuku"])
+    if train.get("type") == "特急" and line_id in {"utsunomiya", "tobu_nikko"}:
+        stop_line_candidates.extend(["utsunomiya", "tobu_nikko"])
     if line_id in {"ryomo", "utsunomiya"}:
         stop_line_candidates.extend(["ryomo", "utsunomiya"])
     stop_line_candidates = list(dict.fromkeys(stop_line_candidates))
