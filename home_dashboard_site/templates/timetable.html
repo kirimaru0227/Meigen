@@ -130,7 +130,7 @@ html body .tt-page .tt-neighbor-panel {
                     aria-label="{{ train.train_number }} {{ train.type }} {{ train.destination }}行きの停車駅時刻表を見る"
                   >
                     <article
-                      class="tt-train {% if not train.is_origin and train.upcoming_rank not in [1, 2] %}tt-no-origin{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
+                      class="tt-train {% if train.upcoming_rank not in [1, 2] %}tt-compact{% endif %} {% if train.is_origin and train.upcoming_rank not in [1, 2] %}tt-origin-compact{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
                       data-event="{{ train.event_iso }}"
                       data-arrival="{{ train.arrival_iso }}"
                       data-departure="{{ train.departure_iso }}"
@@ -317,19 +317,25 @@ html body .tt-page .tt-neighbor-panel {
 }
 
 /* 始発駅ではない列車は、時刻を種別・行先と同じ高さに置き、行を詰める */
-.tt-train.tt-no-origin {
+.tt-train.tt-compact {
   padding-top: 7px;
   padding-bottom: 7px;
 }
 
-.tt-train.tt-no-origin .tt-time-column {
+.tt-train.tt-compact .tt-time-column {
   flex-direction: row;
   align-items: center;
   gap: 6px;
 }
 
-.tt-train.tt-no-origin .tt-time-tags {
+.tt-train.tt-compact .tt-time-tags {
   min-height: 0;
+}
+
+/* 「始」付きで先発・次発ではない列車は、通常行より少しだけ詰める */
+.tt-train.tt-origin-compact {
+  padding-top: 9px;
+  padding-bottom: 9px;
 }
 
 .tt-train.tt-next {
@@ -602,19 +608,25 @@ html body .tt-page .tt-neighbor-panel {
     align-content: center;
   }
 
-  .tt-train.tt-no-origin {
+  .tt-train.tt-compact {
     padding-top: 5px;
     padding-bottom: 5px;
   }
 
-  .tt-train.tt-no-origin .tt-time-column {
+  .tt-train.tt-compact .tt-time-column {
     flex-direction: row;
     align-items: center;
     gap: 5px;
   }
 
-  .tt-train.tt-no-origin .tt-time-tags {
+  .tt-train.tt-compact .tt-time-tags {
     min-height: 0;
+  }
+
+  /* スマホ版：「始」付きの非先発・非次発は少しだけ余白を縮小 */
+  .tt-train.tt-origin-compact {
+    padding-top: 7px;
+    padding-bottom: 7px;
   }
 
   /* 発車・到着時刻 */
@@ -1290,6 +1302,15 @@ html body.dark .tt-empty {
       const rankedRows = new Set(
         ranked.map(item => item.row)
       );
+
+      // 先発・次発から外れた列車（発車済みを含む）はコンパクト表示へ戻す。
+      // 始発駅の列車は、順位表示がない場合だけ専用の少し小さい余白にする。
+      rows.forEach(row => {
+        const compact = !rankedRows.has(row);
+        const isOrigin = Boolean(row.querySelector('.tt-origin-tag'));
+        row.classList.toggle('tt-compact', compact);
+        row.classList.toggle('tt-origin-compact', compact && isOrigin);
+      });
 
       // 到着時刻がない駅では、直近2列車以外の発車カウントダウンを消す。
       // 到着時刻がある駅では、従来どおり順位のない到着カウントダウンのみ消す。
