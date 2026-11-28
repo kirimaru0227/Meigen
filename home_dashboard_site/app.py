@@ -1401,9 +1401,16 @@ def timetable_page():
                         train_direction = "下り" if ordered_indices[-1] > ordered_indices[0] else "上り"
             if train_direction != direction:
                 continue
-            # 下今市駅の上りには、東武日光方面から到着する列車も表示する。
-            # 以前の条件は KINUGAWA_STATIONS に南栗橋などの共通区間も含むため、
-            # 東武日光発の上り列車を誤って広く除外していた。
+            # 下今市駅の上りには東武日光方面から到着する列車を表示するが、
+            # 東武日光から鬼怒川温泉・新藤原方面へ直通する列車は表示対象外とする。
+            # これらは下今市で進行方向を変えず鬼怒川線へ直通するため、
+            # 下今市駅の東武日光線上り時刻表には掲載しない。
+            through_service_id = str(train.get("through_service_id", ""))
+            if (line_id == "tobu_nikko" and source_line_id == "tobu_nikko"
+                    and source_station == "下今市" and direction == "上り"
+                    and train.get("origin") == "東武日光"
+                    and through_service_id.startswith("tobu-nikko-kinugawa-")):
+                continue
             stop = train.get("stops", {}).get(source_station, {})
             arrival, departure = stop.get("arrival"), stop.get("departure")
             event_time = arrival or departure
