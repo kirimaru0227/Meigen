@@ -1079,8 +1079,8 @@ html body.dark .tt-empty {
         const listRect = list.getBoundingClientRect();
         const targetRect = targetLink.getBoundingClientRect();
 
-        // 対象列車が見える位置へ移動する。
-        // 終電が対象の場合は一覧の最下部で止め、始発～終電の並びを崩さない。
+        // 列車一覧の順番は変更せず、一覧内部のスクロール位置だけを調整する。
+        // 一覧の先頭は始発、末尾は終電のまま固定する。
         const offset = targetRect.top - listRect.top;
         const desiredScrollTop = list.scrollTop + offset;
         const maxScrollTop = Math.max(0, list.scrollHeight - list.clientHeight);
@@ -1230,23 +1230,8 @@ html body.dark .tt-empty {
         return aTime - bTime;
       });
 
-      // 直近に発車する列車を一番上にする従来の並び順へ戻す。
-      // 停車中の列車（発車時刻が近い順）→これから発車する列車→発車済み列車。
-      const pastRows = rows.filter(row =>
-        row.getAttribute('data-stopped') !== 'true' &&
-        row.getAttribute('data-past') === 'true'
-      );
-      pastRows.sort((a, b) => {
-        const aTime = new Date(a.getAttribute('data-event') || 0).getTime();
-        const bTime = new Date(b.getAttribute('data-event') || 0).getTime();
-        return aTime - bTime;
-      });
-      const orderedRows = [
-        ...stoppedRows,
-        ...upcoming.map(item => item.row),
-        ...pastRows
-      ];
-      orderedRows.forEach(row => list.appendChild(row));
+      // 列車の並び順はサーバー側の時刻表順を維持する。
+      // DOM要素を移動するとリンク構造が壊れるため、ここでは並べ替えない。
 
       // 既存の順位表示をリセットする。
       rows.forEach(row => {
@@ -1338,10 +1323,12 @@ html body.dark .tt-empty {
        */
       const targetRow = stoppedRows.length > 0
         ? stoppedRows[0]
-        : (upcoming.length > 0 ? upcoming[0].row : null);
+        : (upcoming.length > 0
+            ? upcoming[0].row
+            : (rows.length > 0 ? rows[rows.length - 1] : null));
 
-      // 次の列車（停車中を含む）を表示。スクロール範囲はリスト内に限定し、
-      // 先頭では始発、末尾では終電がそれぞれ端に来る。
+      // 現在時刻に該当する列車へ、列車一覧の内部だけをスクロールする。
+      // 始発から終電までの元の並び順は変更しない。
       scrollToTargetIfChanged(list, targetRow);
     });
   }
