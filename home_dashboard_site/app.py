@@ -1131,9 +1131,12 @@ def timetable_page():
     available_lines = [
         {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650"), "text_color": config.get("text_color", "#FFFFFF")}
         for line_id, config in TIMETABLE_LINE_CONFIG.items()
+        if line_id != "tobu_kinugawa"
     ]
     supported_ids = {item["id"] for item in available_lines}
     requested_line = request.args.get("line", "").strip()
+    if requested_line == "tobu_kinugawa":
+        abort(404)
     if requested_line not in supported_ids:
         preferred = selected_route()
         requested_line = preferred if preferred in supported_ids else (available_lines[0]["id"] if available_lines else "ryomo")
@@ -1189,6 +1192,33 @@ def timetable_page():
         full_service_origin_cache[service_id] = origin
         return origin
 
+    full_service_destination_cache = {}
+
+    def full_service_destination(train):
+        """列車番号が変わる直通列車は、直通先を含めた本当の終着駅を返す。"""
+        service_id = train.get("through_service_id")
+        if not service_id:
+            return train.get("destination", "")
+        if service_id in full_service_destination_cache:
+            return full_service_destination_cache[service_id]
+        candidates = []
+        for candidate_line in data.get("lines", []):
+            for candidate_train in candidate_line.get("trains", []):
+                if candidate_train.get("through_service_id") != service_id:
+                    continue
+                for station_name, times in candidate_train.get("stops", {}).items():
+                    value = times.get("departure") or times.get("arrival")
+                    if not value:
+                        continue
+                    try:
+                        hour, minute = (int(part) for part in value.split(":"))
+                        candidates.append((hour * 60 + minute, station_name))
+                    except (TypeError, ValueError):
+                        continue
+        destination = max(candidates)[1] if candidates else train.get("destination", "")
+        full_service_destination_cache[service_id] = destination
+        return destination
+
     def collect_direction(source_line_id, source_station, direction):
         source_config = TIMETABLE_LINE_CONFIG.get(source_line_id, {})
         source_stations = source_config.get("stations", {})
@@ -1242,8 +1272,8 @@ def timetable_page():
             is_past = bool((departure_dt and departure_dt <= now) or (arrival_dt and not departure_dt and arrival_dt <= now))
             display_dt = departure_dt or arrival_dt or event_dt
             train_number_text = str(train.get("train_number", ""))
-            destination = str(train.get("destination", "")).strip()
-            # 当駅止まりの列車は、終着駅の時刻表には表示しない。
+            destination = str(full_service_destination(train) or train.get("destination", "")).strip()
+            # 当駅止まりの列車は、直通先を含めた終着駅の時刻表には表示しない。
             # 例：上野止まりの列車は上野駅では非表示にし、手前の駅では通常どおり表示する。
             if destination and destination == source_station:
                 continue
@@ -1291,9 +1321,15 @@ def timetable_page():
     departures_by_direction = {}
     if station:
         direction_sources = {"上り": [(line_id, station)], "下り": [(line_id, station)]}
-        # 東武動物公園では、支線側の上りにスカイツリーライン上りを表示。
+        # 東武日光線の駅時刻表には、鬼怒川線から浅草方面へ直通する上り列車も表示する。
+        if line_id == "tobu_nikko" and station in NIKKO_STATIONS:
+            direction_sources["上り"].append(("tobu_kinugawa", station))
+        # 東武動物公園では、上りの基本表示をスカイツリーラインとし、
+        # 鬼怒川線からの直通列車も追加する。
         if station == "東武動物公園" and line_id in {"tobu_nikko", "tobu_isesaki"}:
             direction_sources["上り"] = [("tobu_skytree", station)]
+            if line_id == "tobu_nikko":
+                direction_sources["上り"].append(("tobu_kinugawa", station))
         # スカイツリーライン東武動物公園は上り・下りの両方向を表示。
         if station == "東武動物公園" and line_id == "tobu_skytree":
             direction_sources["上り"] = [("tobu_skytree", station)]
@@ -1321,7 +1357,11 @@ def timetable_page():
             info = sections[0]["info"]
             if len(sections) > 1:
                 info = dict(info)
-                info["direction_label"] = "東武日光線・東武伊勢崎線方面"
+                if line_id == "tobu_nikko":
+                    route_names = [TIMETABLE_LINE_CONFIG.get(src_line, {}).get("name", src_line) for src_line, _ in sources if any(section and section.get("info") for section in sections)]
+                    info["direction_label"] = "・".join(dict.fromkeys(route_names)) + "方面"
+                else:
+                    info["direction_label"] = "東武日光線・東武伊勢崎線方面"
             display_direction = direction
             if line_id in {"ueno_tokyo", "shonan_shinjuku"}:
                 display_direction = "北行" if direction == "上り" else "南行"
@@ -1599,12 +1639,10 @@ def train_detail(train_number, line_id):
         display_train["origin"] = ordered_stops[0][0]
         display_train["destination"] = ordered_stops[-1][0]
 
-    # 直通列車では、駅ごとに所属する路線の時刻表へリンクする。
+    # 直通列車では、駅ごとに公開されている路線の時刻表へリンクする。
     stop_line_candidates = [line_id]
     if line_id in {"utsunomiya", "ueno_tokyo", "shonan_shinjuku"}:
         stop_line_candidates.extend(["utsunomiya", "ueno_tokyo", "shonan_shinjuku"])
-    if line_id in {"tobu_nikko", "tobu_kinugawa"}:
-        stop_line_candidates.extend(["tobu_nikko", "tobu_kinugawa"])
     if line_id == "shonan_shinjuku":
         stop_line_candidates.extend(["tobu_nikko", "shonan_shinjuku"])
     if train.get("type") == "特急" and line_id in {"utsunomiya", "tobu_nikko"}:
@@ -1615,10 +1653,20 @@ def train_detail(train_number, line_id):
 
     stops = []
     for name, times in ordered_stops:
-        stop_line_id = next((
-            candidate for candidate in stop_line_candidates
-            if name in TIMETABLE_LINE_CONFIG.get(candidate, {}).get("stations", {})
-        ), None)
+        if line_id in {"tobu_nikko", "tobu_kinugawa"}:
+            # 東武動物公園から浅草まではスカイツリーライン、
+            # 東武日光線区間は東武日光線。鬼怒川線固有駅にはリンクを付けない。
+            if name in SKYTREE_STATIONS:
+                stop_line_id = "tobu_skytree"
+            elif name in NIKKO_STATIONS:
+                stop_line_id = "tobu_nikko"
+            else:
+                stop_line_id = None
+        else:
+            stop_line_id = next((
+                candidate for candidate in stop_line_candidates
+                if name in TIMETABLE_LINE_CONFIG.get(candidate, {}).get("stations", {})
+            ), None)
         if name in {"桐生", "岩宿", "国定", "伊勢崎", "駒形", "前橋大島", "前橋", "新前橋", "井野", "高崎問屋町", "高崎",
                     "黒磯", "那須塩原", "西那須野", "野崎", "矢板", "片岡", "蒲須坂", "氏家", "宝積寺", "岡本"}:
             stop_line_id = None
@@ -1628,11 +1676,17 @@ def train_detail(train_number, line_id):
             "departure": times.get("departure"),
             "line_id": stop_line_id,
         })
+    public_line_ids = set(TIMETABLE_LINE_CONFIG) - {"tobu_kinugawa"}
+    back_line_id = request.args.get("back_line", "").strip()
+    if back_line_id not in public_line_ids:
+        back_line_id = "tobu_nikko" if line_id == "tobu_kinugawa" else line_id
+
     return render_template(
         "train_detail.html", train=display_train, stops=stops,
         line_name=line_data.get("name", "時刻表"), line_id=line_id,
         line_color=TIMETABLE_LINE_CONFIG.get(line_id, {}).get("color", "#077AE3"),
         back_station=request.args.get("station", "").strip(),
+        back_line_id=back_line_id,
     )
 
 # ==================================================
@@ -2383,6 +2437,7 @@ def operation_page():
     timetable_lines = [
         {"id": line_id, "name": config["name"], "color": config.get("color", "#00A650"), "text_color": config.get("text_color", "#FFFFFF")}
         for line_id, config in TIMETABLE_LINE_CONFIG.items()
+        if line_id != "tobu_kinugawa"
     ]
     timetable_line_id = request.args.get("timetable_line", "").strip()
     valid_timetable_ids = {item["id"] for item in timetable_lines}
