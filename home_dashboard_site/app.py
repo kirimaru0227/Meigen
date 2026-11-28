@@ -1383,6 +1383,9 @@ def timetable_page():
             for index, group in enumerate(ranked_groups, start=1):
                 for item in group:
                     item["upcoming_rank"] = index
+            # テンプレートへ渡す従来形式の next_trains も、選ばれた連結グループ全体で作る。
+            # v14ではグループ化に伴い ranked_now の代入が抜け、駅時刻表表示時に NameError になっていた。
+            ranked_now = [item for group in ranked_groups for item in group]
             for item in combined:
                 item.setdefault("upcoming_rank", 0)
                 item["event_iso"] = item["sort_dt"].isoformat()
