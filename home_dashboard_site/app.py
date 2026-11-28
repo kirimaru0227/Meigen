@@ -998,7 +998,13 @@ STATION_ENGLISH_NAMES = {
     "栃木": "Tochigi", "新栃木": "Shin-tochigi", "合戦場": "Kassemba", "家中": "Ienaka",
     "東武金崎": "Tobu-kanasaki", "楡木": "Niregi", "樅山": "Momiyama", "新鹿沼": "Shin-kanuma",
     "北鹿沼": "Kita-kanuma", "板荷": "Itaga", "下小代": "Shimo-goshiro", "明神": "Myojin",
-    "下今市": "Shimo-imaichi", "上今市": "Kami-imaichi", "東武日光": "Tobu-nikko", "野州平川": "Yashu-hirakawa",
+    "下今市": "Shimo-imaichi", "上今市": "Kami-imaichi", "東武日光": "Tobu-nikko", "会津田島": "Aizu-Tajima", "会津高原尾瀬口": "Aizu-Kogen-Ozeguchi",
+    "上三依塩原温泉口": "Kamimiyori-Shiobara-Onsenguchi", "中三依温泉": "Nakamiyori-Onsen",
+    "湯西川温泉": "Yunishigawa-Onsen", "川治湯元": "Kawaji-Yumoto", "川治温泉": "Kawaji-Onsen",
+    "龍王峡": "Ryūōkyō", "新藤原": "Shin-Fujiwara", "鬼怒川公園": "Kinugawa-Koen",
+    "鬼怒川温泉": "Kinugawa-Onsen", "東武ワールドスクウェア": "Tobu World Square",
+    "小佐越": "Kosagoe", "新高徳": "Shin-Takatoku", "大桑": "Ōkuwa", "大谷向": "Daiya-Muko",
+    "野州平川": "Yashu-hirakawa",
     "野州大塚": "Yashu-otsuka", "壬生": "Mibu", "国谷": "Kuniya", "おもちゃのまち": "Omochanomachi",
     "安塚": "Yasuzuka", "西川田": "Nishikawada", "江曽島": "Esojima", "南宇都宮": "Minami-utsunomiya",
     "東武宇都宮": "Tobu-utsunomiya", "和戸": "Wado", "鷲宮": "Washinomiya", "花崎": "Hanasaki",
@@ -1044,6 +1050,7 @@ SHONAN_STATIONS = [
 ]
 SKYTREE_STATIONS = ["東武動物公園", "姫宮", "北春日部", "春日部", "一ノ割", "武里", "せんげん台", "大袋", "北越谷", "越谷", "新越谷", "蒲生", "新田", "獨協大学前", "草加", "谷塚", "竹ノ塚", "西新井", "梅島", "五反野", "小菅", "北千住", "牛田", "堀切", "鐘ケ淵", "東向島", "曳舟", "押上", "とうきょうスカイツリー", "浅草"]
 NIKKO_STATIONS = ["東武動物公園", "杉戸高野台", "幸手", "南栗橋", "栗橋", "新古河", "柳生", "板倉東洋大前", "藤岡", "静和", "新大平下", "栃木", "新栃木", "合戦場", "家中", "東武金崎", "楡木", "樅山", "新鹿沼", "北鹿沼", "板荷", "下小代", "明神", "下今市", "上今市", "東武日光"]
+KINUGAWA_STATIONS = ["浅草", "とうきょうスカイツリー", "曳舟", "北千住", "春日部", "南栗橋", "栗橋", "新古河", "柳生", "板倉東洋大前", "藤岡", "静和", "新大平下", "栃木", "新栃木", "合戦場", "家中", "東武金崎", "楡木", "樅山", "新鹿沼", "北鹿沼", "板荷", "下小代", "明神", "下今市", "大谷向", "大桑", "新高徳", "小佐越", "東武ワールドスクウェア", "鬼怒川温泉", "鬼怒川公園", "新藤原", "龍王峡", "川治温泉", "川治湯元", "湯西川温泉", "中三依温泉", "上三依塩原温泉口", "会津高原尾瀬口", "会津田島"]
 UTSUNOMIYA_TOHBU_STATIONS = ["栃木", "新栃木", "野州平川", "野州大塚", "壬生", "国谷", "おもちゃのまち", "安塚", "西川田", "江曽島", "南宇都宮", "東武宇都宮"]
 ISESAKI_STATIONS = ["東武動物公園", "和戸", "久喜", "鷲宮", "花崎", "加須", "南羽生", "羽生", "川俣", "茂林寺前", "館林", "多々良", "県", "福居", "東武和泉", "足利市", "野州山辺", "韮川", "太田"]
 SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", "吉水", "田沼", "多田", "葛生"]
@@ -1055,6 +1062,7 @@ TIMETABLE_LINE_CONFIG = {
     "shonan_shinjuku": {"name": "湘南新宿ライン", "stations": _make_route_stations(SHONAN_STATIONS), "color": "#E31E27"},
     "tobu_skytree": {"name": "東武スカイツリーライン", "stations": _make_route_stations(SKYTREE_STATIONS), "color": "#0071BB"},
     "tobu_nikko": {"name": "東武日光線", "stations": _make_route_stations(NIKKO_STATIONS), "color": "#F58220", "text_color": "#FFFFFF"},
+    "tobu_kinugawa": {"name": "東武鬼怒川線", "stations": _make_route_stations(KINUGAWA_STATIONS), "color": "#F58220", "text_color": "#FFFFFF"},
     "tobu_utsunomiya": {"name": "東武宇都宮線", "stations": _make_route_stations(UTSUNOMIYA_TOHBU_STATIONS), "color": "#D0A248", "text_color": "#292524"},
     "tobu_isesaki": {"name": "東武伊勢崎線", "stations": _make_route_stations(ISESAKI_STATIONS), "color": "#B00339"},
     "tobu_sano": {"name": "東武佐野線", "stations": _make_route_stations(SANO_STATIONS), "color": "#A065AA"},
@@ -1195,6 +1203,10 @@ def timetable_page():
             if not train_operates_on_date(train, now.date()):
                 continue
             train_direction = train.get("direction")
+            # 東武日光⇔鬼怒川方面の直通列車は、東武日光線内では
+            # 東武日光・上今市から下今市方面へ向かう上り列車として扱う。
+            if source_line_id == "tobu_nikko" and str(train.get("through_service_id", "")).startswith("tobu-nikko-kinugawa-"):
+                train_direction = "上り"
             if source_line_id in {"ueno_tokyo", "shonan_shinjuku"}:
                 # 直通列車は stops の登録順が路線順と異なる場合があるため、
                 # 始発駅・終着駅の路線上の位置から方面を判定する。
@@ -1326,7 +1338,7 @@ def timetable_page():
     line_en_names = {
         "ryomo": "Ryōmō Line", "utsunomiya": "Utsunomiya Line", "ueno_tokyo": "Ueno-Tōkyō Line",
         "shonan_shinjuku": "Shōnan-Shinjuku Line", "tobu_skytree": "TOBU SKYTREE Line",
-        "tobu_nikko": "Tobu Nikko Line", "tobu_utsunomiya": "Tobu Utsunomiya Line",
+        "tobu_nikko": "Tobu Nikko Line", "tobu_kinugawa": "Tobu Kinugawa Line", "tobu_utsunomiya": "Tobu Utsunomiya Line",
         "tobu_isesaki": "Tobu Isesaki Line", "tobu_sano": "Tobu Sano Line",
     }
     # 駅ページの乗り換え候補を生成する。
@@ -1389,6 +1401,7 @@ def timetable_page():
         "shonan_shinjuku": SHONAN_STATIONS,
         "tobu_skytree": SKYTREE_STATIONS,
         "tobu_nikko": NIKKO_STATIONS,
+        "tobu_kinugawa": KINUGAWA_STATIONS,
         "tobu_utsunomiya": UTSUNOMIYA_TOHBU_STATIONS,
         "tobu_isesaki": ISESAKI_STATIONS,
         "tobu_sano": SANO_STATIONS,
@@ -1590,7 +1603,9 @@ def train_detail(train_number, line_id):
     stop_line_candidates = [line_id]
     if line_id in {"utsunomiya", "ueno_tokyo", "shonan_shinjuku"}:
         stop_line_candidates.extend(["utsunomiya", "ueno_tokyo", "shonan_shinjuku"])
-    if line_id in {"tobu_nikko", "shonan_shinjuku"}:
+    if line_id in {"tobu_nikko", "tobu_kinugawa"}:
+        stop_line_candidates.extend(["tobu_nikko", "tobu_kinugawa"])
+    if line_id == "shonan_shinjuku":
         stop_line_candidates.extend(["tobu_nikko", "shonan_shinjuku"])
     if train.get("type") == "特急" and line_id in {"utsunomiya", "tobu_nikko"}:
         stop_line_candidates.extend(["utsunomiya", "tobu_nikko"])

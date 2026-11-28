@@ -49474,7 +49474,7 @@
           "cars": "4両",
           "direction": "上り",
           "origin": "東武日光",
-          "destination": "栗橋",
+          "destination": "南栗橋",
           "note": "",
           "stops": {
             "東武日光": {
@@ -49559,11 +49559,15 @@
             },
             "新古河": {
               "arrival": "10:03",
-              "departure": "10:09"
+              "departure": "10:03"
             },
             "栗橋": {
-              "arrival": "10:10",
-              "departure": "10:13"
+              "arrival": "10:09",
+              "departure": "10:10"
+            },
+            "南栗橋": {
+              "arrival": "10:13",
+              "departure": null
             }
           },
           "operating_days": [
@@ -52354,6 +52358,1496 @@
           "operating_dates": [],
           "excluded_dates": [],
           "train_name": ""
+        },
+        {
+          "train_number": "706N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "上り",
+          "origin": "東武日光",
+          "destination": "下今市",
+          "note": "",
+          "stops": {
+            "東武日光": {
+              "arrival": null,
+              "departure": "09:09"
+            },
+            "上今市": {
+              "arrival": "09:16",
+              "departure": "09:16"
+            },
+            "下今市": {
+              "arrival": "09:18",
+              "departure": "09:23"
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "",
+          "through_service_id": "tobu-nikko-kinugawa-706N-309N"
+        },
+        {
+          "train_number": "72",
+          "type": "SL",
+          "cars": null,
+          "direction": "上り",
+          "origin": "東武日光",
+          "destination": "下今市",
+          "note": "運転日：11/9,12,13,16～20,24～27,30,12/3,4,9～11,14~16,21～25,28,29,1/1,4～8,12～15,18～22,25,26,29運転",
+          "stops": {
+            "東武日光": {
+              "arrival": null,
+              "departure": "13:03"
+            },
+            "下今市": {
+              "arrival": "13:20",
+              "departure": "13:30"
+            }
+          },
+          "operating_days": [
+            "特定日"
+          ],
+          "operating_dates": [
+            "11-09",
+            "11-12",
+            "11-13",
+            "11-16",
+            "11-17",
+            "11-18",
+            "11-19",
+            "11-20",
+            "11-24",
+            "11-25",
+            "11-26",
+            "11-27",
+            "11-30",
+            "12-03",
+            "12-04",
+            "12-09",
+            "12-10",
+            "12-11",
+            "12-14",
+            "12-15",
+            "12-16",
+            "12-21",
+            "12-22",
+            "12-23",
+            "12-24",
+            "12-25",
+            "12-28",
+            "12-29",
+            "01-01",
+            "01-04",
+            "01-05",
+            "01-06",
+            "01-07",
+            "01-08",
+            "01-12",
+            "01-13",
+            "01-14",
+            "01-15",
+            "01-18",
+            "01-19",
+            "01-20",
+            "01-21",
+            "01-22",
+            "01-25",
+            "01-26",
+            "01-29"
+          ],
+          "excluded_dates": [],
+          "train_name": "SL大樹ふたら72号",
+          "through_service_id": "tobu-nikko-kinugawa-72-5"
+        },
+        {
+          "train_number": "718N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "上り",
+          "origin": "東武日光",
+          "destination": "下今市",
+          "note": "",
+          "stops": {
+            "東武日光": {
+              "arrival": null,
+              "departure": "21:32"
+            },
+            "上今市": {
+              "arrival": "21:38",
+              "departure": "21:39"
+            },
+            "下今市": {
+              "arrival": "21:41",
+              "departure": "21:46"
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "",
+          "through_service_id": "tobu-nikko-kinugawa-718N-335N"
+        },
+        {
+          "train_number": "720N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "上り",
+          "origin": "東武日光",
+          "destination": "下今市",
+          "note": "",
+          "stops": {
+            "東武日光": {
+              "arrival": null,
+              "departure": "22:30"
+            },
+            "上今市": {
+              "arrival": "22:36",
+              "departure": "22:37"
+            },
+            "下今市": {
+              "arrival": "22:39",
+              "departure": "22:46"
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "",
+          "through_service_id": "tobu-nikko-kinugawa-720N-337N"
+        }
+      ]
+    },
+    {
+      "id": "tobu_kinugawa",
+      "name": "東武鬼怒川線",
+      "stations": [
+        "浅草",
+        "とうきょうスカイツリー",
+        "曳舟",
+        "北千住",
+        "春日部",
+        "南栗橋",
+        "栗橋",
+        "新古河",
+        "柳生",
+        "板倉東洋大前",
+        "藤岡",
+        "静和",
+        "新大平下",
+        "栃木",
+        "新栃木",
+        "合戦場",
+        "家中",
+        "東武金崎",
+        "楡木",
+        "樅山",
+        "新鹿沼",
+        "北鹿沼",
+        "板荷",
+        "下小代",
+        "明神",
+        "下今市",
+        "大谷向",
+        "大桑",
+        "新高徳",
+        "小佐越",
+        "東武ワールドスクウェア",
+        "鬼怒川温泉",
+        "鬼怒川公園",
+        "新藤原",
+        "龍王峡",
+        "川治温泉",
+        "川治湯元",
+        "湯西川温泉",
+        "中三依温泉",
+        "上三依塩原温泉口",
+        "会津高原尾瀬口",
+        "会津田島"
+      ],
+      "trains": [
+        {
+          "train_number": "102N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "上り",
+          "origin": "新藤原",
+          "destination": "南栗橋",
+          "note": "",
+          "stops": {
+            "新藤原": {
+              "arrival": null,
+              "departure": "05:51"
+            },
+            "鬼怒川公園": {
+              "arrival": "05:55",
+              "departure": "05:56"
+            },
+            "鬼怒川温泉": {
+              "arrival": "05:59",
+              "departure": "06:00"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "06:03",
+              "departure": "06:03"
+            },
+            "小佐越": {
+              "arrival": "06:05",
+              "departure": "06:05"
+            },
+            "新高徳": {
+              "arrival": "06:09",
+              "departure": "06:09"
+            },
+            "大桑": {
+              "arrival": "06:14",
+              "departure": "06:15"
+            },
+            "大谷向": {
+              "arrival": "06:20",
+              "departure": "06:20"
+            },
+            "下今市": {
+              "arrival": "06:22",
+              "departure": "06:25"
+            },
+            "明神": {
+              "arrival": "06:31",
+              "departure": "06:31"
+            },
+            "下小代": {
+              "arrival": "06:34",
+              "departure": "06:35"
+            },
+            "板荷": {
+              "arrival": "06:39",
+              "departure": "06:40"
+            },
+            "北鹿沼": {
+              "arrival": "06:45",
+              "departure": "06:45"
+            },
+            "新鹿沼": {
+              "arrival": "06:49",
+              "departure": "06:49"
+            },
+            "樅山": {
+              "arrival": "06:52",
+              "departure": "06:53"
+            },
+            "楡木": {
+              "arrival": "06:55",
+              "departure": "06:56"
+            },
+            "東武金崎": {
+              "arrival": "07:00",
+              "departure": "07:01"
+            },
+            "家中": {
+              "arrival": "07:05",
+              "departure": "07:05"
+            },
+            "合戦場": {
+              "arrival": "07:08",
+              "departure": "07:08"
+            },
+            "新栃木": {
+              "arrival": "07:11",
+              "departure": "07:12"
+            },
+            "栃木": {
+              "arrival": "07:15",
+              "departure": "07:16"
+            },
+            "新大平下": {
+              "arrival": "07:21",
+              "departure": "07:21"
+            },
+            "静和": {
+              "arrival": "07:24",
+              "departure": "07:24"
+            },
+            "藤岡": {
+              "arrival": "07:31",
+              "departure": "07:31"
+            },
+            "板倉東洋大前": {
+              "arrival": "07:35",
+              "departure": "07:35"
+            },
+            "柳生": {
+              "arrival": "07:38",
+              "departure": "07:38"
+            },
+            "新古河": {
+              "arrival": "07:41",
+              "departure": "07:42"
+            },
+            "栗橋": {
+              "arrival": "07:48",
+              "departure": "07:48"
+            },
+            "南栗橋": {
+              "arrival": "07:52",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": ""
+        },
+        {
+          "train_number": "1110",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "06:41"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "06:44",
+              "departure": "06:44"
+            },
+            "新高徳": {
+              "arrival": "06:49",
+              "departure": "06:49"
+            },
+            "下今市": {
+              "arrival": "07:01",
+              "departure": "07:02"
+            },
+            "新鹿沼": {
+              "arrival": "07:18",
+              "departure": "07:18"
+            },
+            "栃木": {
+              "arrival": "07:33",
+              "departure": "07:33"
+            },
+            "南栗橋": {
+              "arrival": "07:57",
+              "departure": "07:58"
+            },
+            "春日部": {
+              "arrival": "08:10",
+              "departure": "08:13"
+            },
+            "北千住": {
+              "arrival": "08:36",
+              "departure": "08:37"
+            },
+            "曳舟": {
+              "arrival": "08:43",
+              "departure": "08:44"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "08:45",
+              "departure": "08:46"
+            },
+            "浅草": {
+              "arrival": "08:49",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "きぬ110号"
+        },
+        {
+          "train_number": "1114",
+          "type": "特急",
+          "cars": "3両",
+          "direction": "上り",
+          "origin": "新藤原",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "新藤原": {
+              "arrival": null,
+              "departure": "08:29"
+            },
+            "鬼怒川公園": {
+              "arrival": "08:33",
+              "departure": "08:34"
+            },
+            "鬼怒川温泉": {
+              "arrival": "08:37",
+              "departure": "08:39"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "08:42",
+              "departure": "08:42"
+            },
+            "新高徳": {
+              "arrival": "08:47",
+              "departure": "08:48"
+            },
+            "下今市": {
+              "arrival": "09:01",
+              "departure": "09:05"
+            },
+            "新鹿沼": {
+              "arrival": "09:20",
+              "departure": "09:21"
+            },
+            "栃木": {
+              "arrival": "09:36",
+              "departure": "09:37"
+            },
+            "春日部": {
+              "arrival": "10:11",
+              "departure": "10:12"
+            },
+            "北千住": {
+              "arrival": "10:32",
+              "departure": "10:33"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "10:40",
+              "departure": "10:42"
+            },
+            "浅草": {
+              "arrival": "10:45",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティきぬ114号"
+        },
+        {
+          "train_number": "1116",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "09:10"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "09:12",
+              "departure": "09:13"
+            },
+            "新高徳": {
+              "arrival": "09:18",
+              "departure": "09:18"
+            },
+            "下今市": {
+              "arrival": "09:30",
+              "departure": "09:34"
+            },
+            "新鹿沼": {
+              "arrival": "09:49",
+              "departure": "09:50"
+            },
+            "栃木": {
+              "arrival": "10:05",
+              "departure": "10:07"
+            },
+            "春日部": {
+              "arrival": "10:41",
+              "departure": "10:42"
+            },
+            "北千住": {
+              "arrival": "11:02",
+              "departure": "11:03"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "11:10",
+              "departure": "11:12"
+            },
+            "浅草": {
+              "arrival": "11:15",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "きぬ116号"
+        },
+        {
+          "train_number": "1112",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "10:27"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "10:29",
+              "departure": "10:30"
+            },
+            "新高徳": {
+              "arrival": "10:35",
+              "departure": "10:35"
+            },
+            "下今市": {
+              "arrival": "10:50",
+              "departure": "10:52"
+            },
+            "新鹿沼": {
+              "arrival": "11:08",
+              "departure": "11:09"
+            },
+            "栃木": {
+              "arrival": "11:23",
+              "departure": "11:25"
+            },
+            "春日部": {
+              "arrival": "12:01",
+              "departure": "12:02"
+            },
+            "北千住": {
+              "arrival": "12:22",
+              "departure": "12:23"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "12:30",
+              "departure": "12:32"
+            },
+            "浅草": {
+              "arrival": "12:35",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティきぬ122号"
+        },
+        {
+          "train_number": "1124",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "11:05"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "11:08",
+              "departure": "11:08"
+            },
+            "新高徳": {
+              "arrival": "11:13",
+              "departure": "11:17"
+            },
+            "下今市": {
+              "arrival": "11:29",
+              "departure": "11:35"
+            },
+            "新鹿沼": {
+              "arrival": "11:50",
+              "departure": "11:51"
+            },
+            "栃木": {
+              "arrival": "12:06",
+              "departure": "12:07"
+            },
+            "春日部": {
+              "arrival": "12:41",
+              "departure": "12:42"
+            },
+            "北千住": {
+              "arrival": "13:02",
+              "departure": "13:03"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "13:10",
+              "departure": "13:12"
+            },
+            "浅草": {
+              "arrival": "13:15",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティきぬ124号"
+        },
+        {
+          "train_number": "1128",
+          "type": "特急",
+          "cars": "3両",
+          "direction": "上り",
+          "origin": "会津田島",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "会津田島": {
+              "arrival": null,
+              "departure": "10:50"
+            },
+            "会津高原尾瀬口": {
+              "arrival": "11:07",
+              "departure": "11:08"
+            },
+            "上三依塩原温泉口": {
+              "arrival": "11:17",
+              "departure": "11:18"
+            },
+            "中三依温泉": {
+              "arrival": "11:22",
+              "departure": "11:22"
+            },
+            "湯西川温泉": {
+              "arrival": "11:29",
+              "departure": "11:29"
+            },
+            "川治湯元": {
+              "arrival": "11:33",
+              "departure": "11:34"
+            },
+            "川治温泉": {
+              "arrival": "11:36",
+              "departure": "11:36"
+            },
+            "龍王峡": {
+              "arrival": "11:39",
+              "departure": "11:40"
+            },
+            "新藤原": {
+              "arrival": "11:42",
+              "departure": "11:50"
+            },
+            "鬼怒川公園": {
+              "arrival": "11:54",
+              "departure": "11:54"
+            },
+            "鬼怒川温泉": {
+              "arrival": "11:58",
+              "departure": "11:59"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "12:02",
+              "departure": "12:02"
+            },
+            "新高徳": {
+              "arrival": "12:07",
+              "departure": "12:09"
+            },
+            "下今市": {
+              "arrival": "12:22",
+              "departure": "12:35"
+            },
+            "新鹿沼": {
+              "arrival": "12:50",
+              "departure": "12:51"
+            },
+            "栃木": {
+              "arrival": "13:06",
+              "departure": "13:07"
+            },
+            "春日部": {
+              "arrival": "13:41",
+              "departure": "13:42"
+            },
+            "北千住": {
+              "arrival": "14:02",
+              "departure": "14:03"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "14:10",
+              "departure": "14:12"
+            },
+            "浅草": {
+              "arrival": "14:15",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティ会津128号"
+        },
+        {
+          "train_number": "1136",
+          "type": "特急",
+          "cars": "3両",
+          "direction": "上り",
+          "origin": "会津田島",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "会津田島": {
+              "arrival": null,
+              "departure": "13:03"
+            },
+            "会津高原尾瀬口": {
+              "arrival": "13:20",
+              "departure": "13:21"
+            },
+            "上三依塩原温泉口": {
+              "arrival": "13:30",
+              "departure": "13:31"
+            },
+            "中三依温泉": {
+              "arrival": "13:35",
+              "departure": "13:37"
+            },
+            "湯西川温泉": {
+              "arrival": "13:43",
+              "departure": "13:44"
+            },
+            "川治湯元": {
+              "arrival": "13:48",
+              "departure": "13:48"
+            },
+            "川治温泉": {
+              "arrival": "13:50",
+              "departure": "13:51"
+            },
+            "龍王峡": {
+              "arrival": "13:54",
+              "departure": "13:54"
+            },
+            "新藤原": {
+              "arrival": "13:57",
+              "departure": "13:58"
+            },
+            "鬼怒川公園": {
+              "arrival": "14:02",
+              "departure": "14:02"
+            },
+            "鬼怒川温泉": {
+              "arrival": "14:06",
+              "departure": "14:07"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "14:09",
+              "departure": "14:10"
+            },
+            "新高徳": {
+              "arrival": "14:15",
+              "departure": "14:15"
+            },
+            "下今市": {
+              "arrival": "14:27",
+              "departure": "14:35"
+            },
+            "新鹿沼": {
+              "arrival": "14:50",
+              "departure": "14:51"
+            },
+            "栃木": {
+              "arrival": "15:06",
+              "departure": "15:07"
+            },
+            "春日部": {
+              "arrival": "15:41",
+              "departure": "15:42"
+            },
+            "北千住": {
+              "arrival": "16:02",
+              "departure": "16:03"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "16:10",
+              "departure": "16:13"
+            },
+            "浅草": {
+              "arrival": "16:16",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティ会津136号"
+        },
+        {
+          "train_number": "1140",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "15:19"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "15:22",
+              "departure": "15:22"
+            },
+            "下今市": {
+              "arrival": "15:42",
+              "departure": "15:50"
+            },
+            "新鹿沼": {
+              "arrival": "16:06",
+              "departure": "16:07"
+            },
+            "栃木": {
+              "arrival": "16:22",
+              "departure": "16:24"
+            },
+            "春日部": {
+              "arrival": "16:59",
+              "departure": "17:01"
+            },
+            "北千住": {
+              "arrival": "17:21",
+              "departure": "17:23"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "17:30",
+              "departure": "17:32"
+            },
+            "浅草": {
+              "arrival": "17:35",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "スペーシアX8号"
+        },
+        {
+          "train_number": "1142",
+          "type": "特急",
+          "cars": "3両",
+          "direction": "上り",
+          "origin": "会津田島",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "会津田島": {
+              "arrival": null,
+              "departure": "15:00"
+            },
+            "会津高原尾瀬口": {
+              "arrival": "15:17",
+              "departure": "15:20"
+            },
+            "上三依塩原温泉口": {
+              "arrival": "15:29",
+              "departure": "15:30"
+            },
+            "中三依温泉": {
+              "arrival": "15:34",
+              "departure": "15:35"
+            },
+            "湯西川温泉": {
+              "arrival": "15:41",
+              "departure": "15:41"
+            },
+            "川治湯元": {
+              "arrival": "15:46",
+              "departure": "15:46"
+            },
+            "川治温泉": {
+              "arrival": "15:48",
+              "departure": "15:48"
+            },
+            "龍王峡": {
+              "arrival": "15:51",
+              "departure": "15:52"
+            },
+            "新藤原": {
+              "arrival": "15:54",
+              "departure": "15:55"
+            },
+            "鬼怒川公園": {
+              "arrival": "15:59",
+              "departure": "16:00"
+            },
+            "鬼怒川温泉": {
+              "arrival": "16:03",
+              "departure": "16:04"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "16:07",
+              "departure": "16:08"
+            },
+            "新高徳": {
+              "arrival": "16:12",
+              "departure": "16:13"
+            },
+            "下今市": {
+              "arrival": "16:25",
+              "departure": "16:34"
+            },
+            "新鹿沼": {
+              "arrival": "16:49",
+              "departure": "16:50"
+            },
+            "栃木": {
+              "arrival": "17:05",
+              "departure": "17:05"
+            },
+            "板倉東洋大前": {
+              "arrival": "17:18",
+              "departure": "17:19"
+            },
+            "春日部": {
+              "arrival": "17:41",
+              "departure": "17:42"
+            },
+            "北千住": {
+              "arrival": "18:02",
+              "departure": "18:03"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "18:11",
+              "departure": "18:12"
+            },
+            "浅草": {
+              "arrival": "18:15",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティ会津142号"
+        },
+        {
+          "train_number": "1144",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "16:40"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "16:43",
+              "departure": "16:43"
+            },
+            "下今市": {
+              "arrival": "16:59",
+              "departure": "17:02"
+            },
+            "新鹿沼": {
+              "arrival": "17:18",
+              "departure": null
+            },
+            "栃木": {
+              "arrival": "17:33",
+              "departure": "17:37"
+            },
+            "春日部": {
+              "arrival": "18:11",
+              "departure": "18:12"
+            },
+            "北千住": {
+              "arrival": "18:32",
+              "departure": "18:33"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "18:41",
+              "departure": "18:42"
+            },
+            "浅草": {
+              "arrival": "18:45",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "スペーシアX10号"
+        },
+        {
+          "train_number": "1146",
+          "type": "特急",
+          "cars": "3両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "17:04"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "17:07",
+              "departure": "17:07"
+            },
+            "新高徳": {
+              "arrival": "17:12",
+              "departure": "17:15"
+            },
+            "下今市": {
+              "arrival": "17:27",
+              "departure": "17:35"
+            },
+            "新鹿沼": {
+              "arrival": "17:50",
+              "departure": "17:51"
+            },
+            "栃木": {
+              "arrival": "18:06",
+              "departure": "18:06"
+            },
+            "春日部": {
+              "arrival": "18:41",
+              "departure": "18:42"
+            },
+            "北千住": {
+              "arrival": "19:02",
+              "departure": "19:03"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "19:11",
+              "departure": "19:12"
+            },
+            "浅草": {
+              "arrival": "19:15",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティきぬ146号"
+        },
+        {
+          "train_number": "1154",
+          "type": "特急",
+          "cars": "3両",
+          "direction": "上り",
+          "origin": "会津田島",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "会津田島": {
+              "arrival": null,
+              "departure": "17:48"
+            },
+            "会津高原尾瀬口": {
+              "arrival": "18:05",
+              "departure": "18:06"
+            },
+            "上三依塩原温泉口": {
+              "arrival": "18:15",
+              "departure": "18:16"
+            },
+            "中三依温泉": {
+              "arrival": "18:20",
+              "departure": "18:20"
+            },
+            "湯西川温泉": {
+              "arrival": "18:27",
+              "departure": "18:27"
+            },
+            "川治湯元": {
+              "arrival": "18:31",
+              "departure": "18:32"
+            },
+            "川治温泉": {
+              "arrival": "18:34",
+              "departure": "18:34"
+            },
+            "龍王峡": {
+              "arrival": "18:37",
+              "departure": "18:38"
+            },
+            "新藤原": {
+              "arrival": "18:40",
+              "departure": "18:45"
+            },
+            "鬼怒川公園": {
+              "arrival": "18:49",
+              "departure": "18:49"
+            },
+            "鬼怒川温泉": {
+              "arrival": "18:53",
+              "departure": "18:55"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "18:58",
+              "departure": "18:58"
+            },
+            "新高徳": {
+              "arrival": "19:03",
+              "departure": "19:03"
+            },
+            "下今市": {
+              "arrival": "19:15",
+              "departure": "19:21"
+            },
+            "新鹿沼": {
+              "arrival": "19:36",
+              "departure": "19:37"
+            },
+            "栃木": {
+              "arrival": "19:52",
+              "departure": "19:53"
+            },
+            "春日部": {
+              "arrival": "20:29",
+              "departure": "20:30"
+            },
+            "北千住": {
+              "arrival": "20:51",
+              "departure": "20:52"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "21:01",
+              "departure": "21:02"
+            },
+            "浅草": {
+              "arrival": "21:05",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "リバティ会津154号"
+        },
+        {
+          "train_number": "1156",
+          "type": "特急",
+          "cars": "6両",
+          "direction": "上り",
+          "origin": "鬼怒川温泉",
+          "destination": "浅草",
+          "note": "",
+          "stops": {
+            "鬼怒川温泉": {
+              "arrival": null,
+              "departure": "19:28"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "19:30",
+              "departure": "19:31"
+            },
+            "新高徳": {
+              "arrival": "19:36",
+              "departure": "19:36"
+            },
+            "下今市": {
+              "arrival": "19:47",
+              "departure": "19:53"
+            },
+            "新鹿沼": {
+              "arrival": "20:09",
+              "departure": "20:09"
+            },
+            "栃木": {
+              "arrival": "20:24",
+              "departure": "20:25"
+            },
+            "春日部": {
+              "arrival": "21:01",
+              "departure": "21:02"
+            },
+            "北千住": {
+              "arrival": "21:22",
+              "departure": "21:23"
+            },
+            "とうきょうスカイツリー": {
+              "arrival": "21:31",
+              "departure": "21:32"
+            },
+            "浅草": {
+              "arrival": "21:35",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "きぬ156号"
+        },
+        {
+          "train_number": "309N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "下り",
+          "origin": "下今市",
+          "destination": "新藤原",
+          "note": "",
+          "stops": {
+            "下今市": {
+              "arrival": "09:18",
+              "departure": "09:23"
+            },
+            "大谷向": {
+              "arrival": "09:25",
+              "departure": "09:28"
+            },
+            "大桑": {
+              "arrival": "09:32",
+              "departure": "09:33"
+            },
+            "新高徳": {
+              "arrival": "09:37",
+              "departure": "09:38"
+            },
+            "小佐越": {
+              "arrival": "09:42",
+              "departure": "09:42"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "09:44",
+              "departure": "09:44"
+            },
+            "鬼怒川温泉": {
+              "arrival": "09:47",
+              "departure": "09:48"
+            },
+            "鬼怒川公園": {
+              "arrival": "09:51",
+              "departure": "09:52"
+            },
+            "新藤原": {
+              "arrival": "09:56",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "",
+          "through_service_id": "tobu-nikko-kinugawa-706N-309N"
+        },
+        {
+          "train_number": "5",
+          "type": "SL",
+          "cars": null,
+          "direction": "下り",
+          "origin": "下今市",
+          "destination": "鬼怒川温泉",
+          "note": "運転日：11/9,12,13,16～20,24～27,30,12/3,4,9～11,14~16,21～25,28,29,1/1,4～8,12～15,18～22,25,26,29運転",
+          "stops": {
+            "下今市": {
+              "arrival": "13:20",
+              "departure": "13:30"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "14:00",
+              "departure": "14:01"
+            },
+            "鬼怒川温泉": {
+              "arrival": "14:06",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "特定日"
+          ],
+          "operating_dates": [
+            "11-09",
+            "11-12",
+            "11-13",
+            "11-16",
+            "11-17",
+            "11-18",
+            "11-19",
+            "11-20",
+            "11-24",
+            "11-25",
+            "11-26",
+            "11-27",
+            "11-30",
+            "12-03",
+            "12-04",
+            "12-09",
+            "12-10",
+            "12-11",
+            "12-14",
+            "12-15",
+            "12-16",
+            "12-21",
+            "12-22",
+            "12-23",
+            "12-24",
+            "12-25",
+            "12-28",
+            "12-29",
+            "01-01",
+            "01-04",
+            "01-05",
+            "01-06",
+            "01-07",
+            "01-08",
+            "01-12",
+            "01-13",
+            "01-14",
+            "01-15",
+            "01-18",
+            "01-19",
+            "01-20",
+            "01-21",
+            "01-22",
+            "01-25",
+            "01-26",
+            "01-29"
+          ],
+          "excluded_dates": [],
+          "train_name": "SL大樹ふたら72号",
+          "through_service_id": "tobu-nikko-kinugawa-72-5"
+        },
+        {
+          "train_number": "335N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "下り",
+          "origin": "下今市",
+          "destination": "新藤原",
+          "note": "",
+          "stops": {
+            "下今市": {
+              "arrival": "21:41",
+              "departure": "21:46"
+            },
+            "大谷向": {
+              "arrival": "21:49",
+              "departure": "21:49"
+            },
+            "大桑": {
+              "arrival": "21:54",
+              "departure": "21:54"
+            },
+            "新高徳": {
+              "arrival": "21:59",
+              "departure": "21:59"
+            },
+            "小佐越": {
+              "arrival": "22:03",
+              "departure": "22:04"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "22:05",
+              "departure": "22:06"
+            },
+            "鬼怒川温泉": {
+              "arrival": "22:09",
+              "departure": "22:09"
+            },
+            "鬼怒川公園": {
+              "arrival": "22:13",
+              "departure": "22:13"
+            },
+            "新藤原": {
+              "arrival": "22:18",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "",
+          "through_service_id": "tobu-nikko-kinugawa-718N-335N"
+        },
+        {
+          "train_number": "337N",
+          "type": "普通",
+          "cars": "4両",
+          "direction": "下り",
+          "origin": "下今市",
+          "destination": "鬼怒川温泉",
+          "note": "",
+          "stops": {
+            "下今市": {
+              "arrival": "22:39",
+              "departure": "22:46"
+            },
+            "大谷向": {
+              "arrival": "22:48",
+              "departure": "22:48"
+            },
+            "大桑": {
+              "arrival": "22:53",
+              "departure": "22:53"
+            },
+            "新高徳": {
+              "arrival": "22:58",
+              "departure": "22:59"
+            },
+            "小佐越": {
+              "arrival": "23:03",
+              "departure": "23:03"
+            },
+            "東武ワールドスクウェア": {
+              "arrival": "23:04",
+              "departure": "23:05"
+            },
+            "鬼怒川温泉": {
+              "arrival": "23:08",
+              "departure": null
+            }
+          },
+          "operating_days": [
+            "毎日"
+          ],
+          "operating_dates": [],
+          "excluded_dates": [],
+          "train_name": "",
+          "through_service_id": "tobu-nikko-kinugawa-720N-337N"
         }
       ]
     }
