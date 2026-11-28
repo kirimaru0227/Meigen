@@ -172,7 +172,6 @@ html body .tt-page .tt-neighbor-panel {
                           {% elif train.is_stopped %}
                             停車中
                           {% elif train.is_past %}
-                            {% if train.departure_iso %}発車済{% else %}到着済{% endif %}
                           {% elif train.minutes_until <= 1 %}
                             {% if train.event_kind == 'arrival' %}まもなく到着{% else %}まもなく発車{% endif %}
                           {% else %}
@@ -185,7 +184,6 @@ html body .tt-page .tt-neighbor-panel {
                         </p>
                       </div>
 
-                      <span class="tt-past-label">{% if train.departure_iso %}発車済{% else %}到着済{% endif %}</span>
                     </article>
                   </a>
                 {% endfor %}
@@ -324,9 +322,9 @@ html body .tt-page .tt-neighbor-panel {
 }
 
 .tt-train.tt-compact .tt-time-column {
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
 }
 
 .tt-train.tt-compact .tt-time-tags {
@@ -361,9 +359,9 @@ html body .tt-page .tt-neighbor-panel {
 
 .tt-time-column {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
 }
 
 .tt-time-tags { display: inline-flex; align-items: center; gap: 5px; min-height: 1.2em; }
@@ -449,16 +447,6 @@ html body .tt-page .tt-neighbor-panel {
 
 .tt-past .tt-countdown {
   color: inherit;
-}
-
-.tt-past-label {
-  display: none;
-  font-size: .75rem;
-  white-space: nowrap;
-}
-
-.tt-past[data-past="true"] .tt-past-label {
-  display: block;
 }
 
 .tt-empty {
@@ -615,9 +603,9 @@ html body .tt-page .tt-neighbor-panel {
   }
 
   .tt-train.tt-compact .tt-time-column {
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
   }
 
   .tt-train.tt-compact .tt-time-tags {
@@ -638,7 +626,7 @@ html body .tt-page .tt-neighbor-panel {
   }
 
   .tt-time-column {
-    gap: 4px;
+    gap: 1px;
   }
 
   /* 先発・次発など */
@@ -683,14 +671,6 @@ html body .tt-page .tt-neighbor-panel {
     line-height: 1.4;
   }
 
-  .tt-past-label {
-    display: none;
-    font-size: 0.72rem;
-  }
-
-  .tt-past[data-past="true"] .tt-past-label {
-    display: block;
-  }
 }
 
 /* 画面の高さが低いスマホ */
@@ -1136,7 +1116,6 @@ html body.dark .tt-empty {
 
         const kind = row.getAttribute('data-event-kind');
         const countdown = row.querySelector('[data-countdown]');
-        const pastLabel = row.querySelector('.tt-past-label');
 
         if (
           !countdown ||
@@ -1163,11 +1142,6 @@ html body.dark .tt-empty {
         const departed =
           validDeparture &&
           now >= departure;
-
-        // 発車時刻から1分間は「発車済」を表示する。
-        const departureFresh =
-          departed &&
-          now.getTime() < departure.getTime() + 60000;
 
         const arrivedAtTerminus =
           !validDeparture &&
@@ -1201,7 +1175,7 @@ html body.dark .tt-empty {
           stoppedRows.push(row);
           countdown.textContent = '停車中';
         } else if (departed) {
-          countdown.textContent = departureFresh ? '発車済' : '';
+          countdown.textContent = '';
         } else if (arrivedAtTerminus) {
           countdown.textContent = '到着済';
         } else if (eventTime > now) {
@@ -1231,16 +1205,6 @@ html body.dark .tt-empty {
           });
         } else {
           countdown.textContent = '';
-        }
-
-        if (pastLabel) {
-          pastLabel.textContent = stopped
-            ? ''
-            : (
-                departed
-                  ? (departureFresh ? '発車済' : '')
-                  : (arrivedAtTerminus ? '到着済' : '')
-              );
         }
 
         // 過去の列車も一覧から削除しない。
