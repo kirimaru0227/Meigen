@@ -1738,6 +1738,12 @@ def train_detail(train_number, line_id):
             and back_station in combined_stops):
         display_line_id = back_line_id
 
+    # 特急列車の東武動物公園～浅草間は、開いた駅にかかわらず
+    # 東武スカイツリーラインとして表示する。
+    if (train.get("type") == "特急" and back_station in SKYTREE_STATIONS
+            and back_station in combined_stops):
+        display_line_id = "tobu_skytree"
+
     # 特急は列車名の前に「特急」を付けて表示する。
     if train.get("type") == "特急" and train.get("train_name"):
         display_train["type"] = "特急" + str(train.get("train_name")).strip()
