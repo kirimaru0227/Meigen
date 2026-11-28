@@ -1055,6 +1055,19 @@ UTSUNOMIYA_TOHBU_STATIONS = ["栃木", "新栃木", "野州平川", "野州大�
 ISESAKI_STATIONS = ["東武動物公園", "和戸", "久喜", "鷲宮", "花崎", "加須", "南羽生", "羽生", "川俣", "茂林寺前", "館林", "多々良", "県", "福居", "東武和泉", "足利市", "野州山辺", "韮川", "太田"]
 SANO_STATIONS = ["館林", "渡瀬", "田島", "佐野市", "佐野", "堀米", "吉水", "田沼", "多田", "葛生"]
 
+# 下今市～浅草間で連結して運転するリバティ列車の組み合わせ
+LIBERTY_COUPLED_PAIRS = {
+    "1014": "1114",  # リバティけごん14号・リバティきぬ114号
+    "1028": "1128",  # リバティけごん28号・リバティ会津128号
+    "1036": "1136",  # リバティけごん36号・リバティ会津136号
+    "1042": "1142",  # リバティけごん42号・リバティ会津142号
+}
+LIBERTY_COUPLED_GROUPS = {
+    number: f"liberty-{kegon}"
+    for kegon, kinugawa in LIBERTY_COUPLED_PAIRS.items()
+    for number in (kegon, kinugawa)
+}
+
 TIMETABLE_LINE_CONFIG = {
     "ryomo": {"name": "両毛線", "stations": {k: v for k, v in TIMETABLE_STATIONS.items() if k not in {"桐生", "岩宿", "国定", "伊勢崎", "駒形", "前橋大島", "前橋", "新前橋", "井野", "高崎問屋町", "高崎"}}, "color": "#FACC15", "text_color": "#000000"},
     "utsunomiya": {"name": "JR宇都宮線", "stations": {k: v for k, v in UTSUNOMIYA_TIMETABLE_STATIONS.items() if k not in {"黒磯", "那須塩原", "西那須野", "野崎", "矢板", "片岡", "蒲須坂", "氏家", "宝積寺", "岡本"}}, "color": "#F58A1F", "text_color": "#FFFFFF"},
@@ -1223,6 +1236,10 @@ def timetable_page():
         source_config = TIMETABLE_LINE_CONFIG.get(source_line_id, {})
         source_stations = source_config.get("stations", {})
         source_info = source_stations.get(source_station, {}).get(direction)
+        # 他路線の列車をスカイツリーライン駅時刻表へ表示する場合は、
+        # 表示先（スカイツリーライン）の方面・番線情報を利用する。
+        if not source_info and line_id == "tobu_skytree" and source_station in TIMETABLE_LINE_CONFIG["tobu_skytree"]["stations"]:
+            source_info = TIMETABLE_LINE_CONFIG["tobu_skytree"]["stations"][source_station].get(direction)
         if not source_info and source_line_id == "tobu_skytree" and source_station == "東武動物公園" and direction == "上り":
             source_info = {"direction_label": "北千住・曳舟・浅草方面", "platform": ""}
         if not source_info:
@@ -1253,6 +1270,11 @@ def timetable_page():
                     if len(ordered_indices) >= 2:
                         train_direction = "下り" if ordered_indices[-1] > ordered_indices[0] else "上り"
             if train_direction != direction:
+                continue
+            # 東武日光から鬼怒川線へ直通する列車は、下今市駅の駅時刻表には載せない。
+            if (source_line_id == "tobu_nikko" and source_station == "下今市"
+                    and train.get("origin") == "東武日光"
+                    and train.get("destination") in KINUGAWA_STATIONS):
                 continue
             stop = train.get("stops", {}).get(source_station, {})
             arrival, departure = stop.get("arrival"), stop.get("departure")
@@ -1315,24 +1337,27 @@ def timetable_page():
                 "sort_dt": event_dt, "arrival_iso": arrival_dt.isoformat() if arrival_dt else "",
                 "departure_iso": departure_dt.isoformat() if departure_dt else "",
                 "event_kind": "arrival" if arrival else "departure", "source_line_id": source_line_id,
+                "rank_group": LIBERTY_COUPLED_GROUPS.get(train_number_text, f"{source_line_id}-{train_number_text}"),
             })
         return {"info": source_info, "trains": trains}
 
     departures_by_direction = {}
     if station:
         direction_sources = {"上り": [(line_id, station)], "下り": [(line_id, station)]}
-        # 東武日光線の駅時刻表には、鬼怒川線から浅草方面へ直通する上り列車も表示する。
+        # 東武日光線の駅時刻表には、鬼怒川線からの浅草直通列車も表示する。
         if line_id == "tobu_nikko" and station in NIKKO_STATIONS:
             direction_sources["上り"].append(("tobu_kinugawa", station))
-        # 東武動物公園では、上りの基本表示をスカイツリーラインとし、
-        # 鬼怒川線からの直通列車も追加する。
+        # 浅草方面へ直通する日光線・鬼怒川線の列車は、
+        # 東武動物公園～浅草間ではスカイツリーラインの駅時刻表に集約する。
+        if line_id == "tobu_skytree" and station in SKYTREE_STATIONS:
+            direction_sources["上り"].extend([("tobu_nikko", station), ("tobu_kinugawa", station)])
+        # 東武動物公園では上りの表示路線をスカイツリーラインに統一し、
+        # 日光線・鬼怒川線からの直通列車も集約する。
         if station == "東武動物公園" and line_id in {"tobu_nikko", "tobu_isesaki"}:
-            direction_sources["上り"] = [("tobu_skytree", station)]
-            if line_id == "tobu_nikko":
-                direction_sources["上り"].append(("tobu_kinugawa", station))
+            direction_sources["上り"] = [("tobu_skytree", station), ("tobu_nikko", station), ("tobu_kinugawa", station)]
         # スカイツリーライン東武動物公園は上り・下りの両方向を表示。
         if station == "東武動物公園" and line_id == "tobu_skytree":
-            direction_sources["上り"] = [("tobu_skytree", station)]
+            direction_sources["上り"] = [("tobu_skytree", station), ("tobu_nikko", station), ("tobu_kinugawa", station)]
         # スカイツリーライン東武動物公園の下りは日光線・伊勢崎線を統合。
         if station == "東武動物公園" and line_id == "tobu_skytree":
             direction_sources["下り"] = [("tobu_nikko", station), ("tobu_isesaki", station)]
@@ -1344,12 +1369,20 @@ def timetable_page():
             combined = []
             for section in sections:
                 combined.extend(section["trains"])
-            combined.sort(key=lambda item: item["sort_dt"])
-            stopped_now = [item for item in combined if item["is_stopped"]]
-            future = [item for item in combined if not item["is_past"] and not item["is_stopped"] and item["sort_dt"] > now]
-            ranked_now = stopped_now[:1] + future[:1] if stopped_now else future[:2]
-            for index, item in enumerate(ranked_now, start=1):
-                item["upcoming_rank"] = index
+            combined.sort(key=lambda item: (item["sort_dt"], 0 if "けごん" in str(item.get("type", "")) else 1))
+            # 連結列車は2本を1組として先発・次発を判定する。
+            rank_groups = {}
+            for item in combined:
+                rank_groups.setdefault(item.get("rank_group", item["train_number"]), []).append(item)
+            stopped_groups = [group for group in rank_groups.values() if any(item["is_stopped"] for item in group)]
+            future_groups = [group for group in rank_groups.values() if not any(item["is_stopped"] for item in group)
+                             and any(not item["is_past"] and item["sort_dt"] > now for item in group)]
+            stopped_groups.sort(key=lambda group: min(item["sort_dt"] for item in group))
+            future_groups.sort(key=lambda group: min(item["sort_dt"] for item in group if not item["is_past"] and item["sort_dt"] > now))
+            ranked_groups = (stopped_groups[:1] + future_groups[:1]) if stopped_groups else future_groups[:2]
+            for index, group in enumerate(ranked_groups, start=1):
+                for item in group:
+                    item["upcoming_rank"] = index
             for item in combined:
                 item.setdefault("upcoming_rank", 0)
                 item["event_iso"] = item["sort_dt"].isoformat()
