@@ -1336,11 +1336,9 @@ html body.dark .tt-empty {
        * 停車中の列車を優先する。
        * 停車中の列車がなければ、最も早い次の列車を対象にする。
        */
-      const targetRow = activeStopped || (
-        upcoming.length > 0
-          ? upcoming[0].row
-          : null
-      );
+      const targetRow = stoppedRows.length > 0
+        ? stoppedRows[0]
+        : (upcoming.length > 0 ? upcoming[0].row : null);
 
       // 次の列車（停車中を含む）を表示。スクロール範囲はリスト内に限定し、
       // 先頭では始発、末尾では終電がそれぞれ端に来る。
