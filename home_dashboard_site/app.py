@@ -1726,14 +1726,28 @@ def train_detail(train_number, line_id):
         })
     public_line_ids = set(TIMETABLE_LINE_CONFIG) - {"tobu_kinugawa"}
     back_line_id = request.args.get("back_line", "").strip()
+    back_station = request.args.get("station", "").strip()
     if back_line_id not in public_line_ids:
         back_line_id = "tobu_nikko" if line_id == "tobu_kinugawa" else line_id
 
+    # 駅時刻表から開いた場合は、開いた駅が属する路線名・カラーを
+    # 列車時刻表のヘッダーにも引き継ぐ（例：東武日光線／スカイツリーライン）。
+    display_line_id = line_id
+    if (back_station and back_line_id in public_line_ids
+            and back_station in TIMETABLE_LINE_CONFIG.get(back_line_id, {}).get("stations", {})
+            and back_station in combined_stops):
+        display_line_id = back_line_id
+
+    # 特急は列車名の前に「特急」を付けて表示する。
+    if train.get("type") == "特急" and train.get("train_name"):
+        display_train["type"] = "特急" + str(train.get("train_name")).strip()
+
+    display_line_data = timetable_line_data(display_line_id) or line_data
     return render_template(
         "train_detail.html", train=display_train, stops=stops,
-        line_name=line_data.get("name", "時刻表"), line_id=line_id,
-        line_color=TIMETABLE_LINE_CONFIG.get(line_id, {}).get("color", "#077AE3"),
-        back_station=request.args.get("station", "").strip(),
+        line_name=display_line_data.get("name", "時刻表"), line_id=display_line_id,
+        line_color=TIMETABLE_LINE_CONFIG.get(display_line_id, {}).get("color", "#077AE3"),
+        back_station=back_station,
         back_line_id=back_line_id,
     )
 
