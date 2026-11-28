@@ -1091,6 +1091,24 @@ for _line_id, _station_labels in STATION_DIRECTION_LABEL_OVERRIDES.items():
                 if _direction in _line_stations[_station]:
                     _line_stations[_station][_direction]["direction_label"] = _label
 
+# 方面表示の不足分を補完（駅設定の終端判定で方向キーがない駅も表示対象にする）
+for _station_name in SKYTREE_STATIONS:
+    _station_cfg = TIMETABLE_LINE_CONFIG["tobu_skytree"]["stations"].setdefault(_station_name, {})
+    _station_index = SKYTREE_STATIONS.index(_station_name)
+    _station_cfg.setdefault("上り", {"direction_label": ("春日部･北千住･浅草･中目黒･中央林間方面" if _station_index <= 2 else "北千住･浅草･中目黒･中央林間方面" if _station_index <= 13 else "北千住･上野･銀座･中目黒方面" if _station_index <= 20 else "浅草･大手町･渋谷･中央林間方面" if _station_index <= 21 else "曳舟･とうきょうスカイツリー･浅草方面"), "platform": ""})
+    _station_cfg.setdefault("下り", {"direction_label": ("久喜･館林･南栗橋方面" if _station_name == "東武動物公園" else "北千住･春日部･久喜･南栗橋方面" if _station_name in {"西新井", "堀切", "鐘ケ淵", "押上"} else "春日部･東武動物公園･久喜･南栗橋方面"), "platform": ""})
+# 押上駅は上り時刻表を表示しない
+TIMETABLE_LINE_CONFIG["tobu_skytree"]["stations"].get("押上", {}).pop("上り", None)
+# 東武日光線の全駅で上り方面表示を保証
+for _station_name, _station_cfg in TIMETABLE_LINE_CONFIG["tobu_nikko"]["stations"].items():
+    _station_index = NIKKO_STATIONS.index(_station_name)
+    if _station_index > 0:
+        _station_cfg.setdefault("上り", {"direction_label": "東武動物公園･春日部･北千住･浅草方面" if _station_index <= 3 else "栃木･南栗橋･浅草方面", "platform": ""})
+# 東武動物公園の伊勢崎線下り方面表示
+TIMETABLE_LINE_CONFIG["tobu_isesaki"]["stations"].setdefault("東武動物公園", {}).setdefault("下り", {"direction_label": "久喜･館林･足利市･太田方面", "platform": ""})
+# 国谷駅の東武宇都宮線上り方面表示
+TIMETABLE_LINE_CONFIG["tobu_utsunomiya"]["stations"].setdefault("国谷", {}).setdefault("上り", {"direction_label": "壬生･新栃木･栃木･南栗橋方面", "platform": ""})
+
 # 設定画面のMy駅選択肢（両毛線：小山～小俣）
 MY_STATION_OPTIONS = [
     "小山", "思川", "栃木", "大平下", "岩舟", "佐野",
@@ -1246,6 +1264,8 @@ def timetable_page():
         source_config = TIMETABLE_LINE_CONFIG.get(source_line_id, {})
         source_stations = source_config.get("stations", {})
         source_info = source_stations.get(source_station, {}).get(direction)
+        if not source_info and line_id == "shonan_shinjuku" and source_line_id == "tobu_nikko" and source_station in SHONAN_STATIONS:
+            source_info = TIMETABLE_LINE_CONFIG["shonan_shinjuku"]["stations"].get(source_station, {}).get(direction)
         # 他路線の列車をスカイツリーライン駅時刻表へ表示する場合は、
         # 表示先（スカイツリーライン）の方面・番線情報を利用する。
         if not source_info and line_id == "tobu_skytree" and source_station in TIMETABLE_LINE_CONFIG["tobu_skytree"]["stations"]:
@@ -1259,10 +1279,20 @@ def timetable_page():
         for train in source_data.get("trains", []):
             if not train_operates_on_date(train, now.date()):
                 continue
+            # 東武日光～新宿直通特急のJR区間は湘南新宿ラインにのみ掲載
+            is_nikko_shinjuku_express = (train.get("type") == "特急" and
+                ("きぬがわ" in str(train.get("train_name", "")) or "日光" in str(train.get("train_name", ""))) and
+                train.get("destination") in {"新宿", "東武日光"})
+            if source_line_id == "utsunomiya" and is_nikko_shinjuku_express:
+                continue
+            if source_line_id == "tobu_nikko" and line_id == "shonan_shinjuku" and not is_nikko_shinjuku_express:
+                continue
             train_direction = train.get("direction")
             # 東武日光⇔鬼怒川方面の直通列車は、東武日光線内では
             # 東武日光・上今市から下今市方面へ向かう上り列車として扱う。
             if source_line_id == "tobu_nikko" and str(train.get("through_service_id", "")).startswith("tobu-nikko-kinugawa-"):
+                train_direction = "上り"
+            if source_line_id == "tobu_nikko" and line_id == "shonan_shinjuku" and is_nikko_shinjuku_express:
                 train_direction = "上り"
             if source_line_id in {"ueno_tokyo", "shonan_shinjuku"}:
                 # 直通列車は stops の登録順が路線順と異なる場合があるため、
@@ -1365,6 +1395,8 @@ def timetable_page():
     departures_by_direction = {}
     if station:
         direction_sources = {"上り": [(line_id, station)], "下り": [(line_id, station)]}
+        if line_id == "shonan_shinjuku" and station in SHONAN_STATIONS:
+            direction_sources["上り"].append(("tobu_nikko", station))
         # 東武日光線の駅時刻表には、鬼怒川線からの浅草直通列車も表示する。
         if line_id == "tobu_nikko" and station in NIKKO_STATIONS:
             direction_sources["上り"].append(("tobu_kinugawa", station))
