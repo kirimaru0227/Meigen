@@ -1227,6 +1227,24 @@ html body.dark .tt-empty {
         return aTime - bTime;
       });
 
+      // 直近に発車する列車を一番上にする従来の並び順へ戻す。
+      // 停車中の列車（発車時刻が近い順）→これから発車する列車→発車済み列車。
+      const pastRows = rows.filter(row =>
+        row.getAttribute('data-stopped') !== 'true' &&
+        row.getAttribute('data-past') === 'true'
+      );
+      pastRows.sort((a, b) => {
+        const aTime = new Date(a.getAttribute('data-event') || 0).getTime();
+        const bTime = new Date(b.getAttribute('data-event') || 0).getTime();
+        return aTime - bTime;
+      });
+      const orderedRows = [
+        ...stoppedRows,
+        ...upcoming.map(item => item.row),
+        ...pastRows
+      ];
+      orderedRows.forEach(row => list.appendChild(row));
+
       // 既存の順位表示をリセットする。
       rows.forEach(row => {
         row.classList.remove('tt-next', 'tt-second');
