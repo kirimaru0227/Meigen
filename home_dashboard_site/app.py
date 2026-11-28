@@ -1442,7 +1442,7 @@ def timetable_page():
                 continue
             destination_via = ""
             display_direction_for_label = ("北行" if direction == "上り" else "南行") if source_line_id in {"ueno_tokyo", "shonan_shinjuku"} else direction
-            hide_via = (source_line_id == "utsunomiya" and direction == "下り") or (source_line_id in {"ueno_tokyo", "shonan_shinjuku"} and display_direction_for_label == "北行")
+            hide_via = (source_line_id == "utsunomiya" and direction == "下り") or (source_line_id in {"ueno_tokyo", "shonan_shinjuku"} and display_direction_for_label == "北行") or source_line_id == "tobu_sano"
             if not hide_via:
                 if train_number_text.endswith("E"):
                     destination_via = "東京経由"
@@ -1492,6 +1492,9 @@ def timetable_page():
         # 東武日光線の駅時刻表には、鬼怒川線からの浅草直通列車も表示する。
         if line_id == "tobu_nikko" and station in NIKKO_STATIONS:
             direction_sources["上り"].append(("tobu_kinugawa", station))
+        # 東武宇都宮線の新栃木駅上りには、東武日光線から来る上り列車も併せて表示する。
+        if line_id == "tobu_utsunomiya" and station == "新栃木":
+            direction_sources["上り"].append(("tobu_nikko", station))
         # 浅草方面へ直通する日光線・鬼怒川線の列車は、
         # 東武動物公園～浅草間ではスカイツリーラインの駅時刻表に集約する。
         if line_id == "tobu_skytree" and station in SKYTREE_STATIONS:
@@ -1519,6 +1522,18 @@ def timetable_page():
             combined = []
             for section in sections:
                 combined.extend(section["trains"])
+            # 新栃木駅では宇都宮線側・日光線側の両方に同じ直通列車が登録されるため、
+            # 同一列車番号・同一時刻の重複だけを除いて表示する。
+            if line_id == "tobu_utsunomiya" and station == "新栃木" and direction == "上り":
+                unique_trains = []
+                seen_trains = set()
+                for item in combined:
+                    key = (str(item.get("train_number", "")), str(item.get("time", "")))
+                    if key in seen_trains:
+                        continue
+                    seen_trains.add(key)
+                    unique_trains.append(item)
+                combined = unique_trains
             combined.sort(key=lambda item: (item["sort_dt"], 0 if "けごん" in str(item.get("type", "")) else 1))
             # 連結列車は2本を1組として先発・次発を判定する。
             rank_groups = {}
@@ -1544,7 +1559,7 @@ def timetable_page():
             if line_id == "tobu_skytree":
                 # 直通列車を複数路線から集約しても、方面案内は駅別の原稿どおりにする。
                 info = TIMETABLE_LINE_CONFIG["tobu_skytree"]["stations"].get(station, {}).get(direction, {"direction_label": "", "platform": ""})
-            if len(sections) > 1 and line_id not in {"shonan_shinjuku", "tobu_skytree"}:
+            if len(sections) > 1 and line_id not in {"shonan_shinjuku", "tobu_skytree"} and not (line_id == "tobu_utsunomiya" and station == "新栃木"):
                 info = dict(info)
                 if line_id == "tobu_nikko":
                     # 直通列車を統合しても、東武日光線の駅別に指定した方面案内を維持する。
@@ -1888,8 +1903,12 @@ def train_detail(train_number, line_id):
                 stop_line_id = "tobu_skytree"
             else:
                 stop_line_id = None
-        elif name == "館林" and line_id in {"tobu_sano", "tobu_isesaki", "tobu_skytree"}:
-            # 佐野線の普通列車も、館林駅の上りは伊勢崎線、下りは佐野線へリンクする。
+        elif name == "館林" and line_id == "tobu_sano":
+            # 東武佐野線の普通列車時刻表からは、上り・下りとも佐野線の館林駅ページへリンクする。
+            # リバティりょうもうは上の専用分岐で伊勢崎線／佐野線を振り分ける。
+            stop_line_id = "tobu_sano"
+        elif name == "館林" and line_id in {"tobu_isesaki", "tobu_skytree"}:
+            # 伊勢崎線・スカイツリーライン側の列車時刻表では、方向に応じて館林駅のリンク先を切り替える。
             stop_line_id = "tobu_isesaki" if train.get("direction") == "上り" else "tobu_sano"
         elif line_id in {"tobu_nikko", "tobu_kinugawa"}:
             # JR区間は湘南新宿ライン、東武動物公園～浅草はスカイツリーライン、

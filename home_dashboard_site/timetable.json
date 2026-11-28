@@ -55721,7 +55721,11 @@
             },
             "野州平川": {
               "arrival": "09:48",
-              "departure": "09:51"
+              "departure": "09:48"
+            },
+            "新栃木": {
+              "arrival": "09:51",
+              "departure": null
             }
           }
         },
