@@ -137,6 +137,7 @@ html body .tt-page .tt-neighbor-panel {
                       data-event-kind="{{ train.event_kind }}"
                       data-past="{{ 'true' if train.is_past else 'false' }}"
                       data-stopped="{{ 'true' if train.is_stopped else 'false' }}"
+                      data-rank-group="{{ train.rank_group | default(train.train_number) }}"
                     >
                       <div class="tt-time-column">
                         <strong class="tt-time">{{ train.time }}</strong>
@@ -1271,37 +1272,45 @@ html body.dark .tt-empty {
         });
       });
 
-      const ranked = [];
-      const activeStopped = stoppedRows[0];
-
-      if (activeStopped) {
-        // 停車中の列車を「先発」とする。
-        ranked.push({
-          row: activeStopped,
-          label: '先発'
-        });
-
-        upcoming.forEach(item => {
-          if (ranked.length < 2) {
-            ranked.push({
-              row: item.row,
-              label: ranked.length === 1 ? '次発' : '次々発'
-            });
+      // 連結列車は列車番号が異なっても同じグループとして順位を付ける。
+      const groups = new Map();
+      rows.forEach(row => {
+        const key = row.getAttribute('data-rank-group') || row.getAttribute('data-event');
+        if (!groups.has(key)) groups.set(key, { rows: [], stopped: false, times: [] });
+        const group = groups.get(key);
+        group.rows.push(row);
+        if (row.getAttribute('data-stopped') === 'true') group.stopped = true;
+        const eventRaw = row.getAttribute('data-event');
+        const eventTime = eventRaw ? new Date(eventRaw) : null;
+        const isPast = row.getAttribute('data-past') === 'true';
+        if (eventTime && !Number.isNaN(eventTime.getTime())) {
+          group.times.push(eventTime);
+          if (!isPast && row.getAttribute('data-stopped') !== 'true' && eventTime > now) {
+            group.futureTimes = group.futureTimes || [];
+            group.futureTimes.push(eventTime);
           }
-        });
+        }
+      });
+      const orderedGroups = Array.from(groups.values()).map(group => ({
+        ...group,
+        eventTime: (group.futureTimes && group.futureTimes.length)
+          ? new Date(Math.min(...group.futureTimes.map(t => t.getTime())))
+          : (group.times.length ? new Date(Math.min(...group.times.map(t => t.getTime()))) : null)
+      }));
+      const activeStoppedGroups = orderedGroups.filter(group => group.stopped)
+        .sort((a, b) => a.eventTime - b.eventTime);
+      const upcomingGroups = orderedGroups.filter(group => !group.stopped && group.futureTimes && group.futureTimes.length)
+        .sort((a, b) => a.eventTime - b.eventTime);
+      const ranked = [];
+      if (activeStoppedGroups.length) {
+        ranked.push({ group: activeStoppedGroups[0], label: '先発' });
+        if (upcomingGroups.length) ranked.push({ group: upcomingGroups[0], label: '次発' });
       } else {
-        // 停車中の列車がなければ直近2本を表示する。
-        upcoming.slice(0, 2).forEach((item, index) => {
-          ranked.push({
-            row: item.row,
-            label: ['先発', '次発'][index]
-          });
+        upcomingGroups.slice(0, 2).forEach((group, index) => {
+          ranked.push({ group, label: ['先発', '次発'][index] });
         });
       }
-
-      const rankedRows = new Set(
-        ranked.map(item => item.row)
-      );
+      const rankedRows = new Set(ranked.flatMap(item => item.group.rows));
 
       // 先発・次発から外れた列車（発車済みを含む）はコンパクト表示へ戻す。
       // 始発駅の列車は、順位表示がない場合だけ専用の少し小さい余白にする。
@@ -1326,18 +1335,16 @@ html body.dark .tt-empty {
 
       // 順位ラベルを表示する。
       ranked.forEach((item, index) => {
-        item.row.classList.add(
-          index === 0 ? 'tt-next' : 'tt-second'
-        );
-
-        const tags = item.row.querySelector('.tt-time-tags');
-
-        if (tags) {
-          const rank = document.createElement('span');
-          rank.className = 'tt-rank';
-          rank.textContent = item.label;
-          tags.appendChild(rank);
-        }
+        item.group.rows.forEach(row => {
+          row.classList.add(index === 0 ? 'tt-next' : 'tt-second');
+          const tags = row.querySelector('.tt-time-tags');
+          if (tags) {
+            const rank = document.createElement('span');
+            rank.className = 'tt-rank';
+            rank.textContent = item.label;
+            tags.appendChild(rank);
+          }
+        });
       });
 
       /*
