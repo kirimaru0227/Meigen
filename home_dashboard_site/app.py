@@ -1143,6 +1143,17 @@ TIMETABLE_LINE_CONFIG["tobu_utsunomiya"]["stations"].setdefault("国谷", {})["�
 }
 
 
+# 設定ページの「自分の駅」で選択できる駅。
+# 時刻表に登録されている駅名を路線横断で集め、重複は1つにまとめる。
+# 鬼怒川線は駅時刻表ページを設けていないため選択肢から除外する。
+MY_STATION_OPTIONS = list(dict.fromkeys(
+    station_name
+    for line_id, line_config in TIMETABLE_LINE_CONFIG.items()
+    if line_id != "tobu_kinugawa"
+    for station_name in line_config.get("stations", {}).keys()
+))
+
+
 def load_timetable_data():
     """複数路線形式の時刻表JSONを読み込む。旧形式も後方互換で扱う。"""
     timetable_path = Path(__file__).resolve().parent / "timetable.json"
