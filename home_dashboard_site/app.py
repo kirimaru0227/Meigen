@@ -1292,6 +1292,17 @@ def timetable_page():
             # 深夜に翌日の始発を当日分へ混ぜないよう、時刻の翌日繰り越しは行わない。
             is_stopped = bool(arrival_dt and departure_dt and arrival_dt <= now < departure_dt)
             is_past = bool((departure_dt and departure_dt <= now) or (arrival_dt and not departure_dt and arrival_dt <= now))
+            # 現在時刻付近の列車を正しく判定する。
+            # 到着時刻を過ぎていて発車時刻が未来なら、発車時刻を次のイベントとして扱う。
+            if arrival_dt and arrival_dt > now:
+                event_dt = arrival_dt
+                event_kind = "arrival"
+            elif departure_dt and departure_dt > now:
+                event_dt = departure_dt
+                event_kind = "departure"
+            else:
+                event_dt = departure_dt or arrival_dt or event_dt
+                event_kind = "departure" if departure_dt else "arrival"
             display_dt = departure_dt or arrival_dt or event_dt
             train_number_text = str(train.get("train_number", ""))
             destination = str(full_service_destination(train) or train.get("destination", "")).strip()
@@ -1336,7 +1347,7 @@ def timetable_page():
                 "minutes_until": int((event_dt - now).total_seconds() // 60), "is_past": is_past, "is_stopped": is_stopped,
                 "sort_dt": event_dt, "arrival_iso": arrival_dt.isoformat() if arrival_dt else "",
                 "departure_iso": departure_dt.isoformat() if departure_dt else "",
-                "event_kind": "arrival" if arrival else "departure", "source_line_id": source_line_id,
+                "event_kind": event_kind, "source_line_id": source_line_id,
                 "rank_group": LIBERTY_COUPLED_GROUPS.get(train_number_text, f"{source_line_id}-{train_number_text}"),
             })
         return {"info": source_info, "trains": trains}
@@ -1428,7 +1439,8 @@ def timetable_page():
         utsunomiya_shared_stations = set(UTSUNOMIYA_TIMETABLE_STATIONS.keys())
 
         for target_line_id, target_config in TIMETABLE_LINE_CONFIG.items():
-            if target_line_id == line_id:
+            # 駅ページの乗り換え候補には東武鬼怒川線を表示しない。
+            if target_line_id in {line_id, "tobu_kinugawa"}:
                 continue
 
             # 上野東京ラインは原則として東京駅だけ候補にする。
