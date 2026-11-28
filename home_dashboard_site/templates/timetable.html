@@ -140,11 +140,13 @@ html body .tt-page .tt-neighbor-panel {
                       data-rank-group="{{ train.rank_group | default(train.train_number) }}"
                     >
                       <div class="tt-time-column">
-                        <strong class="tt-time">{{ train.time }}</strong>
-                        <span class="tt-time-tags">
+                        <div class="tt-time-line">
+                          <strong class="tt-time">{{ train.time }}</strong>
                           {% if train.is_origin %}
                             <span class="tt-origin-tag">始</span>
                           {% endif %}
+                        </div>
+                        <span class="tt-rank-tags">
                           {% if train.upcoming_rank == 1 %}
                             <span class="tt-rank">先発</span>
                           {% elif train.upcoming_rank == 2 %}
@@ -327,7 +329,7 @@ html body .tt-page .tt-neighbor-panel {
   gap: 1px;
 }
 
-.tt-train.tt-compact .tt-time-tags {
+.tt-train.tt-compact .tt-rank-tags {
   min-height: 0;
 }
 
@@ -364,7 +366,8 @@ html body .tt-page .tt-neighbor-panel {
   gap: 1px;
 }
 
-.tt-time-tags { display: inline-flex; align-items: center; gap: 5px; min-height: 1.2em; }
+.tt-time-line { display: flex; align-items: center; gap: 5px; }
+.tt-rank-tags { display: block; min-height: 1.2em; line-height: 1.2; }
 .tt-destination-via { font-size: .76em; font-weight: 700; opacity: .78; white-space: nowrap; }
 
 .tt-time {
@@ -608,7 +611,7 @@ html body .tt-page .tt-neighbor-panel {
     gap: 1px;
   }
 
-  .tt-train.tt-compact .tt-time-tags {
+  .tt-train.tt-compact .tt-rank-tags {
     min-height: 0;
   }
 
@@ -1227,6 +1230,24 @@ html body.dark .tt-empty {
         return aTime - bTime;
       });
 
+      // 直近に発車する列車を一番上にする従来の並び順へ戻す。
+      // 停車中の列車（発車時刻が近い順）→これから発車する列車→発車済み列車。
+      const pastRows = rows.filter(row =>
+        row.getAttribute('data-stopped') !== 'true' &&
+        row.getAttribute('data-past') === 'true'
+      );
+      pastRows.sort((a, b) => {
+        const aTime = new Date(a.getAttribute('data-event') || 0).getTime();
+        const bTime = new Date(b.getAttribute('data-event') || 0).getTime();
+        return aTime - bTime;
+      });
+      const orderedRows = [
+        ...stoppedRows,
+        ...upcoming.map(item => item.row),
+        ...pastRows
+      ];
+      orderedRows.forEach(row => list.appendChild(row));
+
       // 既存の順位表示をリセットする。
       rows.forEach(row => {
         row.classList.remove('tt-next', 'tt-second');
@@ -1301,7 +1322,7 @@ html body.dark .tt-empty {
       ranked.forEach((item, index) => {
         item.group.rows.forEach(row => {
           row.classList.add(index === 0 ? 'tt-next' : 'tt-second');
-          const tags = row.querySelector('.tt-time-tags');
+          const tags = row.querySelector('.tt-rank-tags');
           if (tags) {
             const rank = document.createElement('span');
             rank.className = 'tt-rank';
@@ -1315,9 +1336,6 @@ html body.dark .tt-empty {
        * 停車中の列車を優先する。
        * 停車中の列車がなければ、最も早い次の列車を対象にする。
        */
-      // 以前の方式：直近の発車列車をリストの先頭位置へ自動スクロールする。
-      // 停車中の列車がある場合は、その列車を最優先する。
-      const activeStopped = stoppedRows.length ? stoppedRows[0] : null;
       const targetRow = activeStopped || (
         upcoming.length > 0
           ? upcoming[0].row
