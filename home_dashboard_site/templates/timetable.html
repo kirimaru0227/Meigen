@@ -125,12 +125,12 @@ html body .tt-page .tt-neighbor-panel {
               <div class="tt-train-list">
                 {% for train in section.trains %}
                   <a
-                    href="{{ url_for('train_detail', line_id=train.source_line_id if train.source_line_id is defined else line_id, train_number=train.train_number, station=station) }}"
+                    href="{{ url_for('train_detail', line_id=train.source_line_id if train.source_line_id is defined else line_id, train_number=train.train_number, station=station, back_line=line_id) }}"
                     class="tt-train-link"
                     aria-label="{{ train.train_number }} {{ train.type }} {{ train.destination }}行きの停車駅時刻表を見る"
                   >
                     <article
-                      class="tt-train {% if train.upcoming_rank not in [1, 2] %}tt-compact{% endif %} {% if train.is_origin and train.upcoming_rank not in [1, 2] %}tt-origin-compact{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
+                      class="tt-train {% if train.upcoming_rank not in [1, 2] %}tt-compact{% endif %} {% if train.is_origin and train.upcoming_rank not in [1, 2] and not train.is_past %}tt-origin-compact{% endif %} {% if train.upcoming_rank == 1 %}tt-next{% elif train.upcoming_rank == 2 %}tt-second{% endif %} {% if train.is_past %}tt-past{% endif %}"
                       data-event="{{ train.event_iso }}"
                       data-arrival="{{ train.arrival_iso }}"
                       data-departure="{{ train.departure_iso }}"
@@ -360,9 +360,9 @@ html body .tt-page .tt-neighbor-panel {
 
 .tt-time-column {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 }
 
 .tt-time-tags { display: inline-flex; align-items: center; gap: 5px; min-height: 1.2em; }
@@ -1308,8 +1308,9 @@ html body.dark .tt-empty {
       rows.forEach(row => {
         const compact = !rankedRows.has(row);
         const isOrigin = Boolean(row.querySelector('.tt-origin-tag'));
+        const isPast = row.getAttribute('data-past') === 'true';
         row.classList.toggle('tt-compact', compact);
-        row.classList.toggle('tt-origin-compact', compact && isOrigin);
+        row.classList.toggle('tt-origin-compact', compact && isOrigin && !isPast);
       });
 
       // 到着時刻がない駅では、直近2列車以外の発車カウントダウンを消す。

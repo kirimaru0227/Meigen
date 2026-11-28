@@ -39,6 +39,8 @@
             <a href="{{ url_for('timetable_page', line=stop.line_id, station=stop.station) }}" aria-label="{{ stop.station }}駅の時刻表を見る">
               {% if stop.station == 'あしかがフラワーパーク' %}
                 <span class="td-flower-park-name">あしかが<br>フラワーパーク</span>
+              {% elif stop.station == 'とうきょうスカイツリー' %}
+                <span class="td-skytree-name">とうきょう<br>スカイツリー</span>
               {% else %}
                 {{ stop.station }}
               {% endif %}
@@ -46,6 +48,8 @@
           {% else %}
             {% if stop.station == 'あしかがフラワーパーク' %}
               <span class="td-flower-park-name">あしかが<br>フラワーパーク</span>
+            {% elif stop.station == 'とうきょうスカイツリー' %}
+              <span class="td-skytree-name">とうきょう<br>スカイツリー</span>
             {% else %}
               <span>{{ stop.station }}</span>
             {% endif %}
@@ -62,9 +66,9 @@
 
   <div class="td-actions">
     {% if back_station %}
-      <a class="td-button td-primary" href="{{ url_for('timetable_page', line=line_id, station=back_station) }}">駅の時刻表に戻る</a>
+      <a class="td-button td-primary" href="{{ url_for('timetable_page', line=back_line_id, station=back_station) }}">駅の時刻表に戻る</a>
     {% endif %}
-    <a class="td-button" href="{{ url_for('operation_page', timetable_line=line_id) }}">他の駅を見る</a>
+    <a class="td-button" href="{{ url_for('operation_page', timetable_line=back_line_id) }}">他の駅を見る</a>
   </div>
 </section>
 
@@ -201,7 +205,7 @@ html body.dark .td-page[data-line-id="ryomo"] .td-button.td-primary{color:#000}
 .td-current-stop{background:color-mix(in srgb,var(--td-line-color) 14%,transparent);border-radius:8px}
 .td-current-stop .td-stop-name{color:var(--td-line-color)}
 .td-page[data-line-id="ryomo"] .td-current-stop .td-stop-name{color:#A66F00}
-.td-flower-park-name{display:inline-block;line-height:1.25;white-space:normal}
+.td-flower-park-name,.td-skytree-name{display:inline-block;line-height:1.25;white-space:normal}
 
 html body.dark .td-current-stop{background:color-mix(in srgb,var(--td-line-color) 22%,#171b22)}
 html body.dark .td-current-stop .td-stop-name,
